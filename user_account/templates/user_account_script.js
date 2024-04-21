@@ -11,7 +11,6 @@ for (let i = 0; i < nums_of_classes; i++) {
         newRow.classList.add('row');
         container.appendChild(newRow);
     }
-
     const newButton = document.createElement('button');
     newButton.id = 'class-button';
     newButton.textContent = `${i + 1}`;
