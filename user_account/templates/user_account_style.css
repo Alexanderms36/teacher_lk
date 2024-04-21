@@ -19,24 +19,31 @@ body {
 }
 .center-button {
     width: 12vw;
-    background: linear-gradient(to right, rgb(146, 219, 215), rgb(38, 247, 237));
-    color: rgb(37, 37, 37);
+    background: linear-gradient(to right, rgb(146, 219, 216), rgb(38, 247, 237));
+    color: black;
     border-color: whitesmoke;
     box-shadow: 0px 1px 0px rgba(0, 0, 0, 0.6);
     border-radius: 10% / 40%;
 }
-.center-button:hover {
+#exit-button {
+    color: black;
+}
+#exit-button:hover {
     color: whitesmoke;
 }
+
+
 #teacher-img-container {
     margin-top: -4vh;
-    margin-left: 7vw;
+    margin-left: 9vw;
     display: flex;
     z-index: 1;
     flex-direction: column;
     align-items: center;
     display: inline-table;
     position: relative;
+    width: auto;
+    text-align: center;
 }
 #teacher-pic {
     border: 20px solid rgba(185, 223, 221, 0.7);
@@ -45,7 +52,6 @@ body {
     width: 30vw;
     height: auto;
     object-fit: scale-down;
-    margin-left: 12%;
 }
 #name-container {
     margin-top: 2vh;
@@ -55,26 +61,25 @@ body {
 #classes-container {
     display: inline-block;
     margin-left: 9vw;
-    
-    
-
-    transform: translate(0%, 30%);
+    transform: translate(0%, 36%);
+    margin-right: 2vw;
 }
 #classes-text {
     margin-bottom: 2vh;
     text-align: center;
     
 }
-
 #class-button {
     width: 12vw;
     background: linear-gradient(to right, rgb(146, 219, 215), rgb(38, 247, 237));
-    color: rgb(37, 37, 37);
+    color: rgb(0, 0, 0);
     border-color: whitesmoke;
     box-shadow: 0px 1px 0px rgba(0, 0, 0, 0.6);
     border-radius: 10% / 40%;
-
     margin: 1vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 #class-button:hover {
@@ -88,15 +93,86 @@ body {
         width: auto;
 
     }
+    #classes-container {
+        margin-left: 7vw;
+        
+    }
 }
 
-@media screen and (max-width: 764px) {
-    #classes-container {
-        margin-left: 30%;
-        margin-right: 30%;
+@media screen and (max-width: 1000px) {
+    body {
+        width: auto;
+        align-items: center;
+        justify-content: center;
     }
+    main {
+        width: auto;
+        align-items: center;
+        justify-content: center;
+    }
+
+
+    
     #teacher-img-container {
         margin-left: 30%;
         margin-right: 30%;
     }
+
+    
+    #container-header {
+        padding-bottom: 16vw;
+    }
+    #classes-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        margin-left: auto;
+        margin-right: auto;
+        text-align: center;
+    }
+
+
+    #class-button {
+        padding: 10vw;
+        margin: 2vw;
+        padding-top: 1vw;
+        padding-bottom: 1vw;
+        
+        margin-top: 3vw;
+        margin-bottom: 3vw;
+        border-radius: 2vw;
+        
+    }
+
+    #exit-button {
+        padding: 3vw;
+        padding-left: 9vw;
+        padding-right: 9vw;
+        display: flex;
+        align-items: center;
+
+        justify-content: center;
+        font-size: 4vw;
+    }
+}
+
+@media screen and (min-width: 2092px) {
+    #class-button {
+        padding-top: 1vw;
+        padding-bottom: 1vw;
+        font-size: 1.33vw;
+    }
+    #exit-button {
+        padding-top: 0.5vw;
+        padding-bottom: 0.5vw;
+        font-size: 1.33vw;
+    }
+
+    #teacher-img-container {
+        width: auto;
+    }
+
+    
+    
 }
