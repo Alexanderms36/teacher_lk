@@ -1,8 +1,8 @@
 const name_text = document.getElementById("name")
 const name = "Иванов Иван Иванович"
 name_text.innerHTML = name;
-
-let nums_of_classes = 6;
+// кол-во классов подтянем из бд:
+let nums_of_classes = 6; 
 const container = document.getElementById("buttons-container");
 
 for (let i = 0; i < nums_of_classes; i++) {
