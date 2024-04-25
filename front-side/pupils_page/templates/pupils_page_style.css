@@ -63,8 +63,43 @@ body {
     font-size: 3vw;
 }
 
-
-
+.students-list-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.student-button-wrapper {
+    margin-top: 2vh;
+    display: inline-flex;
+}
+.circle {
+    border-radius: 50%;
+    border: 1px solid white;
+    background-color: rgb(0, 224, 213);
+    padding: 1.6vw;
+    text-align: center;
+    align-items: center;
+    height: 1vw;
+    width: 1vw;
+    display: flex;
+    justify-content: center;
+    transform: translate(20%, 0%);
+}
+input {
+    padding-right: 30vw;
+    padding-bottom: 1vw;
+    border: none;
+    margin-top: 0.33vw;
+    background-color: rgb(164, 164, 164);
+    height: 40px;
+    line-height: 40px;
+    transition: background-color 0.5s ease;
+    width: 48vw;
+    font-size: 1.33vw;
+}
+input:hover {
+    background-color: aliceblue;
+}
 @media screen and (max-width: 1240px) {
 
 }
