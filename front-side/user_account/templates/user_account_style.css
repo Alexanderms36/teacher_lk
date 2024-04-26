@@ -52,7 +52,6 @@ body {
 
 
 #teacher-img-container {
-    margin-top: -4vh;
     margin-left: 9vw;
     display: flex;
     z-index: 1;
@@ -71,6 +70,48 @@ body {
     height: auto;
     object-fit: scale-down;
 }
+img:hover{
+    filter: blur(3px);
+    transition: filter 250ms ease-in-out;
+    cursor: pointer;
+}
+img:hover + .upload-button-label,
+.upload-button-label:hover {
+    display: block;
+}
+.upload-button-label {
+    position: absolute;
+    top: 40%;
+    left: 37%;
+    display: none;
+}
+.upload-button-label {
+    color: black;
+    text-transform: uppercase;
+    font-size: 14px;
+    cursor: pointer;
+    white-space: nowrap;
+    padding: 4px;
+    border-radius: 3px;
+    min-width: 123px;
+    width: 100%;
+    max-width: 80px;
+    margin: auto;
+    
+    background: #fff;
+    animation: popDown 300ms 1 forwards;
+    transform: translateY(-30px);
+    opacity: 0;
+    display: none;
+    transition: background 200ms, color 200ms;
+}
+
+@keyframes popDown{
+    100%{
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
 #name-container {
     margin-top: 2vh;
     text-align: center;
@@ -114,6 +155,11 @@ body {
     #classes-container {
         margin-left: 7vw;
         
+    }
+
+    .upload-button-label {
+        min-width: 100px;
+        max-width: 123px;
     }
 }
 
@@ -178,6 +224,10 @@ body {
         margin-left: 7vw;
         transform: translate(0%, 70%);
     }
+    .upload-button-label {
+        left: 10%;
+        margin: auto;
+    }
 }
 
 @media screen and (min-width: 2092px) {
@@ -193,5 +243,10 @@ body {
     }
     #teacher-img-container {
         width: auto;
+    }
+    .upload-button-label {
+        min-width: 123px;
+        max-width: 80px;
+        margin: auto;
     }
 }

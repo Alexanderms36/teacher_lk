@@ -4,3 +4,4 @@ const class_label = document.getElementById('class-label')
 let chosen_class = 9;
 
 class_label.innerHTML = `Учащиеся ${chosen_class} класса`;
+
