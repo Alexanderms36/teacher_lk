@@ -1,5 +1,6 @@
 body {
     background-color: rgb(220, 220, 220);
+    margin-bottom: 4vh;
 }
 #container-header {
     padding-bottom: 4vw;
@@ -25,7 +26,7 @@ body {
     background-color: rgb(125, 181, 178);
 }
 
-#exit-button-container {
+.exit-button-container {
     position: absolute;
     right: 0;
     margin-bottom: 0.5vw;
@@ -44,13 +45,16 @@ body {
     border-radius: 10% / 40%;
 }
 
-#exit-button {
+.exit-button {
     color: black;
 }
-#exit-button:hover {
+.exit-button:hover {
     color: whitesmoke;
 }
-
+.send-report-button{
+    margin-right: 2vw;
+    white-space: nowrap;
+}
 #class-label {
     position: absolute;
     margin-bottom: 0.5vw;
@@ -84,18 +88,25 @@ body {
     display: flex;
     justify-content: center;
     transform: translate(20%, 0%);
+    font-size: 2vw;
 }
 input {
-    padding-right: 30vw;
+    padding-right: 43vw;
     padding-bottom: 1vw;
     border: none;
+    
     margin-top: 0.33vw;
     background-color: rgb(164, 164, 164);
-    height: 40px;
-    line-height: 40px;
+    height: 2.7vw;
+    line-height: 2.3vw;
     transition: background-color 0.5s ease;
     width: 48vw;
     font-size: 1.33vw;
+    text-indent: 1vw;
+}
+
+.larger-button {
+    padding-bottom: 5vw;
 }
 input:hover {
     background-color: aliceblue;
@@ -115,7 +126,7 @@ input:hover {
         align-items: center;
         justify-content: center;
     }
-    #exit-button {
+    .exit-button {
         padding: 3vw;
         padding-left: 9vw;
         padding-right: 9vw;
@@ -133,7 +144,7 @@ input:hover {
 }
 
 @media screen and (min-width: 2092px) {
-    #exit-button {
+    .exit-button {
         padding-top: 0.5vw;
         padding-bottom: 0.5vw;
         font-size: 1.33vw;
