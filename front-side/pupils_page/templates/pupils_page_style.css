@@ -80,7 +80,7 @@ body {
 }
 .circle {
     border-radius: 50%;
-    border: 1px solid white;
+    border: 2px solid white;
     background-color: rgb(0, 224, 213);
     padding: 1.6vw;
     text-align: center;
@@ -89,34 +89,28 @@ body {
     width: 1vw;
     display: flex;
     justify-content: center;
-    transform: translate(20%, 0%);
+    transform: translate(27%, 4%);
     font-size: 2vw;
 }
 input {
-    padding-right: 43vw;
-    padding-bottom: 1vw;
+
     border: none;
-    
+    word-wrap: break-word;
     margin-top: 0.33vw;
     background-color: rgb(164, 164, 164);
-    height: 2.7vw;
-    line-height: 2.3vw;
-    transition: background-color 0.5s ease;
+    line-height: 2vw;
+    transition: background-color 0.4s ease;
     width: 48vw;
     font-size: 1.33vw;
     text-indent: 1vw;
+    text-align: start;
+    white-space: pre-wrap;
+    height: auto;
 }
 
-.larger-button {
-    padding-bottom: 5vw;
-}
 input:hover {
     background-color: aliceblue;
 }
-@media screen and (max-width: 1240px) {
-
-}
-
 @media screen and (max-width: 1000px) {
     body {
         width: auto;
@@ -144,8 +138,27 @@ input:hover {
         margin-left: 7vw;
         transform: translate(0%, 30%);
     }
+    input[type="button"] {
+        padding: 1vw 3vw;
+        padding-right: 12vw;
+        padding-left: 12vw;
+        font-size: 4vw;
+        line-height: 1.2;
+        height: auto;
+        white-space: pre-wrap;
+        text-align: center;
+      }
+
+    .circle {
+        padding: 5.7vw;
+        transform: translate(37%, 1.6%);
+        font-size: 4.3vw;
+    }
 
 
+    .larger-button {
+        padding-bottom: 9vw;
+    }
     .exit-button-container {
         transform: translate(-25%, -50%);
     }
@@ -155,7 +168,6 @@ input:hover {
         padding-right: 13vw;
         font-size: 2vw;
         white-space: normal;
-        text-align: center;
     }
     .center-button {
         max-width: 80%;

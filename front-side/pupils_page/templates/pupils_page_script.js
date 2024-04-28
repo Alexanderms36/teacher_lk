@@ -32,14 +32,15 @@ for (let i = 1; i <= students.length; i++) {
     wrapper_for_students.appendChild(new_wrapper_for_button);
     new_wrapper_for_button.appendChild(student_button);
 
+
     new_circle_with_num.innerHTML = i;
     student_button.value = students[i - 1];
-
-    if (student_button.value.length > 40) {
-        student_button.classList.add('larger-button')
-        let width = new_wrapper_for_button.offsetWidth / 12;
-        console.log(width)
-        student_button.value = `${student_button.value.slice(0, width)} \n ${student_button.value.slice(width)}`;
-         
-    }
+    // if (student_button.value.length > 30) {
+    //     let width = new_wrapper_for_button.offsetWidth / 12;
+    //     console.log(width);
+    //     if(width < 66){
+    //         student_button.classList.add('larger-button')
+    
+    //     }
+    // }
 }
