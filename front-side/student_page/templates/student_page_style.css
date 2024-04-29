@@ -23,6 +23,7 @@ body {
     border-color: whitesmoke;
     color: aliceblue;
     background-color: rgb(133, 222, 220);
+    transition: ease 0.2s;
 }
 .exit-button-container {
     position: absolute;

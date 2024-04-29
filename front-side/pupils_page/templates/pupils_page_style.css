@@ -23,7 +23,8 @@ body {
     border-radius: 50%;
     border-color: whitesmoke;
     color: aliceblue;
-    background-color: rgb(125, 181, 178);
+    background-color: rgb(133, 222, 220);
+    transition: ease 0.2s;
 }
 
 .exit-button-container {
