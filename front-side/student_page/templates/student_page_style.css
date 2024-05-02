@@ -112,11 +112,9 @@ body {
     top: 100%;
     left: 0;
     margin-left: 1vw;
-    border: 2px solid rgb(174, 174, 174);
     width: min-content;
     animation: pop-down 0.4s ease-in-out;
 }
-
 @keyframes pop-down {
     0% {
       transform: translateY(-10px);
@@ -125,6 +123,16 @@ body {
     100% {
       transform: translateY(0);
       opacity: 1;
+    }
+  }
+@keyframes pop-up {
+    0% {
+      transform: translateY(0);
+      opacity: 1;
+    }
+    100% {
+      transform: translateY(-10px);
+      opacity: 0;
     }
   }
 .main-button {
@@ -136,17 +144,45 @@ body {
     color: rgb(0, 255, 240);
     text-shadow: 1px 2px 1px rgba(0, 0, 0, 0.5);
     margin-left: 1vw;
+    transition: 0.2s ease;
 }
-
-
 .additional-button {
-    border: 2px solid rgb(174, 174, 174);
+    color: rgb(31, 31, 31);
+    border: 1px solid rgb(174, 174, 174);
+    padding: 0vw 2vw;
+    font-size: 1.2vw;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    transition: 0.2s ease;
+}
+.additional-button:hover {
+    background-color: rgb(174, 174, 174);
+    transition: 0.2s ease;
+    color: aliceblue;
+}
+.plus-button {
+    color: rgb(163, 163, 163);
+    font-size: 3vw;
+    font-weight: 700;
+    padding-bottom: 1vw;
 }
 
 .main-button:hover + .additional-buttons, .additional-buttons:hover {
     display: flex;
     animation: pop-down 0.3s ease-in-out;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 0vw;
+    width: min-content;
 }
+
+.main-button:hover {
+    color: aliceblue;
+    transition: 0.2s ease;
+
+}
+
 @media screen and (max-width: 1000px) {
     body {
         width: auto;

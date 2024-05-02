@@ -4,33 +4,37 @@ const health_group = document.querySelectorAll('.profile-wrapper a')[0];
 student_image.src = "./templates/src/avatar_placeholder.jpg";
 health_group.innerHTML = "Группа здоровья";
 const labels = [["вышивание крестиком", "хоббихорсинг", "хоккей"],
-        ["ye", "bones", "kendrick"],
-        ["физика", "математика"]
+        ["Репетитор Лёха", "репетитор по арифметике", "квантовая физика"],
+        ["физика", "математика", "s", "sd", "sddfa", "sddfa", "sddfa", "sddfa", "sddfa", "sddfa", "sddfa", "sddfa", "sddfa", "sddfa", "sddfa", "sddfa",
+         "sddfa", "sddfa", "sddfa", "sddfa", "sddfa", "sddfa"]
                 ];
 const activities_wrapper = document.querySelectorAll('.activities-wrapper')[0];
 
 const button_labels = ["КРУЖКИ", "РЕПЕТИТОРЫ", "ОЛИМПИАДЫ", "ЛИЧНЫЙ КАБИНЕТ УЧЕНИКА"];
-
-//TODO: кнопки должны выстраиваться в ряд по 3 шт
+//TODO: кнопки должны выстраиваться в ряд по 3 шт, подчёркивающю линию при наведении
 
 function addButtons(labels, additional_buttons) {
     for (let j = 0; j < labels.length + 1; j++) {
+        
         const additional_button = document.createElement('button');
         additional_buttons.appendChild(additional_button);
         additional_button.classList.add('additional-button');
         if (labels.length - j != 0)
             additional_button.textContent = labels[j];
-        else additional_button.textContent = "+";
+        else { 
+            additional_button.textContent = "+";
+            additional_button.classList.add('plus-button');
+        }
     }
-
 }
+
 for (let i = 0; i < button_labels.length; i++) {
     const main_button = document.createElement('button');
     main_button.textContent = button_labels[i];
     activities_wrapper.appendChild(main_button);
     main_button.classList.add('main-button');
 
-    if (i != 3) {
+    if (i != button_labels.length - 1) {
         const additional_buttons = document.createElement('div');
         activities_wrapper.appendChild(additional_buttons);
         additional_buttons.classList.add('additional-buttons');
