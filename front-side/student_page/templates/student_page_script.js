@@ -11,7 +11,7 @@ const labels = [["вышивание крестиком", "хоббихорси�
 const activities_wrapper = document.querySelectorAll('.activities-wrapper')[0];
 
 const button_labels = ["КРУЖКИ", "РЕПЕТИТОРЫ", "ОЛИМПИАДЫ", "ЛИЧНЫЙ КАБИНЕТ УЧЕНИКА"];
-//TODO: кнопки должны выстраиваться в ряд по 3 шт, подчёркивающю линию при наведении
+
 
 function addButtons(labels, additional_buttons) {
     for (let j = 0; j < labels.length + 1; j++) {

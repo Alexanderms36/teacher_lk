@@ -154,7 +154,7 @@ body {
     align-items: center;
     justify-content: center;
     display: flex;
-    transition: 0.2s ease;
+    transition: 0.2s ease-in-out;
 }
 .additional-button:hover {
     background-color: rgb(174, 174, 174);
@@ -183,6 +183,7 @@ body {
 
 }
 
+
 @media screen and (max-width: 1000px) {
     body {
         width: auto;
@@ -210,7 +211,33 @@ body {
         margin-left: 7vw;
         transform: translate(0%, 30%);
     }
-
+    .profile-wrapper {
+        width: 40vw;
+        height: 43vw;        
+    }
+    .profile-wrapper a {
+        font-size: 3vw;
+    }
+    .profile-wrapper img {
+        width: 200px;
+        height: auto;
+    }
+    .activities-wrapper {
+        width: 40vw;
+        height: auto;
+        margin-left: 2vw;
+        font-size: 4vw;
+    }
+    .main-button {
+        width: 30vw;
+        border: none;
+        background-color: rgba(0, 0, 0, 0);
+        font-size: 3vw;
+    }
+    .additional-button {
+        font-size: 2.5vw;
+        padding: 0vw 1vw;
+    }
 }
 
 @media screen and (min-width: 2092px) {
