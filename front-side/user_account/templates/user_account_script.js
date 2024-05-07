@@ -4,7 +4,9 @@ name_text.innerHTML = name;
 // кол-во классов подтянем из бд:
 let nums_of_classes = 6; 
 const container = document.getElementById("buttons-container");
+const switcher = document.getElementById("checkbox");
 
+let doc = document.documentElement;
 for (let i = 0; i < nums_of_classes; i++) {
     if (i % 3 == 0) {
         const newRow = document.createElement('div');
@@ -16,4 +18,21 @@ for (let i = 0; i < nums_of_classes; i++) {
     newButton.textContent = `${i + 1}`;
     newButton.classList = "btn btn-outline-secondary btn-lg center-button";
     container.lastElementChild.appendChild(newButton);
+}
+switcher.addEventListener("click", async event => {
+    if (doc.hasAttribute('data-theme')) {
+        doc.removeAttribute('data-theme');
+        localStorage.removeItem('theme');
+    } else {
+        doc.setAttribute('data-theme', 'dark');
+        localStorage.setItem('theme', 'dark');
+    }
+})
+if (localStorage.getItem('theme') !== null) {
+    doc.setAttribute('data-theme', 'dark');
+}
+
+
+if (doc.hasAttribute('data-theme')) {
+    switcher.checked = true;
 }

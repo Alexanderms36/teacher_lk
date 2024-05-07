@@ -11,9 +11,21 @@
   <body>
     <header>
       <div id="container-header">
-        <span id="return-icon" class="material-symbols-outlined">
-          arrow_back
-          </span>
+        <span id="return-icon" class="material-symbols-outlined">arrow_back</span>
+        
+        <div class="theme-switch-wrapper">
+          <label class="theme-switch" for="checkbox">
+              <input type="checkbox" id="checkbox"/>
+              <div class="slider round">
+                <span class="icon sun">
+                  <img src="./templates/src/sun.svg">
+                </span>
+                <span class="icon moon">
+                  <img src="./templates/src/moon.svg">
+                </span>
+              </div>
+          </label>
+        </div>
         <div id="exit-button-container">
           <button id="exit-button" class="btn btn-outline-secondary btn-lg center-button">Выход</button>
         </div>
