@@ -152,7 +152,6 @@ input:not(:checked) ~ .slider .sun {
     display: block;
     animation: fadeIn 0.5s;
 } 
-  
 @keyframes fadeIn {
     0% {
      opacity: 0;

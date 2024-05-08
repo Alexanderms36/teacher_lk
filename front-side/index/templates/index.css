@@ -1,24 +1,39 @@
+:root {
+    --bg-color: rgb(238, 237, 237);
+    --color: rgba(0, 189, 178, 0.33);
+    --text-color: rgb(33, 37, 42);
+    --hover-button-color: rgb(16, 225, 216);
+    --switcher-slider-color: rgb(203, 201, 201);
+    --bg-pic: url("./src/bg_index.svg");
+    --input-color: rgb(230, 230, 230);
+}
+:root[data-theme='dark'] {
+    --bg-color: rgb(74, 74, 74);
+    --color: rgb(61, 136, 131);
+    --text-color: rgb(231, 231, 231);
+    --hover-button-color: rgb(70, 149, 149);
+    --switcher-slider-color: rgb(174, 174, 174);
+    --bg-pic: url("./src/bg_index_dark_theme.svg");
+    --input-color: rgb(174, 174, 174);
+}
 body {
-    background-image: url("./src/bg_index.svg");
+    background-image: var(--bg-pic);
     background-repeat: no-repeat;
     background-size: cover;
     background-attachment: fixed;
     background-position: center;
-
-    
     justify-content: center;
     align-items: center;
 }
 #container-header {
-    background-color: rgba(0, 189, 178, 0.33);
+    background-color: var(--color);
     padding-bottom: 12vh;
     display: block;
     box-sizing: border-box;
     position: relative;
     z-index: 1;
-    
+    color: var(--text-color);
 }
-
 #edu-center-container {
     position: absolute;
     bottom: 1vw;
@@ -36,7 +51,7 @@ body {
 }
 #phone-num {
     text-decoration: none;
-    color: black;
+    color: var(--text-color);
 }
 #phone-pic {
     vertical-align: -2vh;
@@ -45,16 +60,20 @@ body {
 #breadcrumb-container{
     margin-left: 13vw;
     padding-top: 7vh;
+    color: var(--text-color);
 }
 
+#active {
+    color: var(--text-color);
+}
 .breadcrumb-item a{
-    color: rgba(0, 216, 220, 0.7);
+    color: var(--color);
 }
 #login-container {
     border: 3px solid black;
     padding-bottom: 24vh;
     box-sizing: border-box;
-    
+    color: var(--text-color);
     margin-right: 7vw;
     position: absolute;
     margin-left: 12vw;
@@ -69,17 +88,14 @@ body {
     margin-top: 3vh;
     margin-bottom: 3vh;
     font-size: 1.6vw;
-
-    
 }
 #login-input-places-container input{
     display: block;
     margin-bottom: 10px;
     border-radius: 0;
     margin-top: 7px;
-    background-color: rgb(230, 230, 230);
+    background-color: var(--input-color);
 }
-
 
 input[type="text"]:focus {
     box-shadow:  0px 0px 8px rgb(112, 112, 112);
@@ -96,11 +112,11 @@ input[type="password"]:focus {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    color: black;
+    color: var(--text-color);
     border-radius: 40px 40px 40px 40px;
     font-size: 3.5vh;
     font-weight: bold;
-    background-color: rgb(0, 189, 178);
+    background-color: var(--color);
 }
 #login-image-container {
     display: block;
@@ -112,7 +128,6 @@ input[type="password"]:focus {
     z-index: 0;
 }
 #login-image {
-    
     border-radius: 23vw / 70vw 40vw 40vw;
     border-top-right-radius: 84vw;
     border-top-left-radius: 84vw;
