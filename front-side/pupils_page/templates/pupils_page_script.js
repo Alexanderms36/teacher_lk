@@ -16,8 +16,6 @@ const students = [
     "абоба",
 ];
 
-
-
 for (let i = 1; i <= students.length; i++) {
     const new_wrapper_for_button = document.createElement('div');
     const new_circle_with_num = document.createElement('div');
@@ -35,12 +33,9 @@ for (let i = 1; i <= students.length; i++) {
 
     new_circle_with_num.innerHTML = i;
     student_button.value = students[i - 1];
-    // if (student_button.value.length > 30) {
-    //     let width = new_wrapper_for_button.offsetWidth / 12;
-    //     console.log(width);
-    //     if(width < 66){
-    //         student_button.classList.add('larger-button')
-    
-    //     }
-    // }
+}
+
+
+if (localStorage.getItem('theme') !== null) {
+    document.documentElement.setAttribute('data-theme', 'dark');
 }
