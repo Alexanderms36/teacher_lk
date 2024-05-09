@@ -65,9 +65,8 @@ body {
 .main-wrapper {
     display: flex;
     justify-content: center;
-    align-items: center;
     text-align: center;
-
+    
     margin: 2vw 0vh;
 }
 .profile-wrapper {
