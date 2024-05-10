@@ -2,7 +2,7 @@ const student_image = document.getElementById('student-image');
 const health_group = document.querySelectorAll('.profile-wrapper a')[0];
 //всё это из бд с учениками подтянем
 student_image.src = "./templates/src/avatar_placeholder.jpg";
-health_group.innerHTML = "Группа здоровья";
+health_group.innerHTML = "(Группа здоровья)";
 const labels = [["вышивание крестиком", "хоббихорсинг", "хоккей"],
         ["Репетитор Лёха", "репетитор по арифметике", "квантовая физика"],
         ["физика", "математика", "s", "sd", "sddfa", "sddfa", "sddfa", "sddfa", "sddfa", "sddfa", "sddfa", "sddfa", "sddfa", "sddfa", "sddfa", "sddfa",
@@ -41,4 +41,8 @@ for (let i = 0; i < button_labels.length; i++) {
         addButtons(labels[i], additional_buttons);
     }
     
+}
+
+if (localStorage.getItem('theme') !== null) {
+    document.documentElement.setAttribute('data-theme', 'dark');
 }
