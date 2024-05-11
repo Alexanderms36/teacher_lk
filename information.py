@@ -2,7 +2,7 @@ import sqlite3
 import pandas as pd
 db = sqlite3.connect('test.db')
 cursor = db.cursor()
-def creat():
+def create():
 # Подключаемся к базе данных SQLite
     # Создаем таблицу, если она не существует
     cursor.execute("""
@@ -145,6 +145,6 @@ def pars1():
         print(row)
     db.commit()
 
-creat()
+create()
 pars()
 pars1()
