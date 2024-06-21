@@ -136,6 +136,15 @@ body {
 .modal-dialog {
     background-color: aliceblue;
 }
+.add-olympiad-descr {
+    color: rgb(255, 239, 239);
+    background-color: rgb(17, 179, 170);
+
+}
+.add-olympiad-descr:hover {
+    color: rgb(255, 255, 255);
+    background-color: rgb(14, 143, 136);
+}
 @media screen and (max-width: 1000px) {
     body {
         width: auto;
