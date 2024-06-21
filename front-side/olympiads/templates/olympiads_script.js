@@ -1,11 +1,13 @@
-const olympiads_wrapper = document.querySelectorAll('.olympiads-wrapper')[0];
+const olympiads_wrapper = document.querySelector('.olympiads-wrapper');
 
 if (localStorage.getItem('theme') !== null) {
     document.documentElement.setAttribute('data-theme', 'dark');
 }
-bins = [];
-//список подтянем с сервера
-const olympiad_labels = ['Русский язык', 'Математика', 'История', 'Физика']
+
+const bins = []; // Add the missing 'const' keyword
+
+// список подтянем с сервера
+const olympiad_labels = ['Русский язык', 'Математика', 'История', 'Физика'];
 
 for (let i = 0; i < olympiad_labels.length; i++) {
     const olympiad = document.createElement('div');
@@ -22,7 +24,8 @@ for (let i = 0; i < olympiad_labels.length; i++) {
     bin.classList.add('bin');
     bins.push(bin);
 }
-const tiles = document.querySelectorAll('.olympiad-tile')
+
+const tiles = document.querySelectorAll('.olympiad-tile');
 
 bins.forEach((bin, i) => {
     bin.addEventListener('click', () => {
@@ -34,10 +37,10 @@ bins.forEach((bin, i) => {
         modal_window.style.left = '0px';
         modal_window.style.width = '100%';
         modal_window.style.height = '100%';
-        modal_window.style.background = 'rgba(0, 0, 0, 0.5)';
+        modal_window.style.background = 'rgba(0, 0, 0, 0.4)';
         modal_window.innerHTML = `
             <div class="modal-dialog modal-dialog-centered" style="border-radius: 10px;">
-                <div class="modal-content" data-backdrop="static">
+                <div class="modal-content" data-backdrop="static" style="box-sizing: border-box;">
                     <div class="modal-header">
                         <h5 class="modal-title" style="margin: 1vw;">Удалить олимпиаду?</h5>
                     </div>
@@ -54,16 +57,18 @@ bins.forEach((bin, i) => {
         document.body.appendChild(modal_window);
         const cancel_button = modal_window.querySelector('.btn-secondary');
         const submit_button = modal_window.querySelector('.btn-danger');
-        
-        
+
         cancel_button.addEventListener('click', () => {
             modal_window.remove();
         });
         submit_button.addEventListener('click', () => {
             tiles[i].remove();
             modal_window.remove();
-        })
-        //отправить на сервер, что удалили
-    })
-})
-
+        });
+        document.addEventListener('click', (e) => {
+            if (!modal_window.contains(e.target) && !bins[i].contains(e.target)) {
+                modal_window.remove();
+            }
+        });
+    });
+});
