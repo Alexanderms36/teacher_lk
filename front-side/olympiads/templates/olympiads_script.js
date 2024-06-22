@@ -19,6 +19,57 @@ function add_tile(olympiad, olympiad_label, text_label, bin) {
     olympiad.appendChild(bin);
     bin.classList.add('bin');
 
+    bin.addEventListener('click', () => {
+        const bin_index = bins.indexOf(bin);
+        const modal_window = document.createElement('div');
+
+        modal_window.classList.add('modal-dialog', 'modal-dialog-centered');
+        modal_window.style.zIndex = '1050';
+        modal_window.style.position = 'absolute';
+        modal_window.style.top = '0px';
+        modal_window.style.left = '0px';
+        modal_window.style.width = '100%';
+        modal_window.style.height = '100%';
+        modal_window.style.background = 'rgba(0, 0, 0, 0.4)';
+        modal_window.innerHTML = `
+            <div class="modal-dialog modal-dialog-centered" style="border-radius: 10px;">
+                <div class="modal-content" data-backdrop="static" style="box-sizing: border-box;">
+                    <div class="modal-header">
+                        <h5 class="modal-title" style="margin: 1vw;">Удалить олимпиаду?</h5>
+                    </div>
+                    <div class="modal-body" style="padding: 1vw;margin-bottom: 1vw;">
+                        Вы уверены, что хотите удалить олимпиаду: "${text_label}"?
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" style="margin-bottom: 1vw;margin-left: 1vw;margin-right: 1vw;">Отмена</button>
+                        <button type="button" class="btn btn-danger" style="margin-bottom: 1vw;margin-left: 1vw;margin-right: 1vw;">Удалить</button>
+                    </div>
+                </div>
+            </div>
+        `;
+        document.body.appendChild(modal_window);
+
+        const cancel_button = modal_window.querySelector('.btn-secondary');
+        const submit_button = modal_window.querySelector('.btn-danger');
+
+        cancel_button.addEventListener('click', () => {
+            modal_window.remove();
+        });
+
+        submit_button.addEventListener('click', () => {
+            bins.splice(bin_index, 1);
+            tiles.splice(bin_index, 1);
+            olympiad_labels.splice(bin_index, 1);
+            olympiad.remove();
+            modal_window.remove();
+        });
+        
+        document.addEventListener('click', (e) => {
+            if (!modal_window.contains(e.target) && !bin.contains(e.target)) {
+                modal_window.remove();
+            }
+        });
+    });
 }
 
 for (let i = 0; i < olympiad_labels.length; i++) {
@@ -30,61 +81,6 @@ for (let i = 0; i < olympiad_labels.length; i++) {
     tiles.push(olympiad);
 }
 
-
-function update_array() {
-    for (let i = 0; i < bins.length; i++) {
-        console.log(i);
-        const bin = bins[i];
-        bin.addEventListener('click', () => {
-            const modal_window = document.createElement('div');
-            modal_window.classList.add('modal-dialog', 'modal-dialog-centered');
-            modal_window.style.zIndex = '1050';
-            modal_window.style.position = 'absolute';
-            modal_window.style.top = '0px';
-            modal_window.style.left = '0px';
-            modal_window.style.width = '100%';
-            modal_window.style.height = '100%';
-            modal_window.style.background = 'rgba(0, 0, 0, 0.4)';
-            modal_window.innerHTML = `
-                <div class="modal-dialog modal-dialog-centered" style="border-radius: 10px;">
-                    <div class="modal-content" data-backdrop="static" style="box-sizing: border-box;">
-                        <div class="modal-header">
-                            <h5 class="modal-title" style="margin: 1vw;">Удалить олимпиаду?</h5>
-                        </div>
-                        <div class="modal-body" style="padding: 1vw;">
-                            Вы уверены, что хотите удалить олимпиаду: "${olympiad_labels[i]}"?
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" style="margin-bottom: 1vw;margin-left: 1vw;margin-right: 1vw;">Отмена</button>
-                            <button type="button" class="btn btn-danger" style="margin-bottom: 1vw;margin-left: 1vw;margin-right: 1vw;">Удалить</button>
-                        </div>
-                    </div>
-                </div>
-            `;
-            document.body.appendChild(modal_window);
-            const cancel_button = modal_window.querySelector('.btn-secondary');
-            const submit_button = modal_window.querySelector('.btn-danger');
-    
-            cancel_button.addEventListener('click', () => {
-                modal_window.remove();
-            });
-            submit_button.addEventListener('click', () => {
-                bins.splice(i, 1);
-                tiles[i].remove();
-                tiles.splice(i, 1);
-                olympiad_labels.splice(i, 1);
-                modal_window.remove();
-                update_array();
-            });
-            document.addEventListener('click', (e) => {
-                if (!modal_window.contains(e.target) && !bins[i].contains(e.target)) {
-                    modal_window.remove();
-                }
-            });
-    
-        });
-    }
-}
 const add_olympiads_btn = document.querySelector('.add-button');
 
 add_olympiads_btn.addEventListener('click', () => {
@@ -129,12 +125,15 @@ add_olympiads_btn.addEventListener('click', () => {
         const olympiad = document.createElement('div');
         const olympiad_label = document.createElement('div');
         const bin = document.createElement('img');
-        olympiad_labels.push(olympiad_name.value);
         bins.push(bin);
         tiles.push(olympiad);
+        olympiad_labels.push(olympiad_name.value);
         add_tile(olympiad, olympiad_label, olympiad_name.value, bin);
-        update_array();
         modal_window.remove();
     });
+    document.addEventListener('click', (e) => {
+        if (!modal_window.contains(e.target) && !add_olympiads_btn.contains(e.target)) {
+            modal_window.remove();
+        }
+    });
 })
-update_array();
