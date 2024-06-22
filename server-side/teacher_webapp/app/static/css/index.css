@@ -4,7 +4,7 @@
     --text-color: rgb(33, 37, 42);
     --hover-button-color: rgb(16, 225, 216);
     --switcher-slider-color: rgb(203, 201, 201);
-    --bg-pic: url("./src/bg_index.svg");
+    --bg-pic: url("../images/bg_index.svg");
     --input-color: rgb(230, 230, 230);
 }
 :root[data-theme='dark'] {
@@ -13,7 +13,7 @@
     --text-color: rgb(231, 231, 231);
     --hover-button-color: rgb(70, 149, 149);
     --switcher-slider-color: rgb(174, 174, 174);
-    --bg-pic: url("./src/bg_index_dark_theme.svg");
+    --bg-pic: url("../images/bg_index_dark_theme.svg");
     --input-color: rgb(174, 174, 174);
 }
 body {
