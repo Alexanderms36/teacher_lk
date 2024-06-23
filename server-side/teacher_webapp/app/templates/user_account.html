@@ -26,9 +26,12 @@
               </div>
           </label>
         </div>
-        <div id="exit-button-container">
-          <button id="exit-button" class="btn btn-outline-secondary btn-lg center-button">Выход</button>
-        </div>
+        <form method="post" action="{% url 'user_account' %}">
+          {% csrf_token %}
+          <div id="exit-button-container">
+            <button id="exit-button" type="submit" class="btn btn-outline-secondary btn-lg center-button">Выход</button>
+          </div>
+        </form>
       </div>
     </header>
     <main>
@@ -50,6 +53,7 @@
         </div>
       
     </main>
-	<script src="{% static 'js/user_account_script.js' %}"></script>
+    {{ user_data|json_script:"user_data" }}
+  	<script src="{% static 'js/user_account_script.js' %}" defer"></script>
   </body>
 </html>

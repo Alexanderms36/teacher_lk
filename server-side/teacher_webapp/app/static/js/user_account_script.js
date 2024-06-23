@@ -1,10 +1,14 @@
 const name_text = document.getElementById("name")
 const name = "Иванов Иван Иванович"
-name_text.innerHTML = name;
 // кол-во классов подтянем из бд:
 let nums_of_classes = 6; 
 const container = document.getElementById("buttons-container");
 const switcher = document.getElementById("checkbox");
+
+const user_data = JSON.parse(
+    document.getElementById('user_data').textContent
+  );
+name_text.innerHTML = `${user_data.username} ${user_data.lastname}`;
 
 let doc = document.documentElement;
 for (let i = 0; i < nums_of_classes; i++) {
