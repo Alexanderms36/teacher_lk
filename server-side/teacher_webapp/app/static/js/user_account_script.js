@@ -1,16 +1,19 @@
 const name_text = document.getElementById("name")
-const name = "Иванов Иван Иванович"
 // кол-во классов подтянем из бд:
 let nums_of_classes = 6; 
+let doc = document.documentElement;
 const container = document.getElementById("buttons-container");
 const switcher = document.getElementById("checkbox");
 
-const user_data = JSON.parse(
-    document.getElementById('user_data').textContent
-  );
-name_text.innerHTML = `${user_data.username} ${user_data.lastname}`;
+fetch('/user_json')
+  .then(response => response.json())
+  .then(data => {
+    name_text.textContent = `${data.username} ${data.lastname}`
+  })
+  .catch(error => {
+    console.error(error);
+  });
 
-let doc = document.documentElement;
 for (let i = 0; i < nums_of_classes; i++) {
     if (i % 3 == 0) {
         const newRow = document.createElement('div');
@@ -23,6 +26,7 @@ for (let i = 0; i < nums_of_classes; i++) {
     newButton.classList = "btn btn-outline-secondary btn-lg center-button";
     container.lastElementChild.appendChild(newButton);
 }
+
 switcher.addEventListener("click", async event => {
     if (doc.hasAttribute('data-theme')) {
         doc.removeAttribute('data-theme');
@@ -32,10 +36,10 @@ switcher.addEventListener("click", async event => {
         localStorage.setItem('theme', 'dark');
     }
 })
+
 if (localStorage.getItem('theme') !== null) {
     doc.setAttribute('data-theme', 'dark');
 }
-
 
 if (doc.hasAttribute('data-theme')) {
     switcher.checked = true;

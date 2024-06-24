@@ -3,15 +3,7 @@ from django.contrib.auth import authenticate, login, logout
 from .models import Student
 from django.http import JsonResponse
 import json
-# def index(request):
-#     template = 'index.html'
-#     context = {
-#         'students': Student.objects.all()
-#     }
-#     return render(
-#         request,
-#         template,
-#     )
+
 
 def user_login(request):
     if request.method == 'POST':
@@ -35,12 +27,18 @@ def user_account(request):
                 'username': user.username,
                 'lastname': user.last_name
             }
-            # json_data = json.dumps(user_data)
-            # print({'user_data': json_data})
+            user_json(request)
             return render(
                 request, 
-                template, 
-                context={'user_data': user_data}
+                template
                 )
     else:
         return redirect('login')
+    
+def user_json(request):
+    user = request.user
+    user_data = {
+        'username': user.username,
+        'lastname': user.last_name
+    }
+    return JsonResponse(user_data)
