@@ -22,11 +22,6 @@ def user_account(request):
             return redirect('login')
         elif request.method == 'GET':
             template = 'user_account.html'
-            user = request.user
-            user_data = {
-                'username': user.username,
-                'lastname': user.last_name
-            }
             user_json(request)
             return render(
                 request, 
@@ -39,6 +34,7 @@ def user_json(request):
     user = request.user
     user_data = {
         'username': user.username,
-        'lastname': user.last_name
+        'lastname': user.last_name,
+        'classes': user.groupsofclasses
     }
     return JsonResponse(user_data)

@@ -8,6 +8,7 @@ const switcher = document.getElementById("checkbox");
 fetch('/user_json')
   .then(response => response.json())
   .then(data => {
+    console.log(data);
     name_text.textContent = `${data.username} ${data.lastname}`
   })
   .catch(error => {

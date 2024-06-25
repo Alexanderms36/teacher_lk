@@ -2,11 +2,9 @@ from django.db import models
 from django.urls import reverse
 from django.contrib.auth.models import AbstractUser
 
-# class User(AbstractUser):
-#     pass
 
-#     def __str__(self):
-#         return self.username
+class User(AbstractUser):
+    groupsofclasses = models.CharField(max_length=150)
 
 class Student(models.Model):
     name = models.CharField(max_length=255)
