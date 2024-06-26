@@ -5,6 +5,7 @@ from django.contrib.auth.models import AbstractUser
 
 class User(AbstractUser):
     groupsofclasses = models.CharField(max_length=150)
+    patronymic = models.CharField(max_length=160, blank=True)
 
 class Student(models.Model):
     name = models.CharField(max_length=255)

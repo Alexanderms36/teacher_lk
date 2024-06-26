@@ -1,6 +1,4 @@
 const name_text = document.getElementById("name")
-// кол-во классов подтянем из бд:
-let nums_of_classes = 6; 
 let doc = document.documentElement;
 const container = document.getElementById("buttons-container");
 const switcher = document.getElementById("checkbox");
@@ -8,24 +6,28 @@ const switcher = document.getElementById("checkbox");
 fetch('/user_json')
   .then(response => response.json())
   .then(data => {
-    console.log(data);
-    name_text.textContent = `${data.username} ${data.lastname}`
+    name_text.textContent = `${data.firstname} ${data.lastname} ${data.patronymic}`;
+    addGroupButtons(data.classes);
   })
   .catch(error => {
     console.error(error);
   });
 
-for (let i = 0; i < nums_of_classes; i++) {
-    if (i % 3 == 0) {
-        const newRow = document.createElement('div');
-        newRow.classList.add('row');
-        container.appendChild(newRow);
+function addGroupButtons(classes) {
+    let groups = classes.split(' ');
+    for (let i = 0; i < groups.length; i++) {
+        if (i % 3 == 0) {
+            const newRow = document.createElement('div');
+            newRow.classList.add('row');
+            container.appendChild(newRow);
+        }
+        const newButton = document.createElement('button');
+        newButton.id = 'class-button';
+        newButton.textContent = `${groups[i]}`;
+        newButton.name = `${groups[i]}`;
+        newButton.classList = "btn btn-outline-secondary btn-lg center-button";
+        container.lastElementChild.appendChild(newButton);
     }
-    const newButton = document.createElement('button');
-    newButton.id = 'class-button';
-    newButton.textContent = `${i + 1}`;
-    newButton.classList = "btn btn-outline-secondary btn-lg center-button";
-    container.lastElementChild.appendChild(newButton);
 }
 
 switcher.addEventListener("click", async event => {

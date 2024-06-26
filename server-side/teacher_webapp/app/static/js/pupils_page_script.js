@@ -8,14 +8,16 @@ const wrapper_for_students = document.getElementsByClassName('students-list-wrap
 // этих студентов тоже подтянем из бд
 const students = [
     "Иванов Иван Иванович Ваня Ванов Ванович",
-    "Иванова Екатерина",
-    "Петров Александр",
-    "Сидоров Михаил",
-    "Изергин Дмитрий Борисович",
-    "Тауматафакатангихангакоауауотаматеатурипукакапикимаунгахоронукупокаифенуакитанатаху",
-    "абоба",
+    "Иванова Екатерина"
 ];
-
+fetch('/user_json')
+  .then(response => response.json())
+  .then(data => {
+    console.log(data)
+  })
+  .catch(error => {
+    console.error(error);
+  });
 for (let i = 1; i <= students.length; i++) {
     const new_wrapper_for_button = document.createElement('div');
     const new_circle_with_num = document.createElement('div');
