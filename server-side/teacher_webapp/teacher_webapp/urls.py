@@ -9,8 +9,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('login/', views.user_login, name='login'),
     path("user/", views.user_account, name='user_account'),
-    path('user/pupils/', views.pupils, name='pupils'),
-    path('user_json/', views.user_json, name='user_json'),
+    path('user/<str:link>/', views.pupils, name='pupils'),
+    path('user_json/', views.user_json, name='user_json')
 ]
 
 

@@ -11,15 +11,23 @@
   </head>
   <header>
     <div id="container-header">
-      <span id="return-icon" class="material-symbols-outlined">
-        arrow_back
-      </span>
+      <form method="post">
+        {% csrf_token %}
+        <button class="transparent-button" name="return">
+          <i id="return-icon" class="material-symbols-outlined">
+            arrow_back
+          </i> 
+        </button>
+      </form>
       <h1 id="class-label">
         Загрузка...
       </h1>
       <div class="exit-button-container">
         <button class="btn btn-outline-secondary btn-lg center-button send-report-button">Отправить отчёт</button>
-        <button class="btn btn-outline-secondary btn-lg center-button exit-button">Выход</button>
+        <form method="post">
+          {% csrf_token %}
+          <button type="submit" name="logout" class="btn btn-outline-secondary btn-lg center-button exit-button">Выход</button>
+        </form>
       </div>
     </div>
   </header>

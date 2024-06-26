@@ -28,9 +28,10 @@ body {
 }
 #return-icon {
     font-size: 3vw;
-
     cursor: pointer;
     padding: 0.33vw;
+    margin-right: 2vw;
+    display: inline-block;
     top: 50%;
     transform: translate(0%, 50%);
     margin-left: 3vw;
@@ -42,7 +43,13 @@ body {
     background-color: var(--hover-button-color);
     transition: ease 0.2s;
 }
-
+.transparent-button {
+    border-width: 0px;
+    background-color: rgba(0, 0, 0, 0);
+}
+.transparent-button:hover {
+    cursor: default;
+}
 .exit-button-container {
     position: absolute;
     right: 0;
@@ -81,8 +88,8 @@ body {
     margin-bottom: 0.5vw;
     justify-content: center;
     align-items: center;
-    display: inline;
-    margin-left: 2vw;
+    display: inline-block;
+    margin-left: 9vw;
     top: 50%;
     transform: translate(0%, -59%);
     font-size: 3vw;

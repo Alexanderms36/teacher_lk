@@ -1,5 +1,5 @@
 const class_label = document.getElementById('class-label')
-
+const return_btn = document.getElementById('return-icon')
 //здесь подтянем выбранный класс из бд
 let chosen_class = 9;
 
