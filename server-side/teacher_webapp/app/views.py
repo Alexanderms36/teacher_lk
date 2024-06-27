@@ -23,7 +23,6 @@ def user_account(request):
                 logout(request)
                 return redirect('login')
             else:
-                print(request.POST)
                 link = request.POST['chosen_button']
                 return redirect('pupils', link=link)
         elif request.method == 'GET':
@@ -46,7 +45,7 @@ def pupils(request, link):
                 return redirect('user_account')
         else:
             template = 'pupils_page.html'
-            user_json(request)
+            classes_json_get(request, link=link)
             return render(
                 request,
                 template
@@ -66,11 +65,17 @@ def user_json(request):
     }
     return JsonResponse(user_data)
 
-# def classes_json_get(request):
-#     user = request.user
-#     user_classes = user.classes_set.all()
-#     us = user.classes_set.filter(name__startwith="iPhone")
-#     classes_data = {
-#         'name': 
-#     }
-#     return JsonResponse(classes_data)
+def classes_json_get(request, link):
+    user = request.user
+    user_classes = user.classes_set.all()
+    chosen_classes = user_classes.filter(name=link)
+    students = Student.objects.filter(classes_id__in=chosen_classes)
+    if len(students) == 0:
+        students_string = ""
+    else:
+        students_string = "endofname".join(f'{students[i].surname} {students[i].name} {students[i].patronymic}' for i in range(len(user_classes)))
+    classes_data = {
+        'name': link,
+        'students': students_string
+    }
+    return JsonResponse(classes_data)
