@@ -43,6 +43,11 @@ def pupils(request, link):
                 return redirect('login')
             elif 'return' in request.POST:
                 return redirect('user_account')
+            else:
+                chosen_student = request.POST['chosen_student']
+                print(chosen_student)
+                return redirect('student_page', link=link, student=chosen_student)
+
         else:
             template = 'pupils_page.html'
             classes_json_get(request, link=link)
@@ -50,6 +55,22 @@ def pupils(request, link):
                 request,
                 template
             )
+    else:
+        return redirect('login')
+    
+def student_page(request, link, student):
+    if request.user.is_authenticated:
+        if request.method == 'POST':
+            if 'logout' in request.POST:
+                logout(request)
+                return redirect('login')
+        elif request.method == 'GET':
+            template = 'student_page.html'
+            print(link, student)
+            return render(
+                request, 
+                template
+                )
     else:
         return redirect('login')
     

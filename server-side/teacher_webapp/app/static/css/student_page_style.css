@@ -66,7 +66,6 @@ body {
     border-radius: 10% / 40%;
     text-align: center;
 }
-
 .exit-button {
     color: var(--text-color);
 }
@@ -89,7 +88,6 @@ body {
     display: flex;
     justify-content: center;
     text-align: center;
-    
     margin: 2vw 0vh;
 }
 .profile-wrapper {
@@ -116,7 +114,6 @@ body {
     height: auto;
     margin-left: 2vw;
     display: flex;
-
     flex-direction: column;
     position: relative;
     animation: pop-down 0.4s ease-in-out;
@@ -138,7 +135,6 @@ body {
     width: min-content;
     animation: pop-down 0.4s ease-in-out;
 }
-
 @keyframes pop-down {
     0% {
       transform: translateY(-10px);
@@ -192,7 +188,6 @@ body {
     font-weight: 700;
     padding-bottom: 1vw;
 }
-
 .main-button:hover + .additional-buttons, .additional-buttons:hover {
     display: flex;
     animation: pop-down 0.3s ease-in-out;
@@ -201,13 +196,10 @@ body {
     grid-gap: 0vw;
     width: min-content;
 }
-
 .main-button:hover {
     color: aliceblue;
     transition: 0.2s ease;
 }
-
-
 @media screen and (max-width: 1000px) {
     body {
         width: auto;
@@ -224,7 +216,6 @@ body {
         padding-right: 9vw;
         padding-bottom: 1vw;
         padding-top: 1vw;
-
         display: flex;
         align-items: center;
         justify-content: center;
@@ -263,7 +254,6 @@ body {
         padding: 0vw 1vw;
     }
 }
-
 @media screen and (min-width: 2092px) {
     .exit-button {
         padding-top: 0.5vw;
@@ -272,4 +262,3 @@ body {
     }
 
 }
-

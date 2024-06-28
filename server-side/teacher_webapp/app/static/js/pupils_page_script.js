@@ -19,24 +19,22 @@ function addStudentsButtons(students_name) {
     for (let i = 0; i < students.length; i++) {
         const new_wrapper_for_button = document.createElement('div');
         const new_circle_with_num = document.createElement('div');
-        const student_button = document.createElement('input');
-        student_button.type = 'button';
-    
+        const student_button = document.createElement('button');
+        
         new_wrapper_for_button.classList.add("student-button-wrapper");
         new_circle_with_num.classList.add('circle');
         student_button.classList.add('student-button');
-    
+            
         new_wrapper_for_button.appendChild(new_circle_with_num);
         wrapper_for_students.appendChild(new_wrapper_for_button);
         new_wrapper_for_button.appendChild(student_button);
     
-    
         new_circle_with_num.innerHTML = i + 1;
-        student_button.value = students[i];
+        student_button.textContent = students[i];
+        student_button.name = `chosen_student`;
+        student_button.value = `${students[i]}`;
     }
 }
-
-
 
 if (localStorage.getItem('theme') !== null) {
     document.documentElement.setAttribute('data-theme', 'dark');

@@ -33,8 +33,11 @@
   </header>
   <body>
     <main>
+      <form method="post">
+        {% csrf_token %}
         <div class="students-list-wrapper">
         </div>
+      </form>
     </main>
 	<script src="{% static 'js/pupils_page_script.js' %}"></script>
   </body>

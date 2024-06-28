@@ -14,6 +14,7 @@
     --input-bg-color: rgb(110, 110, 110);
     --input-hover: rgb(100, 100, 100);
 }
+
 body {
     background-color: var(--bg-color);
     margin-bottom: 4vh;
@@ -94,7 +95,6 @@ body {
     transform: translate(0%, -59%);
     font-size: 3vw;
 }
-
 .students-list-wrapper {
     display: flex;
     flex-direction: column;
@@ -119,8 +119,7 @@ body {
     font-size: 2vw;
     color: var(--text-color);
 }
-input {
-
+.student-button {
     border: none;
     word-wrap: break-word;
     margin-top: 0.33vw;
@@ -135,8 +134,7 @@ input {
     height: auto;
     color: var(--text-color);
 }
-
-input:hover {
+.student-button:hover {
     background-color: var(--input-hover);
 }
 @media screen and (max-width: 1000px) {
@@ -176,14 +174,11 @@ input:hover {
         white-space: pre-wrap;
         text-align: center;
       }
-
     .circle {
         padding: 5.7vw;
         transform: translate(37%, 1.6%);
         font-size: 4.3vw;
     }
-
-
     .larger-button {
         padding-bottom: 9vw;
     }
@@ -208,8 +203,4 @@ input:hover {
         padding-bottom: 0.5vw;
         font-size: 1.33vw;
     }
-
 }
-
-
-
