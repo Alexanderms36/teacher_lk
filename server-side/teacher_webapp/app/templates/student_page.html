@@ -23,7 +23,10 @@
         Учебная и внеучебная деятельности
       </h1>
       <div class="exit-button-container">
-        <button class="btn btn-outline-secondary btn-lg center-button exit-button">Выход</button>
+        <form method="post">
+          {% csrf_token %}
+          <button type="submit" name="logout" class="btn btn-outline-secondary btn-lg center-button exit-button">Выход</button>
+        </form>
       </div>
     </div>
   </header>

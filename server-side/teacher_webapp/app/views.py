@@ -95,10 +95,14 @@ def classes_json_get(request, link):
     students = Student.objects.filter(classes_id__in=chosen_classes)
     if len(students) == 0:
         students_string = ""
+        students_id_string
     else:
-        students_string = "endofname".join(f'{students[i].surname} {students[i].name} {students[i].patronymic}' for i in range(len(user_classes)))
+        students_string = "endofname".join(f'{students[i].surname} {students[i].name} {students[i].patronymic}'
+                                            for i in range(len(user_classes)))
+        students_id_string = "/".join(f'{students[i].id}' for i in range(len(user_classes)))
     classes_data = {
         'name': link,
-        'students': students_string
+        'students': students_string,
+        'students_id': students_id_string
     }
     return JsonResponse(classes_data)

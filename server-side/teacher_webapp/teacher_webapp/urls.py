@@ -13,7 +13,7 @@ urlpatterns = [
     path('user/<str:link>/', views.pupils, name='pupils'),
     path('user_json/', views.user_json, name='user_json'),
     path('user/<str:link>/get_classes/', views.classes_json_get, name='classes_json'),
-    path('user/<str:link>/<str:student>/', views.student_page, name='student_page')
+    path('user/<str:link>/<int:student>/', views.student_page, name='student_page')
 ]
 
 
