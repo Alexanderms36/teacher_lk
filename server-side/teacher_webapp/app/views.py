@@ -64,6 +64,8 @@ def student_page(request, link, student):
             if 'logout' in request.POST:
                 logout(request)
                 return redirect('login')
+            elif 'return' in request.POST:
+                return redirect('pupils', link=link)
         elif request.method == 'GET':
             template = 'student_page.html'
             print(link, student)

@@ -11,9 +11,14 @@
   </head>
   <header>
     <div id="container-header">
-      <span id="return-icon" class="material-symbols-outlined">
-        arrow_back
-      </span>
+      <form method="post">
+        {% csrf_token %}
+        <button class="transparent-button" name="return">
+          <i id="return-icon" class="material-symbols-outlined">
+            arrow_back
+          </i>
+        </button>
+      </form>
       <h1 id="class-label">
         Учебная и внеучебная деятельности
       </h1>

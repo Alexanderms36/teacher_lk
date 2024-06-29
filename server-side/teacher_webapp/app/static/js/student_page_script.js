@@ -3,9 +3,8 @@ const health_group = document.querySelectorAll('.profile-wrapper a')[0];
 //всё это из бд с учениками подтянем
 health_group.innerHTML = "(Группа здоровья)";
 const labels = [["вышивание крестиком", "хоббихорсинг", "хоккей"],
-        ["Репетитор Лёха", "репетитор по арифметике", "квантовая физика"],
-        ["физика", "математика", "s", "sd", "sddfa", "sddfa", "sddfa", "sddfa", "sddfa", "sddfa", "sddfa", "sddfa", "sddfa", "sddfa", "sddfa", "sddfa",
-         "sddfa", "sddfa", "sddfa", "sddfa", "sddfa", "sddfa"]
+        ["репетитор по арифметике", "квантовая физика"],
+        ["физика", "математика", "s", "sd", "sddfa"]
                 ];
 const activities_wrapper = document.querySelectorAll('.activities-wrapper')[0];
 
