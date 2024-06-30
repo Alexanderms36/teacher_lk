@@ -3,10 +3,10 @@ let doc = document.documentElement;
 const container = document.getElementById("buttons-container");
 const switcher = document.getElementById("checkbox");
 
-fetch('/user_json')
+fetch('')
   .then(response => response.json())
   .then(data => {
-    name_text.textContent = `${data.firstname} ${data.lastname} ${data.patronymic}`;
+    name_text.textContent = `${data.first_name} ${data.last_name} ${data.patronymic}`;
     addGroupButtons(data.classes);
   })
   .catch(error => {
@@ -14,8 +14,7 @@ fetch('/user_json')
   });
 
 function addGroupButtons(classes) {
-    let groups = classes.split(' ');
-    for (let i = 0; i < groups.length; i++) {
+    for (let i = 0; i < classes.length; i++) {
         if (i % 3 == 0) {
             const newRow = document.createElement('div');
             newRow.classList.add('row');
@@ -23,9 +22,9 @@ function addGroupButtons(classes) {
         }
         const newButton = document.createElement('button');
         newButton.id = 'class-button';
-        newButton.textContent = `${groups[i]}`;
+        newButton.textContent = `${classes[i]}`;
         newButton.name = `chosen_button`;
-        newButton.value = `${groups[i]}`;
+        newButton.value = `${classes[i]}`;
         newButton.classList = "btn btn-outline-secondary btn-lg center-button";
         container.lastElementChild.appendChild(newButton);
     }

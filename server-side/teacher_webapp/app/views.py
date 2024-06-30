@@ -1,108 +1,109 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.decorators import login_required
 from .models import Student, Classes
 from django.http import JsonResponse
-import json
+from rest_framework import status
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework.reverse import reverse
+from rest_framework.authtoken.models import Token
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.renderers import TemplateHTMLRenderer, JSONRenderer
+from .models import User
+from .serializers import UserSerializer, StudentSerializer, ClassesSerializer
 
 
-def user_login(request):
-    if request.method == 'POST':
-        username = request.POST['username']
-        password = request.POST['password']
+class UserLoginView(APIView):
+    renderer_classes = [TemplateHTMLRenderer]
+    template_name = 'index.html'
+
+    def get(self, request):
+        queryset = Student.objects.all()
+        return Response({'students': queryset})
+
+    def post(self, request):
+        username = request.data.get('username')
+        password = request.data.get('password')
         user = authenticate(request, username=username, password=password)
         if user is not None:
-            login(request=request, user=user)
-            return redirect('user_account')
-    return render(request, 'index.html')
-
-def user_account(request):
-    if request.user.is_authenticated:
-        if request.method == 'POST':
-            if 'logout' in request.POST:
-                logout(request)
-                return redirect('login')
-            else:
-                link = request.POST['chosen_button']
-                return redirect('pupils', link=link)
-        elif request.method == 'GET':
-            template = 'user_account.html'
-            user_json(request)
-            return render(
-                request, 
-                template
-                )
-    else:
-        return redirect('login')
-    
-def pupils(request, link):
-    if request.user.is_authenticated:
-        if request.method == 'POST':
-            if 'logout' in request.POST:
-                logout(request)
-                return redirect('login')
-            elif 'return' in request.POST:
-                return redirect('user_account')
-            else:
-                chosen_student = request.POST['chosen_student']
-                print(chosen_student)
-                return redirect('student_page', link=link, student=chosen_student)
-
+            login(request, user)
+            token, _ = Token.objects.get_or_create(user=user)
+            return Response({'token': token.key, 'detail': 'Redirecting to user account'},
+                                status=status.HTTP_302_FOUND,
+                                headers={'Location': reverse('user_account')})
         else:
-            template = 'pupils_page.html'
-            classes_json_get(request, link=link)
-            return render(
-                request,
-                template
-            )
-    else:
-        return redirect('login')
+            return Response({'error': 'Invalid data'}, status=401)
+        
+class UserAccountView(APIView):
+    permission_classes = [IsAuthenticated]
+    renderer_classes = [JSONRenderer, TemplateHTMLRenderer]
+    template_name = 'user_account.html'
     
-def student_page(request, link, student):
-    if request.user.is_authenticated:
-        if request.method == 'POST':
-            if 'logout' in request.POST:
-                logout(request)
-                return redirect('login')
-            elif 'return' in request.POST:
-                return redirect('pupils', link=link)
-        elif request.method == 'GET':
-            template = 'student_page.html'
-            print(link, student)
-            return render(
-                request, 
-                template
-                )
-    else:
-        return redirect('login')
+    def get(self, request):    
+        user = request.user
+        serializer = UserSerializer(user)
+        return Response(serializer.data)
     
-def user_json(request):
-    user = request.user
-    user_classes = user.classes_set.all()
-    classes_string = " ".join(user_classes[i].name for i in range(len(user_classes)))
-    user_data = {
-        'firstname': user.first_name,
-        'lastname': user.last_name,
-        'patronymic': user.patronymic,
-        'classes': classes_string
-    }
-    return JsonResponse(user_data)
+    def post(self, request):
+        if 'logout' in request.data:
+            logout(request)
+            return Response({'detail': 'logged out successfully'},
+                                status=status.HTTP_302_FOUND,
+                                headers={'Location': reverse('login')})
+        else:
+            chosen_class = request.data.get('chosen_button')
+            if chosen_class:
+                return redirect('pupils', chosen_class=chosen_class)
+            else:
+                return Response({'detail': 'something went wrong'})
+        
+class PupilsView(APIView):
+    permission_classes = [IsAuthenticated]
+    renderer_classes = [JSONRenderer, TemplateHTMLRenderer]
+    template_name = 'pupils_page.html'
 
-def classes_json_get(request, link):
-    user = request.user
-    user_classes = user.classes_set.all()
-    chosen_classes = user_classes.filter(name=link)
-    students = Student.objects.filter(classes_id__in=chosen_classes)
-    if len(students) == 0:
-        students_string = ""
-        students_id_string
-    else:
-        students_string = "endofname".join(f'{students[i].surname} {students[i].name} {students[i].patronymic}'
-                                            for i in range(len(user_classes)))
-        students_id_string = "/".join(f'{students[i].id}' for i in range(len(user_classes)))
-    classes_data = {
-        'name': link,
-        'students': students_string,
-        'students_id': students_id_string
-    }
-    return JsonResponse(classes_data)
+    def get(self, request, chosen_class):
+        user = request.user
+        classes = user.classes_set.filter(name=chosen_class)
+        serializer = ClassesSerializer(classes, many=True)
+        return Response({'data': serializer.data})
+    
+    def post(self, request, chosen_class):
+        if 'logout' in request.data:
+            logout(request)
+            return Response({'detail': 'logged out successfully'},
+                                status=status.HTTP_302_FOUND,
+                                headers={'Location': reverse('login')})
+        elif 'return' in request.data:
+            return Response({'detail': 'redirected successfully'},
+                                status=status.HTTP_302_FOUND,
+                                headers={'Location': reverse('user_account')})
+        else:
+            chosen_student = request.data.get('chosen_student')
+            if chosen_student:
+                return redirect('student_page', chosen_class=chosen_class, chosen_student=chosen_student)
+            else:
+                return Response({'detail': 'something went wrong'})
+
+class StudentPageView(APIView):
+    permission_classes = [IsAuthenticated]
+    renderer_classes = [JSONRenderer, TemplateHTMLRenderer]
+    template_name = 'student_page.html'
+
+    def get(self, request, chosen_class, chosen_student):
+        user = request.user
+        student = Student.objects.get(id=chosen_student)
+        serializer = StudentSerializer(student, many=False)
+        print(serializer.data)
+        return Response({'data': serializer.data})
+    
+    def post(self, request, chosen_class, chosen_student):
+        if 'logout' in request.data:
+            logout(request)
+            return Response({'detail': 'logged out successfully'},
+                                status=status.HTTP_302_FOUND,
+                                headers={'Location': reverse('login')})
+        elif 'return' in request.data:
+            return Response({'detail': 'redirected successfully'},
+                                status=status.HTTP_302_FOUND,
+                                headers={'Location': reverse('pupils', args=[chosen_class])})    

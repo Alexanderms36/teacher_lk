@@ -6,6 +6,15 @@ const activities_wrapper = document.querySelectorAll('.activities-wrapper')[0];
 const button_labels = ["КРУЖКИ", "РЕПЕТИТОРЫ", "ОЛИМПИАДЫ", "ЛИЧНЫЙ КАБИНЕТ УЧЕНИКА"];
 
 
+fetch('')
+  .then(response => response.json())
+  .then(data => {
+    console.log(data);
+  })
+  .catch(error => {
+    console.error(error);
+  });
+
 for (let i = 0; i < button_labels.length; i++) {
     const main_button = document.createElement('button');
     main_button.textContent = button_labels[i];
