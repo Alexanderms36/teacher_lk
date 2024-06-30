@@ -110,11 +110,13 @@ body {
     color: var(--text-color);
 }
 #student-image {
-    width: 12vw;    
+    width: 12vw;
 }
 .profile-wrapper a {
     margin-top: 2vw;
     font-size: 1.6vw;
+    color: rgb(33, 37, 42);
+    text-decoration: none;
 }
 .activities-wrapper {
     width: 20vw;

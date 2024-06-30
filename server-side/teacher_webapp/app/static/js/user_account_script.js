@@ -22,9 +22,9 @@ function addGroupButtons(classes) {
         }
         const newButton = document.createElement('button');
         newButton.id = 'class-button';
-        newButton.textContent = `${classes[i]}`;
+        newButton.textContent = `${classes[i].name}`;
         newButton.name = `chosen_button`;
-        newButton.value = `${classes[i]}`;
+        newButton.value = `${classes[i].id}`;
         newButton.classList = "btn btn-outline-secondary btn-lg center-button";
         container.lastElementChild.appendChild(newButton);
     }

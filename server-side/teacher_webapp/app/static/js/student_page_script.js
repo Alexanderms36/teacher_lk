@@ -1,15 +1,17 @@
 const student_image = document.getElementById('student-image');
-const health_group = document.querySelectorAll('.profile-wrapper a')[0];
-//всё это из бд с учениками подтянем
-health_group.innerHTML = "(Группа здоровья)";
+const student_name = document.querySelectorAll('.profile-wrapper a')[0];
+const health_group = document.querySelectorAll('.profile-wrapper a')[1];
 const activities_wrapper = document.querySelectorAll('.activities-wrapper')[0];
-const button_labels = ["КРУЖКИ", "РЕПЕТИТОРЫ", "ОЛИМПИАДЫ", "ЛИЧНЫЙ КАБИНЕТ УЧЕНИКА"];
+const button_labels = ["КРУЖКИ", "РЕПЕТИТОРЫ", 
+                        "ОЛИМПИАДЫ", "ЛИЧНЫЙ КАБИНЕТ УЧЕНИКА"];
 
 
 fetch('')
   .then(response => response.json())
   .then(data => {
-    console.log(data);
+    const student_data = data.data;
+    student_name.innerHTML = `${student_data.surname} ${student_data.name} ${student_data.patronymic}`;
+    health_group.innerHTML = student_data.health_group;
   })
   .catch(error => {
     console.error(error);

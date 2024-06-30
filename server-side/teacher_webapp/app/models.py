@@ -15,6 +15,7 @@ class Student(models.Model):
     surname = models.CharField(max_length=255)
     patronymic = models.CharField(max_length=255)
     age = models.IntegerField()
+    health_group = models.CharField(max_length=255, blank=True, null=True)
     classes = models.ForeignKey(Classes, on_delete=models.SET_NULL, null=True, blank=True)
     def __str__(self):
         return f"{self.name} {self.surname}"

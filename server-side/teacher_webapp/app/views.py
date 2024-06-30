@@ -1,7 +1,5 @@
-from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from .models import Student, Classes
-from django.http import JsonResponse
 from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -9,7 +7,6 @@ from rest_framework.reverse import reverse
 from rest_framework.authtoken.models import Token
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.renderers import TemplateHTMLRenderer, JSONRenderer
-from .models import User
 from .serializers import UserSerializer, StudentSerializer, ClassesSerializer
 
 
@@ -53,7 +50,10 @@ class UserAccountView(APIView):
         else:
             chosen_class = request.data.get('chosen_button')
             if chosen_class:
-                return redirect('pupils', chosen_class=chosen_class)
+                return Response({'detail': 'redirected successfully'},
+                                    status=status.HTTP_302_FOUND,
+                                    headers={'Location': reverse('pupils', args=[chosen_class])})
+            
             else:
                 return Response({'detail': 'something went wrong'})
         
@@ -64,7 +64,7 @@ class PupilsView(APIView):
 
     def get(self, request, chosen_class):
         user = request.user
-        classes = user.classes_set.filter(name=chosen_class)
+        classes = user.classes_set.filter(id=chosen_class)
         serializer = ClassesSerializer(classes, many=True)
         return Response({'data': serializer.data})
     
@@ -81,7 +81,9 @@ class PupilsView(APIView):
         else:
             chosen_student = request.data.get('chosen_student')
             if chosen_student:
-                return redirect('student_page', chosen_class=chosen_class, chosen_student=chosen_student)
+                return Response({'detail': 'redirected successfully'},
+                                status=status.HTTP_302_FOUND,
+                                headers={'Location': reverse('student_page', args=[chosen_class, chosen_student])}) 
             else:
                 return Response({'detail': 'something went wrong'})
 
