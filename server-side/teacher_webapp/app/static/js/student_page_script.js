@@ -4,7 +4,7 @@ const health_group = document.querySelectorAll('.profile-wrapper a')[1];
 const activities_wrapper = document.querySelectorAll('.activities-wrapper')[0];
 const button_labels = ["КРУЖКИ", "РЕПЕТИТОРЫ", 
                         "ОЛИМПИАДЫ", "ЛИЧНЫЙ КАБИНЕТ УЧЕНИКА"];
-
+const button_names = ["afterschool_activity", "tutors", "olympiads", "student_lk"]
 
 fetch('')
   .then(response => response.json())
@@ -22,6 +22,8 @@ for (let i = 0; i < button_labels.length; i++) {
     main_button.textContent = button_labels[i];
     activities_wrapper.appendChild(main_button);
     main_button.classList.add('main-button');
+    main_button.name = 'chosen_activity';
+    main_button.value = button_names[i];
 }
 
 if (localStorage.getItem('theme') !== null) {

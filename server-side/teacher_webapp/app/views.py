@@ -1,5 +1,5 @@
 from django.contrib.auth import authenticate, login, logout
-from .models import Student, Classes
+from .models import Student, Classes, Olympiads
 from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -7,7 +7,7 @@ from rest_framework.reverse import reverse
 from rest_framework.authtoken.models import Token
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.renderers import TemplateHTMLRenderer, JSONRenderer
-from .serializers import UserSerializer, StudentSerializer, ClassesSerializer
+from .serializers import UserSerializer, StudentSerializer, ClassesSerializer, OlympiadsSerializer
 
 
 class UserLoginView(APIView):
@@ -96,7 +96,6 @@ class StudentPageView(APIView):
         user = request.user
         student = Student.objects.get(id=chosen_student)
         serializer = StudentSerializer(student, many=False)
-        print(serializer.data)
         return Response({'data': serializer.data})
     
     def post(self, request, chosen_class, chosen_student):
@@ -108,4 +107,36 @@ class StudentPageView(APIView):
         elif 'return' in request.data:
             return Response({'detail': 'redirected successfully'},
                                 status=status.HTTP_302_FOUND,
-                                headers={'Location': reverse('pupils', args=[chosen_class])})    
+                                headers={'Location': reverse('pupils', args=[chosen_class])})
+        else:
+            chosen_activity = request.data.get('chosen_activity')
+            print(chosen_activity)
+            if (chosen_activity == "olympiads"):
+                return Response({'detail': 'redirected successfully'},
+                                status=status.HTTP_302_FOUND,
+                                headers={'Location': reverse('olympiads', args=[chosen_class, chosen_student, chosen_activity])}) 
+            else:
+                return Response({'detail': 'something went wrong'})
+            
+class OlympiadsPageView(APIView):
+    permission_classes = [IsAuthenticated]
+    renderer_classes = [JSONRenderer, TemplateHTMLRenderer]
+    template_name = 'olympiads.html'
+
+    def get(self, request, chosen_class, chosen_student, chosen_activity):
+        olympiads = Olympiads.objects.filter(student_id=chosen_student)
+        serializer = OlympiadsSerializer(olympiads, many=True)
+        print(serializer.data)
+        return Response({'data': serializer.data})
+    
+    def post(self, request, chosen_class, chosen_student, chosen_activity):
+        if 'logout' in request.data:
+            logout(request)
+            return Response({'detail': 'logged out successfully'},
+                                status=status.HTTP_302_FOUND,
+                                headers={'Location': reverse('login')})
+        elif 'return' in request.data:
+            return Response({'detail': 'redirected successfully'},
+                                status=status.HTTP_302_FOUND,
+                                headers={'Location': reverse('student_page', args=[chosen_class, chosen_student])})
+        

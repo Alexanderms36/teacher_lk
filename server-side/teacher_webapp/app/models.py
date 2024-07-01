@@ -19,3 +19,9 @@ class Student(models.Model):
     classes = models.ForeignKey(Classes, on_delete=models.SET_NULL, null=True, blank=True)
     def __str__(self):
         return f"{self.name} {self.surname}"
+    
+class Olympiads(models.Model):
+    name = models.CharField(max_length=512)
+    place = models.IntegerField(blank=True)
+    info = models.CharField(max_length=1024, blank=True)
+    student = models.ForeignKey(Student, on_delete=models.SET_NULL, null=True, blank=True)

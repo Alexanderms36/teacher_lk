@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import User, Classes, Student
+from .models import User, Classes, Student, Olympiads
 
     
 class StudentSerializer(serializers.ModelSerializer):
@@ -29,3 +29,9 @@ class UserSerializer(serializers.ModelSerializer):
         classes = obj.classes_set.all()
         return [c.id for c in classes]
     
+class OlympiadsSerializer(serializers.ModelSerializer):
+    student = StudentSerializer(many=False, read_only=True, source='student_set')
+
+    class Meta:
+        model = Olympiads
+        fields = ["id", "name", "place", "info", "student"]
