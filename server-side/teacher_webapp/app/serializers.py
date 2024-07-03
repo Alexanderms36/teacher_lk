@@ -30,8 +30,16 @@ class UserSerializer(serializers.ModelSerializer):
         return [c.id for c in classes]
     
 class OlympiadsSerializer(serializers.ModelSerializer):
-    student = StudentSerializer(many=False, read_only=True, source='student_set')
+    student = serializers.PrimaryKeyRelatedField(queryset=Student.objects.all())
 
     class Meta:
         model = Olympiads
         fields = ["id", "name", "place", "info", "student"]
+
+    def create(self, validated_data):
+        student = validated_data.pop('student', None)
+        olympiad = Olympiads.objects.create(**validated_data)
+        if student:
+            olympiad.student = student
+            olympiad.save()
+        return olympiad

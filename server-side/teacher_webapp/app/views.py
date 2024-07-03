@@ -139,4 +139,17 @@ class OlympiadsPageView(APIView):
             return Response({'detail': 'redirected successfully'},
                                 status=status.HTTP_302_FOUND,
                                 headers={'Location': reverse('student_page', args=[chosen_class, chosen_student])})
+        elif 'added_olympiad_name' in request.data:
+            added_olympiad = request.data.get('added_olympiad_name')
+            print(added_olympiad)
+            #ну тут чо-то придумать надо
+            serializer = OlympiadsSerializer(data={'name': added_olympiad, 'place': 1, 'info': 'nu vashe zbs', 'student': chosen_student})
+            if serializer.is_valid():
+                serializer.save()
+                return Response({'message': f"Saved: {serializer.data['name']}", 'success': True}, status=status.HTTP_201_CREATED)
+            return Response({'success': True})
+        elif 'deleted_olympiad_name' in request.data:
+            ans = request.data.get('deleted_olympiad_name')
+            print(ans)
+            return Response({'success': True})
         

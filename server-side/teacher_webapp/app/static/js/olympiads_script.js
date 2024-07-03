@@ -67,12 +67,33 @@ function add_tile(olympiad, olympiad_label, text_label, bin) {
             modal_window.remove();
         });
 
-        submit_button.addEventListener('click', () => {
-            bins.splice(bin_index, 1);
-            tiles.splice(bin_index, 1);
-            olympiad_labels.splice(bin_index, 1);
-            olympiad.remove();
-            modal_window.remove();
+        submit_button.addEventListener('click', (e) => {
+            e.preventDefault();
+            fetch('', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': getCookie('csrftoken')
+                },
+                body: JSON.stringify({
+                    deleted_olympiad_name: text_label
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    bins.splice(bin_index, 1);
+                    tiles.splice(bin_index, 1);
+                    olympiad_labels.splice(bin_index, 1);
+                    olympiad.remove();
+                    modal_window.remove();
+                } else {
+                    console.error('Error deleting olympiad:', data.error);
+                }
+            })
+            .catch(error => {
+                console.error('Error: ', error);
+            });
         });
         
         document.addEventListener('click', (e) => {
@@ -115,12 +136,14 @@ add_olympiads_btn.addEventListener('click', () => {
                         <div class="input-group-prepend">
                             <span class="input-group-text">Название</span>
                         </div>
-                        <input type="text" class="form-control olympiad-name">
+                        <input name="newOlympiad" type="text" class="form-control olympiad-name">
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" style="margin-bottom: 1vw;margin-left: 1vw;margin-right: 1vw;margin-top: 1vw;">Отмена</button>
-                    <button type="button" class="btn add-olympiad-descr" style="margin-bottom: 1vw;margin-left: 1vw;margin-right: 1vw;margin-top: 1vw;">Добавить</button>
+                    <form method="post">
+                        <button type="submit" class="btn add-olympiad-descr" style="margin-bottom: 1vw;margin-left: 1vw;margin-right: 1vw;margin-top: 1vw;">Добавить</button>
+                    </form>
                 </div>
             </div>
         </div>
@@ -128,19 +151,42 @@ add_olympiads_btn.addEventListener('click', () => {
     document.body.appendChild(modal_window);
     const cancel_button = modal_window.querySelector('.btn-secondary');
     const submit_button = modal_window.querySelector('.add-olympiad-descr');
+
     cancel_button.addEventListener('click', () => {
         modal_window.remove();
     });
-    submit_button.addEventListener('click', () => {
-        const olympiad_name = modal_window.querySelector('.olympiad-name')
-        const olympiad = document.createElement('div');
-        const olympiad_label = document.createElement('div');
-        const bin = document.createElement('img');
-        bins.push(bin);
-        tiles.push(olympiad);
-        olympiad_labels.push(olympiad_name.value);
-        add_tile(olympiad, olympiad_label, olympiad_name.value, bin);
-        modal_window.remove();
+
+    submit_button.addEventListener('click', (e) => {
+        e.preventDefault();
+        const olympiad_name = modal_window.querySelector('.olympiad-name');
+        fetch('', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': getCookie('csrftoken')
+            },
+            body: JSON.stringify({
+                added_olympiad_name: olympiad_name.value
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                const olympiad = document.createElement('div');
+                const olympiad_label = document.createElement('div');
+                const bin = document.createElement('img');
+                bins.push(bin);
+                tiles.push(olympiad);
+                olympiad_labels.push(olympiad_name.value);
+                add_tile(olympiad, olympiad_label, olympiad_name.value, bin);
+                modal_window.remove();
+            } else {
+                console.error('Error adding olympiad:', data.error);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
     });
     document.addEventListener('click', (e) => {
         if (!modal_window.contains(e.target) && !add_olympiads_btn.contains(e.target)) {
@@ -148,3 +194,18 @@ add_olympiads_btn.addEventListener('click', () => {
         }
     });
 })
+
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
