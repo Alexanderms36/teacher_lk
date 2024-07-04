@@ -8,7 +8,7 @@ from rest_framework.authtoken.models import Token
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.renderers import TemplateHTMLRenderer, JSONRenderer
 from .serializers import UserSerializer, StudentSerializer, ClassesSerializer, OlympiadsSerializer
-
+from django.shortcuts import get_object_or_404
 
 class UserLoginView(APIView):
     renderer_classes = [TemplateHTMLRenderer]
@@ -110,7 +110,6 @@ class StudentPageView(APIView):
                                 headers={'Location': reverse('pupils', args=[chosen_class])})
         else:
             chosen_activity = request.data.get('chosen_activity')
-            print(chosen_activity)
             if (chosen_activity == "olympiads"):
                 return Response({'detail': 'redirected successfully'},
                                 status=status.HTTP_302_FOUND,
@@ -126,7 +125,6 @@ class OlympiadsPageView(APIView):
     def get(self, request, chosen_class, chosen_student, chosen_activity):
         olympiads = Olympiads.objects.filter(student_id=chosen_student)
         serializer = OlympiadsSerializer(olympiads, many=True)
-        print(serializer.data)
         return Response({'data': serializer.data})
     
     def post(self, request, chosen_class, chosen_student, chosen_activity):
@@ -141,15 +139,18 @@ class OlympiadsPageView(APIView):
                                 headers={'Location': reverse('student_page', args=[chosen_class, chosen_student])})
         elif 'added_olympiad_name' in request.data:
             added_olympiad = request.data.get('added_olympiad_name')
-            print(added_olympiad)
             #ну тут чо-то придумать надо
             serializer = OlympiadsSerializer(data={'name': added_olympiad, 'place': 1, 'info': 'nu vashe zbs', 'student': chosen_student})
             if serializer.is_valid():
                 serializer.save()
-                return Response({'message': f"Saved: {serializer.data['name']}", 'success': True}, status=status.HTTP_201_CREATED)
-            return Response({'success': True})
-        elif 'deleted_olympiad_name' in request.data:
-            ans = request.data.get('deleted_olympiad_name')
-            print(ans)
-            return Response({'success': True})
-        
+                return Response({'message': f"Saved: {serializer.data['name']}", 'success': True, 'ID': serializer.data['id']}, status=status.HTTP_201_CREATED)
+            return Response({'success': False})
+        elif 'deleted_olympiad_id' in request.data:
+            ans = request.data.get('deleted_olympiad_id')
+            try:
+                olympiad = get_object_or_404(Olympiads, id=ans)
+                olympiad.delete()
+                return Response({'message': f"Deleted: {olympiad.id}", 'success': True}, status=status.HTTP_201_CREATED)
+            except:
+                return Response({'error': 'Olympiad not found', 'success': False}, status=status.HTTP_404_NOT_FOUND)
+            

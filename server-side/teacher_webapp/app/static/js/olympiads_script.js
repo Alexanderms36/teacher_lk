@@ -20,7 +20,7 @@ fetch('')
     console.error(error);
   });
 
-function add_tile(olympiad, olympiad_label, text_label, bin) {
+function add_tile(olympiad, olympiad_label, text_label, bin, olympiad_id) {
     olympiads_wrapper.appendChild(olympiad);
     olympiad.classList.add('olympiad-tile');
     olympiad.appendChild(olympiad_label);
@@ -76,7 +76,7 @@ function add_tile(olympiad, olympiad_label, text_label, bin) {
                     'X-CSRFToken': getCookie('csrftoken')
                 },
                 body: JSON.stringify({
-                    deleted_olympiad_name: text_label
+                    deleted_olympiad_id: olympiad_id
                 })
             })
             .then(response => response.json())
@@ -109,7 +109,7 @@ function add_buttons(olympiad_data) {
         const olympiad = document.createElement('div');
         const olympiad_label = document.createElement('div');
         const bin = document.createElement('img');
-        add_tile(olympiad, olympiad_label, olympiad_data[i].name, bin)
+        add_tile(olympiad, olympiad_label, olympiad_data[i].name, bin, olympiad_data[i].id)
         bins.push(bin);
         tiles.push(olympiad);
     }
@@ -178,7 +178,7 @@ add_olympiads_btn.addEventListener('click', () => {
                 bins.push(bin);
                 tiles.push(olympiad);
                 olympiad_labels.push(olympiad_name.value);
-                add_tile(olympiad, olympiad_label, olympiad_name.value, bin);
+                add_tile(olympiad, olympiad_label, olympiad_name.value, bin, data.ID);
                 modal_window.remove();
             } else {
                 console.error('Error adding olympiad:', data.error);
