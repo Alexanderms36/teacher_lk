@@ -1,6 +1,6 @@
 :root {
     --bg-color: rgb(220, 220, 220);
-    --hover-button-color: rgb(16, 225, 216);
+    --hover-return-button-color: rgb(16, 225, 216);
     --text-color: rgb(33, 37, 42);
     --color: rgb(13, 225, 213);
     --hover-button-color: rgb(220, 220, 220);
@@ -8,7 +8,7 @@
 }
 :root[data-theme='dark'] {
     --bg-color: rgb(74, 74, 74);
-    --hover-button-color: rgb(70, 149, 149);
+    --hover-return-button-color: rgb(70, 149, 149);
     --text-color: rgb(231, 231, 231);
     --color: rgb(61, 136, 131);
     --hover-button-color: rgb(0, 0, 0);
@@ -38,7 +38,7 @@ body {
     border-radius: 50%;
     border-color: whitesmoke;
     color: aliceblue;
-    background-color: var(--hover-button-color);
+    background-color: var(--hover-return-button-color);
     transition: ease 0.2s;
 }
 .exit-button-container {
@@ -160,25 +160,20 @@ body {
         justify-content: center;
     }
     .exit-button {
-        padding-left: 9vw;
-        padding-right: 9vw;
-        padding-bottom: 1vw;
-        padding-top: 1vw;
+        padding-left: 7vw;
+        padding-right: 7vw;
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 4vw;
+        font-size: 2.5vw;
     }
     #return-icon {
-        font-size: 9vw;
+        font-size: 7vw;
         margin-left: 7vw;
         transform: translate(0%, 30%);
     }
-}
-@media screen and (min-width: 2092px) {
-    .exit-button {
-        padding-top: 0.5vw;
-        padding-bottom: 0.5vw;
-        font-size: 1.33vw;
+    #class-label {
+        margin-left: 18vw;
+        font-size: 5vw;
     }
 }

@@ -7,7 +7,13 @@ from rest_framework.reverse import reverse
 from rest_framework.authtoken.models import Token
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.renderers import TemplateHTMLRenderer, JSONRenderer
-from .serializers import UserSerializer, StudentSerializer, ClassesSerializer, OlympiadsSerializer
+from .serializers import (
+    UserSerializer, 
+    StudentSerializer, 
+    ClassesSerializer, 
+    OlympiadsSerializer
+
+)
 from django.shortcuts import get_object_or_404
 
 class UserLoginView(APIView):
@@ -133,10 +139,12 @@ class OlympiadsPageView(APIView):
             return Response({'detail': 'logged out successfully'},
                                 status=status.HTTP_302_FOUND,
                                 headers={'Location': reverse('login')})
+        
         elif 'return' in request.data:
             return Response({'detail': 'redirected successfully'},
                                 status=status.HTTP_302_FOUND,
                                 headers={'Location': reverse('student_page', args=[chosen_class, chosen_student])})
+        
         elif 'added_olympiad_name' in request.data:
             added_olympiad = request.data.get('added_olympiad_name')
             #ну тут чо-то придумать надо
@@ -145,6 +153,7 @@ class OlympiadsPageView(APIView):
                 serializer.save()
                 return Response({'message': f"Saved: {serializer.data['name']}", 'success': True, 'ID': serializer.data['id']}, status=status.HTTP_201_CREATED)
             return Response({'success': False})
+        
         elif 'deleted_olympiad_id' in request.data:
             ans = request.data.get('deleted_olympiad_id')
             try:
