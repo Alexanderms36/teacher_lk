@@ -23,7 +23,7 @@ class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ["id", "first_name", "last_name", "patronymic", "classes"]
+        fields = ["id", "first_name", "last_name", "patronymic", "classes", "image"]
 
     def get_classes_id(self, obj):
         classes = obj.classes_set.all()

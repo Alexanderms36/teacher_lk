@@ -5,6 +5,7 @@ from django.contrib.auth.models import AbstractUser
 
 class User(AbstractUser):
     patronymic = models.CharField(max_length=160, blank=True)
+    image = models.ImageField(upload_to='profile_images', blank=True)
     
 class Classes(models.Model):
     name = models.CharField(max_length=255)

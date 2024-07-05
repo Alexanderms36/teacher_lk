@@ -15,6 +15,9 @@ from .serializers import (
 
 )
 from django.shortcuts import get_object_or_404
+from django.core.files.base import ContentFile
+from django.core.files.storage import default_storage
+from django.views.decorators.csrf import csrf_exempt
 
 class UserLoginView(APIView):
     renderer_classes = [TemplateHTMLRenderer]
@@ -48,6 +51,13 @@ class UserAccountView(APIView):
         return Response(serializer.data)
     
     def post(self, request):
+        # if request.method == 'POST' and request.FILES.get('image'):
+        #     image = request.FILES['image']
+        #     file_name = default_storage.save(image.name, ContentFile(image.read()))
+        #     file_url = default_storage.url(file_name)
+        #     print(file_name)
+        #     return Response({'file_url': file_url})
+        
         if 'logout' in request.data:
             logout(request)
             return Response({'detail': 'logged out successfully'},
