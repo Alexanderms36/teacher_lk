@@ -34,8 +34,11 @@
     </header>
     <main>
       <div id="teacher-img-container">
-        <!-- <img id="teacher-pic" src="{% static 'images/teacher_pic.svg' %}"> -->
-        <img id="teacher-pic" src="{{ user.image.url }}">
+        {% if user.image and user.image.url %}
+            <img id="teacher-pic" src="{{ user.image.url }}">
+        {% else %}
+            <img id="teacher-pic" src="{% static 'images/teacher_pic.svg' %}">
+        {% endif %}
         <label class="upload-button-label">Загрузить фото
           <form method="post">
             <input class="upload-photo" type="file" accept="image/png, image/jpeg" style="opacity: 0;">

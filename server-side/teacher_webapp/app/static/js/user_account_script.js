@@ -2,7 +2,7 @@ const name_text = document.getElementById("name")
 const container = document.getElementById("buttons-container");
 const switcher = document.getElementById("checkbox");
 const upload_photo = document.querySelector(".upload-photo");
-
+const profile_photo = document.getElementById("teacher-pic");
 let doc = document.documentElement;
 
 
@@ -33,35 +33,41 @@ function addGroupButtons(classes) {
     }
 }
 
-// upload_photo.addEventListener("change", event => {
-//     const file = event.target.files[0];
-//     if (file) {
-//         const reader = new FileReader();
-//         reader.onload = function(e) {
-//             preview.src = e.target.result;
-//         }
-//         reader.readAsDataURL(file);
+upload_photo.addEventListener("change", event => {
+    const file = event.target.files[0];
+    if (file) {
+        const reader = new FileReader();
+        const formData = new FormData();
+        let imageDataUrl = '';
+        reader.readAsDataURL(file);
+        formData.append('image', file);
 
-//         const formData = new FormData();
-//         formData.append('image', file);
+        reader.onload = function(e) {
+            imageDataUrl = e.target.result;
+        };
 
-//         fetch('/upload/', {
-//             method: 'POST',
-//             headers: {
-//                 'X-CSRFToken': getCookie('csrftoken')
-//             },
-//             body: formData
-//         })
-//         .then(response => response.json())
-//         .then(data => {
-//             console.log('Success:', data);
-//         })
-//         .catch((error) => {
-//             console.error('Error:', error);
-//         });
-//     }
+        fetch('', {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': getCookie('csrftoken')
+            },
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                console.log('Success:', data);
+                profile_photo.src = imageDataUrl;
+            } else {
+                console.log('Failure:', `${data.error} ${data.detail}`);
+            }
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+        });
+    }
 
-// })
+})
 
 switcher.addEventListener("click", async event => {
     if (doc.hasAttribute('data-theme')) {

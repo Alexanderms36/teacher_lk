@@ -12,8 +12,8 @@ from .serializers import (
     StudentSerializer, 
     ClassesSerializer, 
     OlympiadsSerializer
-
 )
+import os
 from django.shortcuts import get_object_or_404
 from django.core.files.base import ContentFile
 from django.core.files.storage import default_storage
@@ -51,14 +51,31 @@ class UserAccountView(APIView):
         return Response(serializer.data)
     
     def post(self, request):
-        # if request.method == 'POST' and request.FILES.get('image'):
-        #     image = request.FILES['image']
-        #     file_name = default_storage.save(image.name, ContentFile(image.read()))
-        #     file_url = default_storage.url(file_name)
-        #     print(file_name)
-        #     return Response({'file_url': file_url})
-        
-        if 'logout' in request.data:
+        if request.FILES.get('image'):
+            try:
+                image = request.FILES['image']
+                max_size = 1024 * 1024 * 3
+                if image.size > max_size:
+                    return Response({'detail': 'File size must be no more than 3MB', 'success': False}, status=status.HTTP_415_UNSUPPORTED_MEDIA_TYPE)
+
+                valid_extensions = ['.jpg', '.jpeg', '.png', '.gif']
+                ext = os.path.splitext(image.name)[1].lower()
+
+                if ext not in valid_extensions:
+                    return Response({'detail': 'Unsupported file extension', 'success': False}, status=status.HTTP_415_UNSUPPORTED_MEDIA_TYPE)
+
+                file_path = os.path.join('app/profile_images', f'{request.user.id}_{image.name}')
+                file_name = default_storage.save(file_path, ContentFile(image.read()))
+                file_url = default_storage.url(file_name)
+
+                request.user.image = file_url
+                request.user.save()
+                return Response({'file_url': file_url, 'success': True}, status=status.HTTP_200_OK)
+            
+            except:
+                return Response({'success': False, 'detail': 'Something went wrong'}, status=status.HTTP_404_NOT_FOUND)
+            
+        elif 'logout' in request.data:
             logout(request)
             return Response({'detail': 'logged out successfully'},
                                 status=status.HTTP_302_FOUND,
@@ -69,7 +86,6 @@ class UserAccountView(APIView):
                 return Response({'detail': 'redirected successfully'},
                                     status=status.HTTP_302_FOUND,
                                     headers={'Location': reverse('pupils', args=[chosen_class])})
-            
             else:
                 return Response({'detail': 'something went wrong'})
         
@@ -109,7 +125,6 @@ class StudentPageView(APIView):
     template_name = 'student_page.html'
 
     def get(self, request, chosen_class, chosen_student):
-        user = request.user
         student = Student.objects.get(id=chosen_student)
         serializer = StudentSerializer(student, many=False)
         return Response({'data': serializer.data})
