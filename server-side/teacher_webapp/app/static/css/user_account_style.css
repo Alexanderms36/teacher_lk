@@ -56,8 +56,6 @@ header {
 #exit-button:hover {
     color: whitesmoke;
 }
-
-
 .theme-switch {
     position: relative;
     display: inline-block;
@@ -78,7 +76,6 @@ header {
     transition: 0.4s;
     border-radius: 33px;
 }
-
 .slider:before {
     position: absolute;
     content: "";
@@ -90,34 +87,27 @@ header {
     transition: .4s;
     border-radius: 50%;
 }
-
 input:checked + .slider {
     background-color: var(--switcher-slider-color);
 }
-
 input:checked + .slider:before {
     transform: translateX(26px);
 }
-
 .icon {
     display: none;
     position: absolute;
     color: white;
     font-size: 20px;
 }
-
-
 .sun {
     left: 7px;
     bottom: 5px;
 }
-
 .icon.sun img {
     width: 20px;
     height: auto;
     border-radius: 50%;
 }
-
 .icon.moon img {
     width: 25px;
     height: auto;
@@ -127,12 +117,10 @@ input:checked + .slider:before {
     right: 4.3px;
     bottom: 4.7px;
 }
-
 input:checked ~ .slider .moon {
     display: block;
     animation: fadeIn 0.5s;
 }
-
 input:not(:checked) ~ .slider .sun {
     display: block;
     animation: fadeIn 0.5s;
@@ -155,23 +143,28 @@ input:not(:checked) ~ .slider .sun {
     position: relative;
     width: auto;
     text-align: center;
+    width: 30vw;
 }
 #teacher-pic {
     border: 20px solid rgba(185, 223, 221, 0.7);
     border-radius: 50%;
     box-shadow: 0 0px 70px 10px var(--color);
-    width: 30vw;
+    width: 100%;
     height: auto;
-    object-fit: scale-down;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    object-position: center;
 }
 #teacher-img-container img:hover{
     filter: blur(3px);
     transition: filter 250ms ease-in-out;
     cursor: pointer;
 }
-img:hover + .upload-button-label,
-.upload-button-label:hover {
+img:hover + .upload-button-label, .upload-button-label:hover {
     display: block;
+}
+input:hover {
+    cursor: pointer;
 }
 #name {
     color: var(--text-color);
@@ -179,20 +172,18 @@ img:hover + .upload-button-label,
 .upload-button-label {
     position: absolute;
     top: 40%;
-    left: 37%;
+    left: 10.6vw;
     display: none;
 }
 .upload-button-label {
     text-transform: uppercase;
-    font-size: 14px;
+    font-size: 1vw;
     cursor: pointer;
     white-space: nowrap;
     padding: 4px;
     border-radius: 3px;
-    min-width: 123px;
-    width: 100%;
-    max-width: 80px;
-    margin: auto;
+    width: 9vw;
+    height: 2.5vw;
     background: #fff;
     animation: popDown 300ms 1 forwards;
     transform: translateY(-30px);
@@ -200,7 +191,6 @@ img:hover + .upload-button-label,
     display: none;
     transition: background 200ms, color 200ms;
 }
-
 @keyframes popDown{
     100%{
       transform: translateY(0);
@@ -210,7 +200,6 @@ img:hover + .upload-button-label,
 #name-container {
     margin-top: 2vh;
     text-align: center;
-    
 }
 #classes-container {
     display: inline-block;
@@ -236,18 +225,10 @@ img:hover + .upload-button-label,
     align-items: center;
     justify-content: center;
 }
-
 #class-button:hover {
     color: whitesmoke;
-    
 }
-
-
 @media screen and (max-width: 1240px) {
-    #teacher-img-container {
-        width: auto;
-
-    }
     #classes-container {
         margin-left: 7vw;
     }
@@ -267,14 +248,10 @@ img:hover + .upload-button-label,
         align-items: center;
         justify-content: center;
     }
-
-
     #teacher-img-container {
         margin-left: 30%;
         margin-right: 30%;
     }
-
-    
     #container-header {
         padding-bottom: 16vw;
     }
@@ -287,27 +264,21 @@ img:hover + .upload-button-label,
         margin-right: auto;
         text-align: center;
     }
-
-
     #class-button {
         padding: 10vw;
         margin: 2vw;
         padding-top: 1vw;
         padding-bottom: 1vw;
-        
         margin-top: 3vw;
         margin-bottom: 3vw;
         border-radius: 2vw;
-        
     }
-
     #exit-button {
         padding: 3vw;
         padding-left: 9vw;
         padding-right: 9vw;
         display: flex;
         align-items: center;
-
         justify-content: center;
         font-size: 4vw;
     }
@@ -316,7 +287,6 @@ img:hover + .upload-button-label,
         margin: auto;
     }
 }
-
 @media screen and (min-width: 2092px) {
     #class-button {
         padding-top: 1vw;

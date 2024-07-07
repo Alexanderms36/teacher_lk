@@ -17,7 +17,7 @@ import os
 from django.shortcuts import get_object_or_404
 from django.core.files.base import ContentFile
 from django.core.files.storage import default_storage
-from django.views.decorators.csrf import csrf_exempt
+
 
 class UserLoginView(APIView):
     renderer_classes = [TemplateHTMLRenderer]
@@ -58,7 +58,7 @@ class UserAccountView(APIView):
                 if image.size > max_size:
                     return Response({'detail': 'File size must be no more than 3MB', 'success': False}, status=status.HTTP_415_UNSUPPORTED_MEDIA_TYPE)
 
-                valid_extensions = ['.jpg', '.jpeg', '.png', '.gif']
+                valid_extensions = ['.jpg', '.jpeg', '.png']
                 ext = os.path.splitext(image.name)[1].lower()
 
                 if ext not in valid_extensions:
