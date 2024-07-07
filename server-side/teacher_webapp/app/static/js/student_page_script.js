@@ -12,6 +12,7 @@ fetch('')
     const student_data = data.data;
     student_name.innerHTML = `${student_data.surname} ${student_data.name} ${student_data.patronymic}`;
     health_group.innerHTML = student_data.health_group;
+    health_group.style = 'color: rgb(33, 37, 42);';
   })
   .catch(error => {
     console.error(error);

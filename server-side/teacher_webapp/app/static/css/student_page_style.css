@@ -6,8 +6,6 @@
     --hover-button-color: rgb(248, 248, 248);
     --profile-wrapper-bg-color: rgb(173, 173, 173);
     --buttons-color: rgb(0, 255, 225);
-    --additional-button-bg-color: rgb(240, 240, 240);
-    --plus-color: rgb(174, 174, 174);
 }
 :root[data-theme='dark'] {
     --bg-color: rgb(74, 74, 74);
@@ -17,9 +15,8 @@
     --hover-button-color: rgb(0, 0, 0);
     --profile-wrapper-bg-color: rgb(136, 136, 136);
     --buttons-color: rgb(0, 255, 243);
-    --additional-button-bg-color: rgb(237, 237, 237);
-    --plus-color: rgb(59, 57, 57);
 }
+
 body {
     background-color: var(--bg-color);
     margin-bottom: 4vh;
@@ -41,6 +38,7 @@ body {
     top: 50%;
     transform: translate(0%, 50%);
     margin-left: 3vw;
+    color: var(--text-color);
 }
 #return-icon:hover {
     border-radius: 50%;
@@ -115,11 +113,11 @@ body {
     width: 12vw;
 }
 .profile-wrapper a {
-    margin-top: 2vw;
+    margin-top: 0.7vw;
     font-size: 1.6vw;
     color: rgb(33, 37, 42);
     text-decoration: none;
-}
+  }
 .activities-wrapper {
     width: 20vw;
     height: auto;
@@ -137,14 +135,6 @@ body {
     width: 2px;
     height: 100%;
     background-color: black;
-  }
-.additional-buttons {
-    display: none;
-    top: 100%;
-    left: 0;
-    margin-left: 1vw;
-    width: min-content;
-    animation: pop-down 0.4s ease-in-out;
 }
 @keyframes pop-down {
     0% {
@@ -165,7 +155,7 @@ body {
       transform: translateY(-10px);
       opacity: 0;
     }
-  }
+}
 .main-button {
     width: 30vw;
     border: none;
@@ -177,39 +167,9 @@ body {
     margin-left: 1vw;
     transition: 0.2s ease;
 }
-.additional-button {
-    color: rgb(31, 31, 31);
-    border: 1px solid rgb(174, 174, 174);
-    padding: 0vw 2vw;
-    font-size: 1.2vw;
-    align-items: center;
-    justify-content: center;
-    display: flex;
-    transition: 0.2s ease-in-out;
-    background-color: var(--additional-button-bg-color);
-}
-.additional-button:hover {
-    background-color: var(--profile-wrapper-bg-color);
-    transition: 0.2s ease;
-    color: aliceblue;
-}
-.plus-button {
-    color: var(--plus-color);
-    font-size: 3vw;
-    font-weight: 700;
-    padding-bottom: 1vw;
-}
-.main-button:hover + .additional-buttons, .additional-buttons:hover {
-    display: flex;
-    animation: pop-down 0.3s ease-in-out;
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    grid-gap: 0vw;
-    width: min-content;
-}
 .main-button:hover {
     color: aliceblue;
-    transition: 0.2s ease;
+    transition: 300ms ease;
 }
 @media screen and (max-width: 1000px) {
     body {
@@ -260,10 +220,6 @@ body {
         background-color: rgba(0, 0, 0, 0);
         font-size: 3vw;
     }
-    .additional-button {
-        font-size: 2.5vw;
-        padding: 0vw 1vw;
-    }
 }
 @media screen and (min-width: 2092px) {
     .exit-button {
@@ -271,5 +227,4 @@ body {
         padding-bottom: 0.5vw;
         font-size: 1.33vw;
     }
-
 }

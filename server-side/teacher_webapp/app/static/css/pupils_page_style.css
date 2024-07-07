@@ -31,68 +31,54 @@ body {
     font-size: 3vw;
     cursor: pointer;
     padding: 0.33vw;
-    margin-right: 2vw;
+    margin: 0 2vw 0 3vw;
     display: inline-block;
     top: 50%;
-    transform: translate(0%, 50%);
-    margin-left: 3vw;
+    transform: translateY(50%);
+    color: var(--text-color);
 }
 #return-icon:hover {
     border-radius: 50%;
-    border-color: whitesmoke;
     color: var(--bg-color);
     background-color: var(--hover-button-color);
     transition: ease 0.2s;
 }
 .transparent-button {
-    border-width: 0px;
-    background-color: rgba(0, 0, 0, 0);
-}
-.transparent-button:hover {
+    border: none;
+    background-color: transparent;
     cursor: default;
 }
 .exit-button-container {
     position: absolute;
     right: 0;
-    margin-bottom: 0.5vw;
-    justify-content: center;
-    align-items: center;
     top: 50%;
     transform: translate(-50%, -50%);
     display: flex;
+    align-items: center;
+    justify-content: center;
 }
 .center-button {
     width: 12vw;
     background: linear-gradient(to right, rgb(146, 219, 216), var(--color));
     color: var(--text-color);
     border-color: whitesmoke;
-    box-shadow: 0px 1px 0px rgba(0, 0, 0, 0.6);
+    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.6);
     border-radius: 10% / 40%;
     text-align: center;
 }
-.center-button:hover {
+.center-button:hover, .exit-button:hover {
     color: var(--bg-color);
 }
-.exit-button {
-    color: var(--text-color);
-}
-.exit-button:hover {
-    color: var(--bg-color);
-}
-.send-report-button{
+.send-report-button {
     margin-right: 2vw;
     white-space: nowrap;
     font-size: 1.3vw;
 }
 #class-label {
     position: absolute;
-    margin-bottom: 0.5vw;
-    justify-content: center;
-    align-items: center;
-    display: inline-block;
-    margin-left: 9vw;
+    left: 9vw;
     top: 50%;
-    transform: translate(0%, -59%);
+    transform: translateY(-59%);
     font-size: 3vw;
 }
 .students-list-wrapper {
@@ -107,14 +93,13 @@ body {
 .circle {
     border-radius: 50%;
     border: 2px solid white;
-    background-color: rgb(0, 224, 213);
+    background-color: var(--color);
     padding: 1.6vw;
-    text-align: center;
-    align-items: center;
     height: 1vw;
     width: 1vw;
     display: flex;
     justify-content: center;
+    align-items: center;
     transform: translate(27%, 4%);
     font-size: 2vw;
     color: var(--text-color);
@@ -138,42 +123,31 @@ body {
     background-color: var(--input-hover);
 }
 @media screen and (max-width: 1000px) {
-    body {
-        width: auto;
-        align-items: center;
-        justify-content: center;
-    }
-    main {
+    body, main {
         width: auto;
         align-items: center;
         justify-content: center;
     }
     .exit-button {
-        padding-left: 9vw;
-        padding-right: 9vw;
-        padding-bottom: 1vw;
-        padding-top: 1vw;
-
+        padding: 1vw 9vw;
+        font-size: 4vw;
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 4vw;
     }
     #return-icon {
         font-size: 9vw;
         margin-left: 7vw;
-        transform: translate(0%, 30%);
+        transform: translateY(30%);
     }
     input[type="button"] {
-        padding: 1vw 3vw;
-        padding-right: 12vw;
-        padding-left: 12vw;
+        padding: 1vw 12vw;
         font-size: 4vw;
         line-height: 1.2;
         height: auto;
         white-space: pre-wrap;
         text-align: center;
-      }
+    }
     .circle {
         padding: 5.7vw;
         transform: translate(37%, 1.6%);
@@ -186,9 +160,7 @@ body {
         transform: translate(-25%, -50%);
     }
     .send-report-button {
-        padding: 1vw;
-        padding-left: 4vw;
-        padding-right: 13vw;
+        padding: 1vw 13vw 1vw 4vw;
         font-size: 2vw;
         white-space: normal;
     }
@@ -196,11 +168,9 @@ body {
         max-width: 80%;
     }
 }
-
 @media screen and (min-width: 2092px) {
     .exit-button {
-        padding-top: 0.5vw;
-        padding-bottom: 0.5vw;
+        padding: 0.5vw 0;
         font-size: 1.33vw;
     }
 }

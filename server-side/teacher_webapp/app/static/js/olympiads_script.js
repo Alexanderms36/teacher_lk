@@ -26,7 +26,11 @@ function add_tile(olympiad, olympiad_label, text_label, bin, olympiad_id) {
     olympiad.appendChild(olympiad_label);
     olympiad_label.textContent = text_label;
     olympiad_label.classList.add('tile-label');
-    bin.src = "http://127.0.0.1:8000/static/images/recycle_bin.png";
+    if (localStorage.getItem('theme') !== null) {
+        bin.src = "http://127.0.0.1:8000/static/images/recycle_bin_white.png";
+    } else {
+        bin.src = "http://127.0.0.1:8000/static/images/recycle_bin.png";
+    }
     olympiad.appendChild(bin);
     bin.classList.add('bin');
 
