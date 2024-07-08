@@ -3,6 +3,7 @@ const bins = [];
 const tiles = [];
 const olympiad_labels = ['Русский язык', 'Математика'];
 const add_olympiads_btn = document.querySelector('.add-button');
+const label = document.querySelector('.olympiads-wrapper h1');
 
 
 if (localStorage.getItem('theme') !== null) {
@@ -13,8 +14,11 @@ fetch('')
   .then(response => response.json())
   .then(data => {
     const olympiad_data = data.data;
-    console.log(olympiad_data);
-    add_buttons(olympiad_data);
+    if (olympiad_data.length != 0) {
+        add_buttons(olympiad_data);
+    } else {
+        label.textContent = "У выбранного ученика пока нет олимпиад";
+    }
   })
   .catch(error => {
     console.error(error);
@@ -90,6 +94,10 @@ function add_tile(olympiad, olympiad_label, text_label, bin, olympiad_id) {
                     tiles.splice(bin_index, 1);
                     olympiad_labels.splice(bin_index, 1);
                     olympiad.remove();
+                    if (tiles.length == 0) {
+                        label.style = "display: inline-flex";
+                        label.textContent = "У выбранного ученика пока нет олимпиад";
+                    }
                     modal_window.remove();
                 } else {
                     console.error('Error deleting olympiad:', data.error);
@@ -183,6 +191,7 @@ add_olympiads_btn.addEventListener('click', () => {
                 tiles.push(olympiad);
                 olympiad_labels.push(olympiad_name.value);
                 add_tile(olympiad, olympiad_label, olympiad_name.value, bin, data.ID);
+                label.style = "display: none";
                 modal_window.remove();
             } else {
                 console.error('Error adding olympiad:', data.error);

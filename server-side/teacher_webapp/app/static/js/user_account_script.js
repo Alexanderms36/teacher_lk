@@ -3,6 +3,7 @@ const container = document.getElementById("buttons-container");
 const switcher = document.getElementById("checkbox");
 const upload_photo = document.querySelector(".upload-photo");
 const profile_photo = document.getElementById("teacher-pic");
+const error_label = document.getElementById("error");
 let doc = document.documentElement;
 
 
@@ -56,16 +57,16 @@ upload_photo.addEventListener("change", event => {
         .then(response => response.json())
         .then(data => {
             if (data.success) {
-                console.log('Success:', data);
                 profile_photo.src = imageDataUrl;
+                error_label.textContent = "Фото профиля успешно обновлено";
+                error_label.style = "color: green";
             } else {
-                console.log('Failure:', `${data.error} ${data.detail.image}`);
                 switch (data.detail?.image[0]) {
                     case 'File size must be no more than 3MB':
-                        console.log("3MB");
+                        error_label.textContent = "Ошибка: Файл не должен быть больше 3 мегабайт.";
                         break;  
                     case 'Unsupported file extension':
-                        console.log("not jpg or smth");
+                        error_label.textContent = "Ошибка: Файл должен иметь одно из следующих расширений: .jpg, .jpeg или .png";
                         break;
                 }
             }
@@ -74,7 +75,6 @@ upload_photo.addEventListener("change", event => {
             console.error('Error:', error);
         });
     }
-
 })
 
 switcher.addEventListener("click", async event => {

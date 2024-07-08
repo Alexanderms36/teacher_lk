@@ -103,6 +103,9 @@ body {
     display: flex;
     justify-content: flex-end;
 }
+.olympiads-wrapper h1 {
+    color: var(--text-color);
+}
 .olympiads-wrapper {
     display: inline-flex;
     margin: 2vw;

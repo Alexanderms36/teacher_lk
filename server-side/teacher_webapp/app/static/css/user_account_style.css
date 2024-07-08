@@ -169,6 +169,11 @@ input:hover {
 #name {
     color: var(--text-color);
 }
+#error {
+    color: rgb(213, 18, 18);
+    font-size: 1.3vw;
+    font-weight: 300;
+}
 .upload-button-label {
     position: absolute;
     top: 40%;
