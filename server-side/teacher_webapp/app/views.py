@@ -17,6 +17,8 @@ import os
 from django.shortcuts import get_object_or_404
 from django.core.files.base import ContentFile
 from django.core.files.storage import default_storage
+from .schema import ImageSchema
+from marshmallow import ValidationError
 
 
 class UserLoginView(APIView):
@@ -54,15 +56,8 @@ class UserAccountView(APIView):
         if request.FILES.get('image'):
             try:
                 image = request.FILES['image']
-                max_size = 1024 * 1024 * 3
-                if image.size > max_size:
-                    return Response({'detail': 'File size must be no more than 3MB', 'success': False}, status=status.HTTP_415_UNSUPPORTED_MEDIA_TYPE)
-
-                valid_extensions = ['.jpg', '.jpeg', '.png']
-                ext = os.path.splitext(image.name)[1].lower()
-
-                if ext not in valid_extensions:
-                    return Response({'detail': 'Unsupported file extension', 'success': False}, status=status.HTTP_415_UNSUPPORTED_MEDIA_TYPE)
+                schema = ImageSchema()
+                data = schema.load({'image': image})
 
                 file_path = os.path.join('app/profile_images', f'{request.user.id}_{image.name}')
                 file_name = default_storage.save(file_path, ContentFile(image.read()))
@@ -72,8 +67,8 @@ class UserAccountView(APIView):
                 request.user.save()
                 return Response({'file_url': file_url, 'success': True}, status=status.HTTP_200_OK)
             
-            except:
-                return Response({'success': False, 'detail': 'Something went wrong'}, status=status.HTTP_404_NOT_FOUND)
+            except ValidationError as err:
+                return Response({'success': False, 'detail': err.messages}, status=status.HTTP_400_BAD_REQUEST)
             
         elif 'logout' in request.data:
             logout(request)

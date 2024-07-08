@@ -59,7 +59,15 @@ upload_photo.addEventListener("change", event => {
                 console.log('Success:', data);
                 profile_photo.src = imageDataUrl;
             } else {
-                console.log('Failure:', `${data.error} ${data.detail}`);
+                console.log('Failure:', `${data.error} ${data.detail.image}`);
+                switch (data.detail?.image[0]) {
+                    case 'File size must be no more than 3MB':
+                        console.log("3MB");
+                        break;  
+                    case 'Unsupported file extension':
+                        console.log("not jpg or smth");
+                        break;
+                }
             }
         })
         .catch((error) => {
