@@ -17,7 +17,7 @@ import os
 from django.shortcuts import get_object_or_404
 from django.core.files.base import ContentFile
 from django.core.files.storage import default_storage
-from .schema import ImageSchema
+from .schema import ImageSchema, TextSchema
 from marshmallow import ValidationError
 
 
@@ -165,14 +165,18 @@ class OlympiadsPageView(APIView):
                                 status=status.HTTP_302_FOUND,
                                 headers={'Location': reverse('student_page', args=[chosen_class, chosen_student])})
         
-        elif 'added_olympiad_name' in request.data:
-            added_olympiad = request.data.get('added_olympiad_name')
-            #ну тут чо-то придумать надо
-            serializer = OlympiadsSerializer(data={'name': added_olympiad, 'place': 1, 'info': 'nu vashe zbs', 'student': chosen_student})
-            if serializer.is_valid():
-                serializer.save()
-                return Response({'message': f"Saved: {serializer.data['name']}", 'success': True, 'ID': serializer.data['id']}, status=status.HTTP_201_CREATED)
-            return Response({'success': False})
+        elif 'added_olympiad' in request.data:
+            try:
+                added_olympiad = request.data.get('added_olympiad')
+                data = added_olympiad['name']
+                TextSchema().load({'schema_text': data})
+                serializer = OlympiadsSerializer(data={'name': added_olympiad['name'], 'place': added_olympiad['place'], 'info': added_olympiad['info'], 'student': chosen_student})
+                if serializer.is_valid():
+                    serializer.save()
+                    return Response({'message': f"Saved: {serializer.data['name']}", 'success': True, 'ID': serializer.data['id']}, status=status.HTTP_201_CREATED)
+                return Response({'success': False})
+            except ValidationError as err:
+                return Response({'message': err.messages, 'success': False})
         
         elif 'deleted_olympiad_id' in request.data:
             ans = request.data.get('deleted_olympiad_id')

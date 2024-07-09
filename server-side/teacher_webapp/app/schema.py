@@ -20,3 +20,6 @@ class ImageSchema(Schema):
             raise ValidationError('File size must be no more than 3MB')
         
         return image
+
+class TextSchema(Schema):
+    schema_text = fields.String(required=True, validate=lambda x: x.strip() != "")

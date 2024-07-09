@@ -23,6 +23,6 @@ class Student(models.Model):
     
 class Olympiads(models.Model):
     name = models.CharField(max_length=512)
-    place = models.IntegerField(blank=True)
-    info = models.CharField(max_length=1024, blank=True)
+    place = models.CharField(max_length=512, blank=True)
+    info = models.CharField(max_length=512, blank=True)
     student = models.ForeignKey(Student, on_delete=models.SET_NULL, null=True, blank=True)

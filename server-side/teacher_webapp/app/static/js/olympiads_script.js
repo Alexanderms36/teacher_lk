@@ -138,17 +138,34 @@ add_olympiads_btn.addEventListener('click', () => {
     modal_window.style.height = '100%';
     modal_window.style.background = 'rgba(0, 0, 0, 0.4)';
     modal_window.innerHTML = `
-        <div class="modal-dialog modal-dialog-centered" style="border-radius: 10px;">
+        <div class="modal-dialog modal-dialog-centered" style="border-radius: 10px; width: 40vw">
             <div class="modal-content" data-backdrop="static" style="box-sizing: border-box;">
                 <div class="modal-header">
                     <h5 class="modal-title" style="margin: 1vw;">Добавьте олимпиаду</h5>
                 </div>
                 <div class="modal-body" style="margin: 1.3vw;">
-                    <div class="input-group">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text">Название</span>
+                    <div class="input-group" style="flex-direction: column;align-items: center;">
+                        <div>
+                            <h6 class="error-message"><h6>
                         </div>
-                        <input name="newOlympiad" type="text" class="form-control olympiad-name">
+                        <div style="display: inline-flex;width:100%; margin-bottom:1vw;">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">Название</span>
+                            </div>
+                            <input name="newOlympiad" type="text" class="form-control olympiad-name">
+                        </div>
+                        <div style="display: inline-flex;width:100%; margin-bottom:1vw;">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">Место</span>
+                            </div>
+                            <input name="newOlympiad" type="text" class="form-control olympiad-place">
+                        </div>
+                        <div style="display: inline-flex; width:100%; margin-bottom:1vw;">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">Информация</span>
+                            </div>
+                            <input name="newOlympiad" type="text" class="form-control olympiad-info">
+                        </div>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -171,6 +188,9 @@ add_olympiads_btn.addEventListener('click', () => {
     submit_button.addEventListener('click', (e) => {
         e.preventDefault();
         const olympiad_name = modal_window.querySelector('.olympiad-name');
+        const olympiad_place = modal_window.querySelector('.olympiad-place');
+        const olympiad_info = modal_window.querySelector('.olympiad-info');
+        const error_label = modal_window.querySelector('.error-message');
         fetch('', {
             method: 'POST',
             headers: {
@@ -178,7 +198,11 @@ add_olympiads_btn.addEventListener('click', () => {
                 'X-CSRFToken': getCookie('csrftoken')
             },
             body: JSON.stringify({
-                added_olympiad_name: olympiad_name.value
+                added_olympiad: {
+                    name: olympiad_name.value,
+                    place: olympiad_place.value,
+                    info: olympiad_info.value
+                }
             })
         })
         .then(response => response.json())
@@ -192,9 +216,15 @@ add_olympiads_btn.addEventListener('click', () => {
                 olympiad_labels.push(olympiad_name.value);
                 add_tile(olympiad, olympiad_label, olympiad_name.value, bin, data.ID);
                 label.style = "display: none";
+                error_label.style = "display: none";
                 modal_window.remove();
             } else {
-                console.error('Error adding olympiad:', data.error);
+                switch (data.message?.schema_text[0]) {
+                    case "Invalid value.":
+                        error_label.style = "display: flex";
+                        error_label.textContent = "Пожалуйста, введите корректное название олимпиады";
+                        break;
+                }
             }
         })
         .catch(error => {
