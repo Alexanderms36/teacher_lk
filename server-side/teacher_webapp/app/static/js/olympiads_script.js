@@ -1,7 +1,7 @@
 const olympiads_wrapper = document.querySelector('.olympiads-wrapper');
 const bins = [];
 const tiles = [];
-const olympiad_labels = ['Русский язык', 'Математика'];
+const olympiad_labels = [];
 const add_olympiads_btn = document.querySelector('.add-button');
 const label = document.querySelector('.olympiads-wrapper h1');
 
@@ -13,9 +13,10 @@ if (localStorage.getItem('theme') !== null) {
 fetch('')
   .then(response => response.json())
   .then(data => {
-    const olympiad_data = data.data;
-    if (olympiad_data.length != 0) {
-        add_buttons(olympiad_data);
+    const activity_data = data.data;
+    if (activity_data.length != 0) {
+        console.log(activity_data)
+        add_buttons(activity_data);
     } else {
         label.textContent = "У выбранного ученика пока нет олимпиад";
     }
@@ -24,18 +25,48 @@ fetch('')
     console.error(error);
   });
 
-function add_tile(olympiad, olympiad_label, text_label, bin, olympiad_id) {
+function add_tile(olympiad, olympiad_label, text_label, bin, olympiad_id, bin_wrapper, subinfo, info, pic) {
+    const img_wrap = document.createElement('img');
+    const activity_wrapper = document.createElement('div');
+    const allinfolabel = document.createElement('div');
+    const olympiad_name_span = document.createElement('span');
+    const place_wrapper = document.createElement('div');
+    const activity_subinfo_span = document.createElement('span');
+    const info_wrapper = document.createElement('div');
+    const info_span = document.createElement('span')
+
     olympiads_wrapper.appendChild(olympiad);
     olympiad.classList.add('olympiad-tile');
     olympiad.appendChild(olympiad_label);
-    olympiad_label.textContent = text_label;
+    olympiad.appendChild(bin_wrapper)
+    bin_wrapper.classList.add('bin-wrapper')
     olympiad_label.classList.add('tile-label');
+
     if (localStorage.getItem('theme') !== null) {
         bin.src = "http://127.0.0.1:8000/static/images/recycle_bin_white.png";
     } else {
         bin.src = "http://127.0.0.1:8000/static/images/recycle_bin.png";
     }
-    olympiad.appendChild(bin);
+
+    bin_wrapper.appendChild(bin);
+    olympiad.appendChild(activity_wrapper);
+    activity_wrapper.appendChild(img_wrap);
+    activity_wrapper.classList.add('activity-pic');
+    olympiad.appendChild(allinfolabel);
+    allinfolabel.appendChild(olympiad_label);
+    olympiad_label.appendChild(olympiad_name_span);
+    allinfolabel.appendChild(place_wrapper);
+    place_wrapper.classList.add('place-label');
+    place_wrapper.appendChild(activity_subinfo_span);
+    olympiad.appendChild(info_wrapper);
+    info_wrapper.classList.add('info-wrapper');
+    info_wrapper.appendChild(info_span);
+
+    img_wrap.src = pic;
+    olympiad_name_span.textContent = text_label;
+    activity_subinfo_span.textContent = subinfo;
+    info_span.textContent = info
+    
     bin.classList.add('bin');
 
     bin.addEventListener('click', () => {
@@ -121,7 +152,18 @@ function add_buttons(olympiad_data) {
         const olympiad = document.createElement('div');
         const olympiad_label = document.createElement('div');
         const bin = document.createElement('img');
-        add_tile(olympiad, olympiad_label, olympiad_data[i].name, bin, olympiad_data[i].id)
+        const bin_wrapper = document.createElement('div');
+        add_tile(
+            olympiad,
+            olympiad_label, 
+            olympiad_data[i].name, 
+            bin, 
+            olympiad_data[i].id, 
+            bin_wrapper, 
+            olympiad_data[i].place,
+            olympiad_data[i].info,
+            "http://127.0.0.1:8000/static/images/activity_backgrounds/3.jpg"
+            );
         bins.push(bin);
         tiles.push(olympiad);
     }
@@ -211,10 +253,21 @@ add_olympiads_btn.addEventListener('click', () => {
                 const olympiad = document.createElement('div');
                 const olympiad_label = document.createElement('div');
                 const bin = document.createElement('img');
+                const bin_wrapper = document.createElement('div');
                 bins.push(bin);
                 tiles.push(olympiad);
                 olympiad_labels.push(olympiad_name.value);
-                add_tile(olympiad, olympiad_label, olympiad_name.value, bin, data.ID);
+                add_tile(
+                    olympiad,
+                    olympiad_label,
+                    olympiad_name.value,
+                    bin,
+                    data.ID,
+                    bin_wrapper,
+                    olympiad_place.value,
+                    olympiad_info.value,
+                    "http://127.0.0.1:8000/static/images/activity_backgrounds/2.jpg"
+                );
                 label.style = "display: none";
                 error_label.style = "display: none";
                 modal_window.remove();
