@@ -26,3 +26,18 @@ class Olympiads(models.Model):
     place = models.CharField(max_length=512, blank=True)
     info = models.CharField(max_length=512, blank=True)
     student = models.ForeignKey(Student, on_delete=models.SET_NULL, null=True, blank=True)
+
+class Tutors(models.Model):
+    name = models.CharField(max_length=255)
+    surname = models.CharField(max_length=255)
+    patronymic = models.CharField(max_length=255, null=True, blank=True)
+    subject = models.CharField(max_length=255)
+    info = models.CharField(max_length=512, null=True, blank=True)
+    student = models.ForeignKey(Student, on_delete=models.SET_NULL, null=True, blank=True)
+
+class Afterschools(models.Model):
+    name = models.CharField(max_length=255)
+    subject = models.CharField(max_length=255)
+    info = models.CharField(max_length=512, null=True, blank=True)
+    student = models.ForeignKey(Student, on_delete=models.SET_NULL, null=True, blank=True)
+    

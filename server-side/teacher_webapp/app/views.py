@@ -1,5 +1,5 @@
 from django.contrib.auth import authenticate, login, logout
-from .models import Student, Classes, Olympiads
+from .models import Student, Olympiads, Tutors, Afterschools
 from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -11,7 +11,9 @@ from .serializers import (
     UserSerializer, 
     StudentSerializer, 
     ClassesSerializer, 
-    OlympiadsSerializer
+    OlympiadsSerializer,
+    TutorsSerializer,
+    AfterschoolsSerializer
 )
 import os
 from django.shortcuts import get_object_or_404
@@ -19,6 +21,7 @@ from django.core.files.base import ContentFile
 from django.core.files.storage import default_storage
 from .schema import ImageSchema, TextSchema
 from marshmallow import ValidationError
+import random
 
 
 class UserLoginView(APIView):
@@ -136,22 +139,37 @@ class StudentPageView(APIView):
                                 headers={'Location': reverse('pupils', args=[chosen_class])})
         else:
             chosen_activity = request.data.get('chosen_activity')
-            if (chosen_activity == "olympiads"):
-                return Response({'detail': 'redirected successfully'},
-                                status=status.HTTP_302_FOUND,
-                                headers={'Location': reverse('olympiads', args=[chosen_class, chosen_student, chosen_activity])}) 
-            else:
-                return Response({'detail': 'something went wrong'})
+            return Response({'detail': 'redirected successfully'},
+                            status=status.HTTP_302_FOUND,
+                            headers={'Location': reverse('activities', args=[chosen_class, chosen_student, chosen_activity])}) 
             
-class OlympiadsPageView(APIView):
+class ActivitiesPageView(APIView):
     permission_classes = [IsAuthenticated]
     renderer_classes = [JSONRenderer, TemplateHTMLRenderer]
-    template_name = 'olympiads.html'
+    template_name = 'activity.html'
 
     def get(self, request, chosen_class, chosen_student, chosen_activity):
-        olympiads = Olympiads.objects.filter(student_id=chosen_student)
-        serializer = OlympiadsSerializer(olympiads, many=True)
-        return Response({'data': serializer.data})
+        num = random.randrange(1, 4)
+        pic_path = f"http://127.0.0.1:8000/static/images/activity_backgrounds/{num}.jpg"
+
+        match chosen_activity:
+            case 'olympiads':
+                olympiads = Olympiads.objects.filter(student_id=chosen_student)
+                serializer = OlympiadsSerializer(olympiads, many=True)
+                return Response({'activity': chosen_activity, 'data': serializer.data, 'pic': pic_path})
+            
+            case 'tutors':
+                tutors = Tutors.objects.filter(student_id=chosen_student)
+                serializer = TutorsSerializer(tutors, many=True)
+                return Response({'activity': chosen_activity, 'data': serializer.data, 'pic': pic_path})
+            
+            case 'afterschools':
+                afterschools = Afterschools.objects.filter(student_id=chosen_student)
+                serializer = AfterschoolsSerializer(afterschools, many=True)
+                return Response({'activity': chosen_activity, 'data': serializer.data, 'pic': pic_path})
+
+            case _:
+                return Response(status=status.HTTP_400_BAD_REQUEST)
     
     def post(self, request, chosen_class, chosen_student, chosen_activity):
         if 'logout' in request.data:

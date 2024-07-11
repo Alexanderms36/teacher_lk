@@ -11,6 +11,6 @@ urlpatterns = [
     path('user/<int:chosen_class>/', views.PupilsView.as_view(), name='pupils'),
     path('user/<int:chosen_class>/<int:chosen_student>/', views.StudentPageView.as_view(), name='student_page'),
     path('user/<int:chosen_class>/<int:chosen_student>/<str:chosen_activity>/', 
-         views.OlympiadsPageView.as_view(), 
-         name='olympiads')
+         views.ActivitiesPageView.as_view(), 
+         name='activities')
 ]

@@ -4,7 +4,7 @@ const health_group = document.querySelectorAll('.profile-wrapper a')[1];
 const activities_wrapper = document.querySelectorAll('.activities-wrapper')[0];
 const button_labels = ["КРУЖКИ", "РЕПЕТИТОРЫ", 
                         "ОЛИМПИАДЫ", "ЛИЧНЫЙ КАБИНЕТ УЧЕНИКА"];
-const button_names = ["afterschool_activity", "tutors", "olympiads", "student_lk"]
+const button_names = ["afterschools", "tutors", "olympiads", "student_lk"]
 
 fetch('')
   .then(response => response.json())

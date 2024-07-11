@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import User, Classes, Student, Olympiads
+from .models import User, Classes, Student, Olympiads, Tutors, Afterschools
 
     
 class StudentSerializer(serializers.ModelSerializer):
@@ -43,3 +43,33 @@ class OlympiadsSerializer(serializers.ModelSerializer):
             olympiad.student = student
             olympiad.save()
         return olympiad
+
+class TutorsSerializer(serializers.ModelSerializer):
+    student = serializers.PrimaryKeyRelatedField(queryset=Student.objects.all())
+
+    class Meta:
+        model = Tutors
+        fields = ["id", "name", "surname", "patronymic", "subject", "info", "student"]
+
+    def create(self, validated_data):
+        student = validated_data.pop('student', None)
+        tutor = Tutors.objects.create(**validated_data)
+        if student:
+            tutor.student = student
+            tutor.save()
+        return tutor
+    
+class AfterschoolsSerializer(serializers.ModelSerializer):
+    student = serializers.PrimaryKeyRelatedField(queryset=Student.objects.all())
+
+    class Meta:
+        model = Afterschools
+        fields = ["id", "name", "subject", "info", "student"]
+
+    def create(self, validated_data):
+        student = validated_data.pop('student', None)
+        tutor = Tutors.objects.create(**validated_data)
+        if student:
+            tutor.student = student
+            tutor.save()
+        return tutor

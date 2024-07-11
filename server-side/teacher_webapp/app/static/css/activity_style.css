@@ -5,8 +5,8 @@
     --color: rgb(13, 225, 213);
     --hover-button-color: rgb(220, 220, 220);
     --profile-wrapper-bg-color: rgb(173, 173, 173);
-    --add-olympiad-button: rgb(90, 90, 90);
-    --add-olympiad-button-hover: rgb(220, 220, 220);
+    --add-activity-button: rgb(90, 90, 90);
+    --add-activity-button-hover: rgb(220, 220, 220);
     --color-shadow: rgba(13, 225, 213, 0.25);
 }
 :root[data-theme='dark'] {
@@ -16,8 +16,8 @@
     --color: rgb(61, 136, 131);
     --hover-button-color: rgb(0, 0, 0);
     --profile-wrapper-bg-color: rgb(136, 136, 136);
-    --add-olympiad-button: rgb(27, 225, 216);
-    --add-olympiad-button-hover: rgb(220, 220, 220);
+    --add-activity-button: rgb(27, 225, 216);
+    --add-activity-button-hover: rgb(220, 220, 220);
     --color-shadow: rgba(61, 136, 131, 0.25);
 }
 
@@ -105,17 +105,17 @@ body {
     display: flex;
     justify-content: flex-end;
 }
-.olympiads-wrapper h1 {
+.activities-wrapper h1 {
     color: var(--text-color);
 }
-.olympiads-wrapper {
+.activities-wrapper {
     display: inline-flex;
     margin: 2vw;
     margin-left: 6.4vw;
     margin-right: 6.4vw;
     flex-wrap: wrap;
 }
-.olympiad-tile {
+.activity-tile {
     margin: 1vw;
     display: flex;
     flex-direction: column;
@@ -127,24 +127,24 @@ body {
     border-radius: 3%;
     overflow: hidden;
 }
-.olympiad-tile .activity-pic {
+.activity-tile .activity-pic {
     width: 100%;
     height: 50%;
     top: 0%;
     position: absolute;
 }
-.olympiad-tile .activity-pic img {
+.activity-tile .activity-pic img {
     width: 100%;
     height: 90%;
     object-fit: cover;
 }
 .add-button {
-    color: var(--add-olympiad-button);
+    color: var(--add-activity-button);
     font-weight: 700;
 }
 .add-button:hover {
-    color: var(--add-olympiad-button-hover);
-    background-color: var(--add-olympiad-button);
+    color: var(--add-activity-button-hover);
+    background-color: var(--add-activity-button);
 }
 .input-group-prepend {
     flex-basis: 36%;
@@ -195,11 +195,11 @@ body {
 .modal-dialog {
     background-color: aliceblue;
 }
-.add-olympiad-descr {
+.add-activity-descr {
     color: rgb(255, 239, 239);
     background-color: rgb(17, 179, 170);
 }
-.add-olympiad-descr:hover {
+.add-activity-descr:hover {
     color: rgb(255, 255, 255);
     background-color: rgb(14, 143, 136);
 }
