@@ -68,8 +68,8 @@ class AfterschoolsSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         student = validated_data.pop('student', None)
-        tutor = Tutors.objects.create(**validated_data)
+        afterschool = Afterschools.objects.create(**validated_data)
         if student:
-            tutor.student = student
-            tutor.save()
-        return tutor
+            afterschool.student = student
+            afterschool.save()
+        return afterschool

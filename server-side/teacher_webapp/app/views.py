@@ -183,25 +183,104 @@ class ActivitiesPageView(APIView):
                                 status=status.HTTP_302_FOUND,
                                 headers={'Location': reverse('student_page', args=[chosen_class, chosen_student])})
         
-        elif 'added_olympiad' in request.data:
+        elif 'added_activity' in request.data:
             try:
-                added_olympiad = request.data.get('added_olympiad')
-                data = added_olympiad['name']
+                added_activity = request.data.get('added_activity')
+                data = added_activity['name']
                 TextSchema().load({'schema_text': data})
-                serializer = OlympiadsSerializer(data={'name': added_olympiad['name'], 'place': added_olympiad['place'], 'info': added_olympiad['info'], 'student': chosen_student})
-                if serializer.is_valid():
-                    serializer.save()
-                    return Response({'message': f"Saved: {serializer.data['name']}", 'success': True, 'ID': serializer.data['id']}, status=status.HTTP_201_CREATED)
-                return Response({'success': False})
+                match added_activity['type']:
+                    case 'olympiads':
+                        print(added_activity['type'])
+                        serializer = OlympiadsSerializer(data=
+                            {
+                            'name': added_activity['name'],
+                            'place': added_activity['subinfo'],
+                            'info': added_activity['info'],
+                            'student': chosen_student
+                            })
+                        
+                        if serializer.is_valid():
+                            serializer.save()
+                            return Response(
+                                {
+                                    'message': f"Saved: {serializer.data['name']}",
+                                    'success': True,
+                                    'ID': serializer.data['id']
+                                },
+                                status=status.HTTP_201_CREATED)
+                        
+                        return Response({'success': False})
+                    
+                    case 'tutors':
+                        serializer = TutorsSerializer(data=
+                            {
+                            'subject': added_activity['name'],
+                            'name': 'none',
+                            'surname': 'none',
+                            'patronymic': 'none',
+                            'info': added_activity['info'],
+                            'student': chosen_student
+                            })
+                        
+                        if serializer.is_valid():
+                            serializer.save()
+                            return Response(
+                                {
+                                    'message': f"Saved: {serializer.data['name']}",
+                                    'success': True,
+                                    'ID': serializer.data['id']
+                                },
+                                status=status.HTTP_201_CREATED)
+                        
+                        return Response({'success': False})
+                        
+                    case 'afterschools':
+                        serializer = AfterschoolsSerializer(data=
+                            {
+                            'subject': added_activity['name'],
+                            'name': 'none',
+                            'info': added_activity['info'],
+                            'student': chosen_student
+                            })
+                        
+                        if serializer.is_valid():
+                            serializer.save()
+                            return Response(
+                                {
+                                    'message': f"Saved: {serializer.data['name']}",
+                                    'success': True,
+                                    'ID': serializer.data['id']
+                                },
+                                status=status.HTTP_201_CREATED
+                                )
+                        
+                        return Response({'success': False})
+                        
+                    case _:
+                        return Response({'success': False}, status=status.HTTP_400_BAD_REQUEST)
+                    
             except ValidationError as err:
                 return Response({'message': err.messages, 'success': False})
         
-        elif 'deleted_olympiad_id' in request.data:
-            ans = request.data.get('deleted_olympiad_id')
+        elif 'deleted_activity' in request.data:
+            deleted = request.data.get('deleted_activity')
             try:
-                olympiad = get_object_or_404(Olympiads, id=ans)
-                olympiad.delete()
-                return Response({'message': f"Deleted: {olympiad.id}", 'success': True}, status=status.HTTP_201_CREATED)
+                match deleted['activity_type']:
+                    case 'olympiads':
+                        olympiad = get_object_or_404(Olympiads, id=deleted['deleted_activity_id'])
+                        olympiad.delete()
+                        return Response({'message': f"Deleted: {olympiad.id}", 'success': True}, status=status.HTTP_201_CREATED)
+                        
+                    case 'tutors':
+                        tutor = get_object_or_404(Tutors, id=deleted['deleted_activity_id'])
+                        tutor.delete()
+                        return Response({'message': f"Deleted: {tutor.id}", 'success': True}, status=status.HTTP_201_CREATED)
+                    case 'afterschools':
+                        afterschool = get_object_or_404(Afterschools, id=deleted['deleted_activity_id'])
+                        afterschool.delete()
+                        return Response({'message': f"Deleted: {afterschool.id}", 'success': True}, status=status.HTTP_201_CREATED)
+                    
+                    case _:
+                        return Response({'success': False}, status=status.HTTP_400_BAD_REQUEST)
             except:
-                return Response({'error': 'Olympiad not found', 'success': False}, status=status.HTTP_404_NOT_FOUND)
-            
+                return Response({'success': False}, status=status.HTTP_400_BAD_REQUEST)

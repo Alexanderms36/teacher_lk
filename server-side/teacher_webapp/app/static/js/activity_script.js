@@ -4,6 +4,8 @@ const add_activity_btn = document.querySelector('.add-button');
 const bins = [];
 const tiles = [];
 const activity_labels = [];
+const chosen_activity_label = document.getElementById('class-label');
+let activity_type = "";
 
 
 if (localStorage.getItem('theme') !== null) {
@@ -14,36 +16,53 @@ fetch('')
   .then(response => response.json())
   .then(data => {
     const activity_data = data.data;
-    const chosen_activity_label = document.getElementById('class-label');
-    
+    activity_type = data.activity;
     if (activity_data.length != 0) {
-        console.log(activity_data);
         console.log(data.activity);
-        add_buttons(activity_data, data.pic);
+        const subjects = [];
+        const subinfo = [];
+        let str = "";
+        switch (data.activity) {
+            case 'olympiads':
+                chosen_activity_label.textContent = "Олимпиады";
+                add_activity_btn.textContent = "Добавить олимпиаду";
+                for (let i = 0; i < activity_data.length; i++) {
+                    str = `Место: ${activity_data[i].place}`;
+                    subinfo.push(str);
+                    subjects.push(activity_data[i].name);
+                }
+                add_buttons(activity_data, subjects, subinfo, data.pic);
+                break;
+    
+            case 'tutors':
+                chosen_activity_label.textContent = "Репетиторы";
+                add_activity_btn.textContent = "Добавить репетитора";
+                for (let i = 0; i < activity_data.length; i++) {
+                    str = `Репетитор: ${activity_data[i].surname} ${activity_data[i].name} ${activity_data[i].patronymic}`;
+                    subinfo.push(str);
+                    subjects.push(activity_data[i].subject);
+                }
+                add_buttons(activity_data, subjects, subinfo, data.pic);
+                break;
+    
+            case 'afterschools':
+                chosen_activity_label.textContent = "Кружки";
+                add_activity_btn.textContent = "Добавить кружок";
+                for (let i = 0; i < activity_data.length; i++) {
+                    subjects.push(activity_data[i].subject);
+                }
+                add_buttons(activity_data, subjects, subinfo, data.pic);
+                break;
+    
+            default:
+                chosen_activity_label.textContent = "Ошибка";
+                break;
+        }
     } else {
-        label.textContent = "У выбранного ученика пока нет олимпиад";
+        label.textContent = "Нет данных о выбранном виде активности ученика";
     }
 
-    switch (data.activity) {
-        case 'olympiads':
-            chosen_activity_label.textContent = "Олимпиады";
-            add_activity_btn.textContent = "Добавить олимпиаду";
-            break;
-
-        case 'tutors':
-            chosen_activity_label.textContent = "Репетиторы";
-            add_activity_btn.textContent = "Добавить репетитора";
-            break;
-
-        case 'afterschools':
-            chosen_activity_label.textContent = "Кружки";
-            add_activity_btn.textContent = "Добавить кружок";
-            break;
-
-        default:
-            chosen_activity_label.textContent = "Ошибка";
-            break;
-    }
+    
   })
   .catch(error => {
     console.error(error);
@@ -86,7 +105,7 @@ function add_tile(activity, activity_label, text_label, bin, activity_id, subinf
     img_wrap.src = pic;
     activity_name_span.textContent = text_label;
     activity_subinfo_span.textContent = subinfo;
-    info_span.textContent = info
+    info_span.textContent = `Информация: ${info}`;
     
     bin.src = "http://127.0.0.1:8000/static/images/recycle_bin_white.png";
     bin.classList.add('bin');
@@ -107,10 +126,10 @@ function add_tile(activity, activity_label, text_label, bin, activity_id, subinf
             <div class="modal-dialog modal-dialog-centered" style="border-radius: 10px;">
                 <div class="modal-content" data-backdrop="static" style="box-sizing: border-box;">
                     <div class="modal-header">
-                        <h5 class="modal-title" style="margin: 1vw;">Удалить олимпиаду?</h5>
+                        <h5 class="modal-title" style="margin: 1vw;">Удалить активность?</h5>
                     </div>
                     <div class="modal-body" style="padding: 1vw;margin-bottom: 1vw;">
-                        Вы уверены, что хотите удалить олимпиаду: "${text_label}"?
+                        Вы уверены, что хотите удалить активность: "${text_label}"?
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" style="margin-bottom: 1vw;margin-left: 1vw;margin-right: 1vw;">Отмена</button>
@@ -137,7 +156,10 @@ function add_tile(activity, activity_label, text_label, bin, activity_id, subinf
                     'X-CSRFToken': getCookie('csrftoken')
                 },
                 body: JSON.stringify({
-                    deleted_olympiad_id: activity_id
+                    deleted_activity: {
+                        activity_type: activity_type,
+                        deleted_activity_id: activity_id
+                    }
                 })
             })
             .then(response => response.json())
@@ -149,7 +171,7 @@ function add_tile(activity, activity_label, text_label, bin, activity_id, subinf
                     activity.remove();
                     if (tiles.length == 0) {
                         label.style = "display: inline-flex";
-                        label.textContent = "У выбранного ученика пока нет олимпиад";
+                        label.textContent = "Нет данных о выбранном виде активности ученика";
                     }
                     modal_window.remove();
                 } else {
@@ -169,18 +191,19 @@ function add_tile(activity, activity_label, text_label, bin, activity_id, subinf
     });
 }
 
-function add_buttons(activity_data, pic_path) {
+function add_buttons(activity_data, subject, subinfo, pic_path) {
     for (let i = 0; i < activity_data.length; i++) {
         const activity = document.createElement('div');
         const activity_label = document.createElement('div');
         const bin = document.createElement('img');
+        console.log(subject[i]);
         add_tile(
             activity,
-            activity_label, 
-            activity_data[i].name, 
+            activity_label,
+            subject[i],
             bin, 
             activity_data[i].id, 
-            activity_data[i].place,
+            subinfo[i],
             activity_data[i].info,
             pic_path
             );
@@ -188,8 +211,14 @@ function add_buttons(activity_data, pic_path) {
         tiles.push(activity);
     }
 }
-
 add_activity_btn.addEventListener('click', () => {
+    // let 
+    // switch (activity_type) {
+    //     case 'olympiads':
+            
+    //         break;
+    // }
+
     const modal_window = document.createElement('div');
     modal_window.classList.add('modal-dialog', 'modal-dialog-centered');
     modal_window.style.zIndex = '1050';
@@ -203,7 +232,7 @@ add_activity_btn.addEventListener('click', () => {
         <div class="modal-dialog modal-dialog-centered" style="border-radius: 10px; width: 40vw">
             <div class="modal-content" data-backdrop="static" style="box-sizing: border-box;">
                 <div class="modal-header">
-                    <h5 class="modal-title" style="margin: 1vw;">Добавьте олимпиаду</h5>
+                    <h5 class="modal-title" style="margin: 1vw;">Добавьте активность</h5>
                 </div>
                 <div class="modal-body" style="margin: 1.3vw;">
                     <div class="input-group" style="flex-direction: column;align-items: center;">
@@ -250,7 +279,7 @@ add_activity_btn.addEventListener('click', () => {
     submit_button.addEventListener('click', (e) => {
         e.preventDefault();
         const activity_name = modal_window.querySelector('.activity-name');
-        const activity_place = modal_window.querySelector('.activity-place');
+        const activity_subinfo = modal_window.querySelector('.activity-place');
         const activity_info = modal_window.querySelector('.activity-info');
         const error_label = modal_window.querySelector('.error-message');
         fetch('', {
@@ -260,10 +289,11 @@ add_activity_btn.addEventListener('click', () => {
                 'X-CSRFToken': getCookie('csrftoken')
             },
             body: JSON.stringify({
-                added_olympiad: {
+                added_activity: {
                     name: activity_name.value,
-                    place: activity_place.value,
-                    info: activity_info.value
+                    subinfo: activity_subinfo.value,
+                    info: activity_info.value,
+                    type: activity_type
                 }
             })
         })
@@ -282,7 +312,7 @@ add_activity_btn.addEventListener('click', () => {
                     activity_name.value,
                     bin,
                     data.ID,
-                    activity_place.value,
+                    activity_subinfo.value,
                     activity_info.value,
                     "http://127.0.0.1:8000/static/images/activity_backgrounds/2.jpg"
                 );
@@ -293,7 +323,7 @@ add_activity_btn.addEventListener('click', () => {
                 switch (data.message?.schema_text[0]) {
                     case "Invalid value.":
                         error_label.style = "display: flex";
-                        error_label.textContent = "Пожалуйста, введите корректное название олимпиады";
+                        error_label.textContent = "Пожалуйста, введите корректное название";
                         break;
                 }
             }
