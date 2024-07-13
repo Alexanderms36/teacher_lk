@@ -18,7 +18,6 @@ fetch('')
     const activity_data = data.data;
     activity_type = data.activity;
     if (activity_data.length != 0) {
-        console.log(data.activity);
         const subjects = [];
         const subinfo = [];
         let str = "";
@@ -196,7 +195,6 @@ function add_buttons(activity_data, subject, subinfo, pic_path) {
         const activity = document.createElement('div');
         const activity_label = document.createElement('div');
         const bin = document.createElement('img');
-        console.log(subject[i]);
         add_tile(
             activity,
             activity_label,
@@ -212,13 +210,6 @@ function add_buttons(activity_data, subject, subinfo, pic_path) {
     }
 }
 add_activity_btn.addEventListener('click', () => {
-    // let 
-    // switch (activity_type) {
-    //     case 'olympiads':
-            
-    //         break;
-    // }
-
     const modal_window = document.createElement('div');
     modal_window.classList.add('modal-dialog', 'modal-dialog-centered');
     modal_window.style.zIndex = '1050';
@@ -239,24 +230,6 @@ add_activity_btn.addEventListener('click', () => {
                         <div>
                             <h6 class="error-message"><h6>
                         </div>
-                        <div style="display: inline-flex;width:100%; margin-bottom:1vw;">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text">Название</span>
-                            </div>
-                            <input type="text" class="form-control activity-name">
-                        </div>
-                        <div style="display: inline-flex;width:100%; margin-bottom:1vw;">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text">Место</span>
-                            </div>
-                            <input type="text" class="form-control activity-place">
-                        </div>
-                        <div style="display: inline-flex; width:100%; margin-bottom:1vw;">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text">Информация</span>
-                            </div>
-                            <input type="text" class="form-control activity-info">
-                        </div>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -268,6 +241,87 @@ add_activity_btn.addEventListener('click', () => {
             </div>
         </div>
     `;
+
+    const input_group = modal_window.querySelector('.input-group');
+    const subject_wrapper = document.createElement('div');
+
+    subject_wrapper.classList.add('activity-input-wrapper');
+    input_group.appendChild(subject_wrapper);
+
+    subject_wrapper.innerHTML = `
+        <div class="input-group-prepend">
+            <span class="input-group-text">Предмет</span>
+        </div>
+        <input type="text" class="form-control activity-name">
+    `;
+
+    const subinfo_wrapper1 = document.createElement('div');
+    const paragraph_subinfo_wrapper = document.createElement('div');
+
+    subinfo_wrapper1.classList.add('activity-input-wrapper');
+    input_group.appendChild(paragraph_subinfo_wrapper);
+    input_group.appendChild(subinfo_wrapper1);
+
+    switch (activity_type) {
+        case 'olympiads':
+            subinfo_wrapper1.innerHTML = `
+                <div class="input-group-prepend">
+                    <span class="input-group-text">Место</span>
+                </div>
+                <input type="text" class="form-control activity-place">
+            `;
+            break;
+    
+        case 'tutors':
+            const subinfo_wrapper2 = document.createElement('div');
+            const subinfo_wrapper3 = document.createElement('div');
+
+            subinfo_wrapper2.classList.add('activity-input-wrapper');
+            subinfo_wrapper3.classList.add('activity-input-wrapper');
+
+            input_group.appendChild(subinfo_wrapper2);
+            input_group.appendChild(subinfo_wrapper3);
+        
+            paragraph_subinfo_wrapper.innerHTML = `
+                <p>Данные о репетиторе</p>
+            `;
+
+            subinfo_wrapper1.innerHTML = `
+            <div class="input-group-prepend">
+                <span class="input-group-text">Фамилия</span>
+            </div>
+            <input type="text" class="form-control activity-tutor-surname">
+            `;
+
+            subinfo_wrapper2.innerHTML = `
+                <div class="input-group-prepend">
+                    <span class="input-group-text">Имя</span>
+                </div>
+                <input type="text" class="form-control activity-tutor-name">
+            `;
+
+            subinfo_wrapper3.innerHTML = `
+                <div class="input-group-prepend">
+                    <span class="input-group-text">Отчество</span>
+                </div>
+                <input type="text" class="form-control activity-tutor-patronymic">
+            `;
+
+            break;
+    }
+
+    const info_wrapper = document.createElement('div');
+
+    info_wrapper.classList.add('activity-input-wrapper');
+    input_group.appendChild(info_wrapper);
+
+    info_wrapper.innerHTML = `
+        <div class="input-group-prepend">
+            <span class="input-group-text">Информация</span>
+        </div>
+        <input type="text" class="form-control activity-info">
+    `;
+
     document.body.appendChild(modal_window);
     const cancel_button = modal_window.querySelector('.btn-secondary');
     const submit_button = modal_window.querySelector('.add-activity-descr');
@@ -282,6 +336,26 @@ add_activity_btn.addEventListener('click', () => {
         const activity_subinfo = modal_window.querySelector('.activity-place');
         const activity_info = modal_window.querySelector('.activity-info');
         const error_label = modal_window.querySelector('.error-message');
+        let subinfo;
+        
+        switch (activity_type) {
+            case 'olympiads':
+                subinfo = activity_subinfo.value;
+                break;
+        
+            case 'tutors':
+                const tutor_name = modal_window.querySelector('.activity-tutor-name');
+                const tutor_surname = modal_window.querySelector('.activity-tutor-surname');
+                const tutor_patronymic = modal_window.querySelector('.activity-tutor-patronymic');
+
+                subinfo = {
+                    'name': tutor_name.value,
+                    'surname': tutor_surname.value,
+                    'patronymic': tutor_patronymic.value
+                }
+                break;
+        }
+
         fetch('', {
             method: 'POST',
             headers: {
@@ -291,7 +365,7 @@ add_activity_btn.addEventListener('click', () => {
             body: JSON.stringify({
                 added_activity: {
                     name: activity_name.value,
-                    subinfo: activity_subinfo.value,
+                    subinfo: subinfo,
                     info: activity_info.value,
                     type: activity_type
                 }
@@ -306,13 +380,14 @@ add_activity_btn.addEventListener('click', () => {
                 bins.push(bin);
                 tiles.push(activity);
                 activity_labels.push(activity_name.value);
+                let subinfo_str = `Репетиторы: ${subinfo['surname']} ${subinfo['name']} ${subinfo['patronymic']}`;
                 add_tile(
                     activity,
                     activity_label,
                     activity_name.value,
                     bin,
                     data.ID,
-                    activity_subinfo.value,
+                    subinfo_str,
                     activity_info.value,
                     "http://127.0.0.1:8000/static/images/activity_backgrounds/2.jpg"
                 );

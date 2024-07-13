@@ -190,7 +190,6 @@ class ActivitiesPageView(APIView):
                 TextSchema().load({'schema_text': data})
                 match added_activity['type']:
                     case 'olympiads':
-                        print(added_activity['type'])
                         serializer = OlympiadsSerializer(data=
                             {
                             'name': added_activity['name'],
@@ -215,9 +214,9 @@ class ActivitiesPageView(APIView):
                         serializer = TutorsSerializer(data=
                             {
                             'subject': added_activity['name'],
-                            'name': 'none',
-                            'surname': 'none',
-                            'patronymic': 'none',
+                            'name': added_activity['subinfo']['name'],
+                            'surname': added_activity['subinfo']['surname'],
+                            'patronymic': added_activity['subinfo']['patronymic'],
                             'info': added_activity['info'],
                             'student': chosen_student
                             })
@@ -275,6 +274,7 @@ class ActivitiesPageView(APIView):
                         tutor = get_object_or_404(Tutors, id=deleted['deleted_activity_id'])
                         tutor.delete()
                         return Response({'message': f"Deleted: {tutor.id}", 'success': True}, status=status.HTTP_201_CREATED)
+                    
                     case 'afterschools':
                         afterschool = get_object_or_404(Afterschools, id=deleted['deleted_activity_id'])
                         afterschool.delete()

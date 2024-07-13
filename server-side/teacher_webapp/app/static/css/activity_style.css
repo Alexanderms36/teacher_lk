@@ -146,6 +146,11 @@ body {
     color: var(--add-activity-button-hover);
     background-color: var(--add-activity-button);
 }
+.activity-input-wrapper {
+    display: inline-flex; 
+    width: 100%; 
+    margin-bottom: 1vw;
+}
 .input-group-prepend {
     flex-basis: 36%;
 }
