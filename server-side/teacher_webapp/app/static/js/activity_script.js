@@ -377,10 +377,22 @@ add_activity_btn.addEventListener('click', () => {
                 const activity = document.createElement('div');
                 const activity_label = document.createElement('div');
                 const bin = document.createElement('img');
+                let subinfo_str = "";
                 bins.push(bin);
                 tiles.push(activity);
                 activity_labels.push(activity_name.value);
-                let subinfo_str = `Репетиторы: ${subinfo['surname']} ${subinfo['name']} ${subinfo['patronymic']}`;
+
+                switch (activity_type) {
+                    case 'olympiads':
+                        subinfo_str = `Место: ${subinfo}`;
+                        
+                        break;
+                
+                    case 'tutors':
+                        subinfo_str = `Репетиторы: ${subinfo['surname']} ${subinfo['name']} ${subinfo['patronymic']}`;
+                        break;
+                }
+                
                 add_tile(
                     activity,
                     activity_label,

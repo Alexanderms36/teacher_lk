@@ -97,8 +97,8 @@ body {
     display: flexbox;
     justify-content: center;
     text-align: center;
-    margin-right: 9vw;
-    margin-left: 9vw;
+    margin-right: 7vw;
+    margin-left: 7vw;
     margin-top: 2vh;
 }
 .add-button-wrapper {
@@ -114,6 +114,7 @@ body {
     margin-left: 6.4vw;
     margin-right: 6.4vw;
     flex-wrap: wrap;
+    justify-content: center;
 }
 .activity-tile {
     margin: 1vw;
