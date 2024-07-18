@@ -106,7 +106,7 @@ function add_tile(activity, activity_label, text_label, bin, activity_id, subinf
     activity_subinfo_span.textContent = subinfo;
     info_span.textContent = `Информация: ${info}`;
     
-    bin.src = "http://127.0.0.1:8000/static/images/recycle_bin_white.png";
+    bin.src = "http://localhost:8001/static/images/recycle_bin_white.png";
     bin.classList.add('bin');
 
     bin.addEventListener('click', () => {
@@ -401,7 +401,7 @@ add_activity_btn.addEventListener('click', () => {
                     data.ID,
                     subinfo_str,
                     activity_info.value,
-                    "http://127.0.0.1:8000/static/images/activity_backgrounds/2.jpg"
+                    "http://localhost:8001/static/images/activity_backgrounds/2.jpg"
                 );
                 label.style = "display: none";
                 error_label.style = "display: none";

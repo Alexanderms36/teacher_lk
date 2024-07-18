@@ -150,7 +150,7 @@ class ActivitiesPageView(APIView):
 
     def get(self, request, chosen_class, chosen_student, chosen_activity):
         num = random.randrange(1, 4)
-        pic_path = f"http://127.0.0.1:8000/static/images/activity_backgrounds/{num}.jpg"
+        pic_path = f"http://localhost:8001/static/images/activity_backgrounds/{num}.jpg"
 
         match chosen_activity:
             case 'olympiads':
