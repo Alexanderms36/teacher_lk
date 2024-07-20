@@ -1,0 +1,27 @@
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile.web
+    env_file:
+      - ./teacher_webapp/teacher_webapp/.env
+    ports:
+      - "${PORT:-8888}:${PORT:-8888}"
+    volumes:
+      - static_volume:/teacher_webapp/static
+
+  nginx:
+    build:
+      context: .
+      dockerfile: Dockerfile.nginx
+    env_file:
+      - ./teacher_webapp/teacher_webapp/.env
+    ports:
+      - "${PORT:-8888}:${PORT:-8888}"
+    depends_on:
+      - web
+    
+
+
+volumes:
+  static_volume:

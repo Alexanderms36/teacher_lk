@@ -1,0 +1,4 @@
+FROM nginx:alpine
+COPY nginx.template /etc/nginx/nginx.template
+COPY teacher_webapp/static /static
+ENTRYPOINT ["/bin/sh", "-c", "envsubst '${PORT}' < /etc/nginx/nginx.template > /etc/nginx/nginx.conf && exec nginx -g 'daemon off;'"]
