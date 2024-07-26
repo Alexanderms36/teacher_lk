@@ -62,13 +62,12 @@ class UserAccountView(APIView):
                 schema = ImageSchema()
                 data = schema.load({'image': image})
 
-                file_path = os.path.join('app/profile_images', f'{request.user.id}_{image.name}')
-                file_name = default_storage.save(file_path, ContentFile(image.read()))
-                file_url = default_storage.url(file_name)
+                file_name = default_storage.save(f'profile_images/{request.user.id}_{image.name}', ContentFile(image.read()))
 
-                request.user.image = file_url
+                request.user.image = file_name
                 request.user.save()
-                return Response({'file_url': file_url, 'success': True}, status=status.HTTP_200_OK)
+
+                return Response({'file_name': file_name, 'success': True}, status=status.HTTP_200_OK)
             
             except ValidationError as err:
                 return Response({'success': False, 'detail': err.messages}, status=status.HTTP_400_BAD_REQUEST)
