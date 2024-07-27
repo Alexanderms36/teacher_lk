@@ -37,20 +37,17 @@
         <div id="login-image-container">
             <img id="login-image" src="{% static 'images/login_pic.svg' %}" alt="Image">
         </div>
-        <form method="post" action="{% url 'login' %}">
-          {% csrf_token %}
           <div id="login-container">
             <h2 id="teachers-cab">Кабинет Учителя</h2>
               <div id="login-input-places-container">
                   <a>Логин</a>
-                  <input name="username" type="text" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+                  <input name="username" id="username" type="text" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
                   <a>Пароль</a>
-                  <input name="password" type="password" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+                  <input name="password" id="password" type="password" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
               </div>
               <button type="submit" class="btn btn-outline-info" id="login_button">Войти</button>
+              <p class="error-message"></p>
           </div> 
-        </form>
-
     </main>
 	<script src="{% static 'js/index.js' %}"></script>
   </body>

@@ -25,12 +25,11 @@ import random
 
 
 class UserLoginView(APIView):
-    renderer_classes = [TemplateHTMLRenderer]
+    renderer_classes = [JSONRenderer, TemplateHTMLRenderer]
     template_name = 'index.html'
 
     def get(self, request):
-        queryset = Student.objects.all()
-        return Response({'students': queryset})
+        return Response({'status': 'ok'}, status=status.HTTP_200_OK)
 
     def post(self, request):
         username = request.data.get('username')
@@ -40,10 +39,10 @@ class UserLoginView(APIView):
             login(request, user)
             token, _ = Token.objects.get_or_create(user=user)
             return Response({'token': token.key, 'detail': 'Redirecting to user account'},
-                                status=status.HTTP_302_FOUND,
+                                status=status.HTTP_200_OK,
                                 headers={'Location': reverse('user_account')})
         else:
-            return Response({'error': 'Invalid data'}, status=401)
+            return Response({'error': 'Invalid data'}, status=status.HTTP_401_UNAUTHORIZED)
         
 class UserAccountView(APIView):
     permission_classes = [IsAuthenticated]
