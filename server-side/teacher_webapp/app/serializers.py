@@ -34,7 +34,7 @@ class OlympiadsSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Olympiads
-        fields = ["id", "name", "place", "info", "student"]
+        fields = ["id", "name", "place", "info", "student", "image"]
 
     def create(self, validated_data):
         student = validated_data.pop('student', None)
@@ -49,7 +49,7 @@ class TutorsSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Tutors
-        fields = ["id", "name", "surname", "patronymic", "subject", "info", "student"]
+        fields = ["id", "name", "surname", "patronymic", "subject", "info", "student", "image"]
 
     def create(self, validated_data):
         student = validated_data.pop('student', None)
@@ -64,7 +64,7 @@ class AfterschoolsSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Afterschools
-        fields = ["id", "name", "subject", "info", "student"]
+        fields = ["id", "name", "subject", "info", "student", "image"]
 
     def create(self, validated_data):
         student = validated_data.pop('student', None)

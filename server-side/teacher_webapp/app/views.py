@@ -19,6 +19,7 @@ import os
 from django.shortcuts import get_object_or_404
 from django.core.files.base import ContentFile
 from django.core.files.storage import default_storage
+from django.conf import settings
 from .schema import ImageSchema, TextSchema
 from marshmallow import ValidationError
 import random
@@ -195,7 +196,8 @@ class ActivitiesPageView(APIView):
                             'info': added_activity['info'],
                             'student': chosen_student
                             })
-                        
+                        # file_url = f"{settings.STATIC_URL}css/index.css"
+                        # print(file_url)
                         if serializer.is_valid():
                             serializer.save()
                             return Response(
