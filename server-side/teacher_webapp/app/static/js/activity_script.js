@@ -4,8 +4,10 @@ const add_activity_btn = document.querySelector('.add-button');
 const bins = [];
 const tiles = [];
 const activity_labels = [];
+const bin_path = "/static/images/recycle_bin_white.png";
 const chosen_activity_label = document.getElementById('class-label');
 let activity_type = "";
+let temp = "";
 
 
 if (localStorage.getItem('theme') !== null) {
@@ -17,6 +19,29 @@ fetch('')
   .then(data => {
     const activity_data = data.data;
     activity_type = data.activity;
+    console.log(activity_data);
+    // temp = activity_data[2].image;
+    console.log(temp);
+    switch (activity_type) {
+        case 'olympiads':
+            chosen_activity_label.textContent = "Олимпиады";
+            add_activity_btn.textContent = "Добавить олимпиаду";
+            break;
+
+        case 'tutors':
+            chosen_activity_label.textContent = "Репетиторы";
+            add_activity_btn.textContent = "Добавить репетитора";
+            break;
+
+        case 'afterschools':
+            chosen_activity_label.textContent = "Кружки";
+            add_activity_btn.textContent = "Добавить кружок";
+            break;
+
+        default:
+            chosen_activity_label.textContent = "Ошибка";
+            break;
+    }
     if (activity_data.length != 0) {
         const subjects = [];
         const subinfo = [];
@@ -30,7 +55,7 @@ fetch('')
                     subinfo.push(str);
                     subjects.push(activity_data[i].name);
                 }
-                add_buttons(activity_data, subjects, subinfo, data.pic);
+                add_buttons(activity_data, subjects, subinfo);
                 break;
     
             case 'tutors':
@@ -41,7 +66,7 @@ fetch('')
                     subinfo.push(str);
                     subjects.push(activity_data[i].subject);
                 }
-                add_buttons(activity_data, subjects, subinfo, data.pic);
+                add_buttons(activity_data, subjects, subinfo);
                 break;
     
             case 'afterschools':
@@ -50,7 +75,7 @@ fetch('')
                 for (let i = 0; i < activity_data.length; i++) {
                     subjects.push(activity_data[i].subject);
                 }
-                add_buttons(activity_data, subjects, subinfo, data.pic);
+                add_buttons(activity_data, subjects, subinfo);
                 break;
     
             default:
@@ -106,7 +131,7 @@ function add_tile(activity, activity_label, text_label, bin, activity_id, subinf
     activity_subinfo_span.textContent = subinfo;
     info_span.textContent = `Информация: ${info}`;
     
-    bin.src = "http://localhost:8001/static/images/recycle_bin_white.png";
+    bin.src = bin_path;
     bin.classList.add('bin');
 
     bin.addEventListener('click', () => {
@@ -190,7 +215,7 @@ function add_tile(activity, activity_label, text_label, bin, activity_id, subinf
     });
 }
 
-function add_buttons(activity_data, subject, subinfo, pic_path) {
+function add_buttons(activity_data, subject, subinfo) {
     for (let i = 0; i < activity_data.length; i++) {
         const activity = document.createElement('div');
         const activity_label = document.createElement('div');
@@ -200,10 +225,10 @@ function add_buttons(activity_data, subject, subinfo, pic_path) {
             activity_label,
             subject[i],
             bin, 
-            activity_data[i].id, 
+            activity_data[i].id,
             subinfo[i],
             activity_data[i].info,
-            pic_path
+            activity_data[i].image
             );
         bins.push(bin);
         tiles.push(activity);
@@ -252,15 +277,36 @@ add_activity_btn.addEventListener('click', () => {
         <div class="input-group-prepend">
             <span class="input-group-text">Предмет</span>
         </div>
-        <input type="text" class="form-control activity-name">
+        <select class="form-select activity-select" aria-label="Default select example">
+            <option selected>Выберите предмет</option>
+            <option value="Математика">Математика</option>
+            <option value="Физика">Физика</option>
+            <option value="Русский язык">Русский язык</option>
+            <option value="Химия">Химия</option>
+            <option value="Литература">Литература</option>
+            <option value="Английский язык">Английский язык</option>
+            <option value="Немецкий язык">Немецкий язык</option>
+            <option value="История">История</option>
+            <option value="География">География</option>
+            <option value="Биология">Биология</option>
+            <option value="Обществознание">Обществознание</option>
+            <option value="Технология">Технология</option>
+            <option value="ИЗО">ИЗО</option>
+            <option value="another-choice">Свой вариант</option>
+        </select>
     `;
-
     const subinfo_wrapper1 = document.createElement('div');
     const paragraph_subinfo_wrapper = document.createElement('div');
+    const own_input = document.createElement('div')
 
+    input_group.appendChild(own_input);
+    own_input.innerHTML = `
+            <input type="text" class="form-control activity-name"></input>
+    `
     subinfo_wrapper1.classList.add('activity-input-wrapper');
     input_group.appendChild(paragraph_subinfo_wrapper);
     input_group.appendChild(subinfo_wrapper1);
+
 
     switch (activity_type) {
         case 'olympiads':
@@ -326,13 +372,34 @@ add_activity_btn.addEventListener('click', () => {
     const cancel_button = modal_window.querySelector('.btn-secondary');
     const submit_button = modal_window.querySelector('.add-activity-descr');
 
+    let isInput = false;
+    document.querySelector('.activity-select').addEventListener("change", function(){
+        const customInput = document.querySelector('.activity-name');
+        if (this.value === 'another-choice') {
+            customInput.style.display = 'flex';
+            isInput = true;
+        } else {
+            customInput.style.display = 'none';
+            isInput = false;
+        }
+    })
+
     cancel_button.addEventListener('click', () => {
         modal_window.remove();
     });
 
     submit_button.addEventListener('click', (e) => {
         e.preventDefault();
-        const activity_name = modal_window.querySelector('.activity-name');
+        
+        let selected_name = '';
+
+        if (isInput) {
+            selected_name = '.activity-name';
+        } else {
+            selected_name = '.form-select';
+        }
+
+        const activity_name = modal_window.querySelector(selected_name);
         const activity_subinfo = modal_window.querySelector('.activity-place');
         const activity_info = modal_window.querySelector('.activity-info');
         const error_label = modal_window.querySelector('.error-message');
@@ -385,7 +452,6 @@ add_activity_btn.addEventListener('click', () => {
                 switch (activity_type) {
                     case 'olympiads':
                         subinfo_str = `Место: ${subinfo}`;
-                        
                         break;
                 
                     case 'tutors':

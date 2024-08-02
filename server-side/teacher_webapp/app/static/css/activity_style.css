@@ -8,6 +8,7 @@
     --add-activity-button: rgb(90, 90, 90);
     --add-activity-button-hover: rgb(220, 220, 220);
     --color-shadow: rgba(13, 225, 213, 0.25);
+    --tiles-bg-color: rgb(255, 255, 255);
 }
 :root[data-theme='dark'] {
     --bg-color: rgb(74, 74, 74);
@@ -16,9 +17,10 @@
     --color: rgb(61, 136, 131);
     --hover-button-color: rgb(0, 0, 0);
     --profile-wrapper-bg-color: rgb(136, 136, 136);
-    --add-activity-button: rgb(27, 225, 216);
+    --add-activity-button: rgb(140, 213, 210);
     --add-activity-button-hover: rgb(220, 220, 220);
     --color-shadow: rgba(61, 136, 131, 0.25);
+    --tiles-bg-color: rgb(97, 97, 97);
 }
 
 body {
@@ -124,7 +126,7 @@ body {
     width: 28vw;
     position: relative;
     color: var(--text-color);
-    background-color: white;
+    background-color: var(--tiles-bg-color);
     border-radius: 3%;
     overflow: hidden;
 }
@@ -201,6 +203,25 @@ body {
 .modal-dialog {
     background-color: aliceblue;
 }
+.activity-name {
+    display: none;
+    margin-bottom: 1vw;
+    margin-top: 0vw;
+    width: 33vw;
+    animation: pop-down 0.3s ease-in-out;
+}
+
+@keyframes pop-down {
+    0% {
+      transform: translateY(-20px);
+      opacity: 0;
+    }
+    100% {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+
 .add-activity-descr {
     color: rgb(255, 239, 239);
     background-color: rgb(17, 179, 170);

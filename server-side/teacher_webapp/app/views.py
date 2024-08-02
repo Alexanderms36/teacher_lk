@@ -19,10 +19,10 @@ import os
 from django.shortcuts import get_object_or_404
 from django.core.files.base import ContentFile
 from django.core.files.storage import default_storage
-from django.conf import settings
 from .schema import ImageSchema, TextSchema
 from marshmallow import ValidationError
 import random
+from .activity_handler import handle
 
 
 class UserLoginView(APIView):
@@ -150,7 +150,6 @@ class ActivitiesPageView(APIView):
     def get(self, request, chosen_class, chosen_student, chosen_activity):
         num = random.randrange(1, 4)
         pic_path = f"http://localhost:8001/static/images/activity_backgrounds/{num}.jpg"
-
         match chosen_activity:
             case 'olympiads':
                 olympiads = Olympiads.objects.filter(student_id=chosen_student)
@@ -185,19 +184,22 @@ class ActivitiesPageView(APIView):
         elif 'added_activity' in request.data:
             try:
                 added_activity = request.data.get('added_activity')
+                print("send: ", added_activity)
+
                 data = added_activity['name']
                 TextSchema().load({'schema_text': data})
+                activity_pic = handle(data)
                 match added_activity['type']:
                     case 'olympiads':
+                        print("tried: ", data)
                         serializer = OlympiadsSerializer(data=
                             {
                             'name': added_activity['name'],
                             'place': added_activity['subinfo'],
                             'info': added_activity['info'],
-                            'student': chosen_student
+                            'student': chosen_student,
+                            'image': f'/media/activity_bg_pic/{activity_pic}'
                             })
-                        # file_url = f"{settings.STATIC_URL}css/index.css"
-                        # print(file_url)
                         if serializer.is_valid():
                             serializer.save()
                             return Response(
@@ -207,7 +209,7 @@ class ActivitiesPageView(APIView):
                                     'ID': serializer.data['id']
                                 },
                                 status=status.HTTP_201_CREATED)
-                        
+                        print(serializer.errors)
                         return Response({'success': False})
                     
                     case 'tutors':
@@ -218,7 +220,8 @@ class ActivitiesPageView(APIView):
                             'surname': added_activity['subinfo']['surname'],
                             'patronymic': added_activity['subinfo']['patronymic'],
                             'info': added_activity['info'],
-                            'student': chosen_student
+                            'student': chosen_student,
+                            'image': f'/media/activity_bg_pic/{activity_pic}'
                             })
                         
                         if serializer.is_valid():
@@ -239,7 +242,8 @@ class ActivitiesPageView(APIView):
                             'subject': added_activity['name'],
                             'name': 'none',
                             'info': added_activity['info'],
-                            'student': chosen_student
+                            'student': chosen_student,
+                            'image': f'/media/activity_bg_pic/{activity_pic}'
                             })
                         
                         if serializer.is_valid():

@@ -26,7 +26,7 @@ class Olympiads(models.Model):
     place = models.CharField(max_length=512, blank=True)
     info = models.CharField(max_length=512, blank=True)
     student = models.ForeignKey(Student, on_delete=models.SET_NULL, null=True, blank=True)
-    image = models.ImageField(upload_to='activity_bg_pic', blank=True)
+    image = models.CharField(max_length=512, blank=True, null=True)
 
 class Tutors(models.Model):
     name = models.CharField(max_length=255)
@@ -35,11 +35,11 @@ class Tutors(models.Model):
     subject = models.CharField(max_length=255)
     info = models.CharField(max_length=512, null=True, blank=True)
     student = models.ForeignKey(Student, on_delete=models.SET_NULL, null=True, blank=True)
-    image = models.ImageField(upload_to='activity_bg_pic', blank=True)
+    image = models.CharField(max_length=512, blank=True, null=True)
 
 class Afterschools(models.Model):
     name = models.CharField(max_length=255)
     subject = models.CharField(max_length=255)
     info = models.CharField(max_length=512, null=True, blank=True)
     student = models.ForeignKey(Student, on_delete=models.SET_NULL, null=True, blank=True)
-    image = models.ImageField(upload_to='activity_bg_pic', blank=True)
+    image = models.CharField(max_length=512, blank=True, null=True)
