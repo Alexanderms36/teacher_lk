@@ -19,9 +19,6 @@ fetch('')
   .then(data => {
     const activity_data = data.data;
     activity_type = data.activity;
-    console.log(activity_data);
-    // temp = activity_data[2].image;
-    console.log(temp);
     switch (activity_type) {
         case 'olympiads':
             chosen_activity_label.textContent = "Олимпиады";
@@ -51,7 +48,7 @@ fetch('')
                 chosen_activity_label.textContent = "Олимпиады";
                 add_activity_btn.textContent = "Добавить олимпиаду";
                 for (let i = 0; i < activity_data.length; i++) {
-                    str = `Место: ${activity_data[i].place}`;
+                    activity_data[i].place != "" ? str = `Место: ${activity_data[i].place}` : str = ``
                     subinfo.push(str);
                     subjects.push(activity_data[i].name);
                 }
@@ -129,7 +126,8 @@ function add_tile(activity, activity_label, text_label, bin, activity_id, subinf
     img_wrap.src = pic;
     activity_name_span.textContent = text_label;
     activity_subinfo_span.textContent = subinfo;
-    info_span.textContent = `Информация: ${info}`;
+    if (info)
+        info_span.textContent = `Информация: ${info}`;
     
     bin.src = bin_path;
     bin.classList.add('bin');
@@ -278,7 +276,7 @@ add_activity_btn.addEventListener('click', () => {
             <span class="input-group-text">Предмет</span>
         </div>
         <select class="form-select activity-select" aria-label="Default select example">
-            <option selected>Выберите предмет</option>
+            <option selected value="">Выберите предмет</option>
             <option value="Математика">Математика</option>
             <option value="Физика">Физика</option>
             <option value="Русский язык">Русский язык</option>
@@ -392,12 +390,8 @@ add_activity_btn.addEventListener('click', () => {
         e.preventDefault();
         
         let selected_name = '';
-
-        if (isInput) {
-            selected_name = '.activity-name';
-        } else {
-            selected_name = '.form-select';
-        }
+            
+        isInput ? selected_name = '.activity-name' : selected_name = '.form-select';
 
         const activity_name = modal_window.querySelector(selected_name);
         const activity_subinfo = modal_window.querySelector('.activity-place');
@@ -415,6 +409,10 @@ add_activity_btn.addEventListener('click', () => {
                 const tutor_surname = modal_window.querySelector('.activity-tutor-surname');
                 const tutor_patronymic = modal_window.querySelector('.activity-tutor-patronymic');
 
+                if (tutor_name.value == "" || tutor_surname.value == "") {
+                    error_label.style = "display: flex";
+                    error_label.textContent = "Пожалуйста, введите фамилию и имя репетитора";
+                }
                 subinfo = {
                     'name': tutor_name.value,
                     'surname': tutor_surname.value,
@@ -451,24 +449,39 @@ add_activity_btn.addEventListener('click', () => {
 
                 switch (activity_type) {
                     case 'olympiads':
-                        subinfo_str = `Место: ${subinfo}`;
+                        subinfo != "" ? subinfo_str = `Место: ${subinfo}` : subinfo_str = ``;
+                        
                         break;
                 
                     case 'tutors':
                         subinfo_str = `Репетиторы: ${subinfo['surname']} ${subinfo['name']} ${subinfo['patronymic']}`;
                         break;
                 }
+                async function fetchData() {
+                    try {
+                        const response = await fetch('');
+                        if (!response.ok) {
+                            throw new Error(`status: ${response.status}`);
+                        }
+                        const data = await response.json();
+                        return data.data.pop()
+                    } catch (error) {
+                        console.error(error);
+                    }
+                }
+                fetchData().then(new_activity => {
+                    add_tile(
+                        activity,
+                        activity_label,
+                        activity_name.value,
+                        bin,
+                        data.ID,
+                        subinfo_str,
+                        activity_info.value,
+                        new_activity.image
+                    );
+                });
                 
-                add_tile(
-                    activity,
-                    activity_label,
-                    activity_name.value,
-                    bin,
-                    data.ID,
-                    subinfo_str,
-                    activity_info.value,
-                    "http://localhost:8001/static/images/activity_backgrounds/2.jpg"
-                );
                 label.style = "display: none";
                 error_label.style = "display: none";
                 modal_window.remove();

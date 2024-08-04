@@ -184,14 +184,12 @@ class ActivitiesPageView(APIView):
         elif 'added_activity' in request.data:
             try:
                 added_activity = request.data.get('added_activity')
-                print("send: ", added_activity)
 
                 data = added_activity['name']
                 TextSchema().load({'schema_text': data})
                 activity_pic = handle(data)
                 match added_activity['type']:
                     case 'olympiads':
-                        print("tried: ", data)
                         serializer = OlympiadsSerializer(data=
                             {
                             'name': added_activity['name'],
@@ -206,10 +204,10 @@ class ActivitiesPageView(APIView):
                                 {
                                     'message': f"Saved: {serializer.data['name']}",
                                     'success': True,
+                                    'data': serializer.data,
                                     'ID': serializer.data['id']
                                 },
                                 status=status.HTTP_201_CREATED)
-                        print(serializer.errors)
                         return Response({'success': False})
                     
                     case 'tutors':

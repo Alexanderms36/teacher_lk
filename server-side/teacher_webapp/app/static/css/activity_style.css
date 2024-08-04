@@ -99,13 +99,12 @@ body {
     display: flexbox;
     justify-content: center;
     text-align: center;
-    margin-right: 7vw;
-    margin-left: 7vw;
     margin-top: 2vh;
 }
 .add-button-wrapper {
     display: flex;
     justify-content: flex-end;
+    margin-right: 6vw;
 }
 .activities-wrapper h1 {
     color: var(--text-color);
@@ -113,8 +112,6 @@ body {
 .activities-wrapper {
     display: inline-flex;
     margin: 2vw;
-    margin-left: 6.4vw;
-    margin-right: 6.4vw;
     flex-wrap: wrap;
     justify-content: center;
 }
@@ -171,24 +168,34 @@ body {
 }
 .tile-label {
     position: absolute;
+    display: block;
     top: 52%;
     left: 5%;
+    width: 9vw;
+    text-align: left;
+    overflow: hidden;
 }
 .place-label {
     position: absolute;
+    display: block;
     top: 52%;
     right: 5%;
+    width: 16vw;
+    text-align: right;
+    overflow: hidden;
 }
 .info-wrapper {
     position: absolute;
     top: 66%;
     left: 5%;
     text-align: left;
+    margin-top: 1vw;
+    margin-bottom: 3vw;
 }
 .bin-wrapper {
     position: absolute;
     right: 0%;
-    top: 0;
+    top: 1%;
     width: 7%;
     height: auto;
     overflow: visible;
@@ -257,5 +264,8 @@ body {
     #class-label {
         margin-left: 18vw;
         font-size: 5vw;
+    }
+    .bin-wrapper {
+        top: -2%;
     }
 }
