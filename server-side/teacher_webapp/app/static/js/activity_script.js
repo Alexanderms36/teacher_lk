@@ -8,6 +8,7 @@ const bin_path = "/static/images/recycle_bin_white.png";
 const chosen_activity_label = document.getElementById('class-label');
 let activity_type = "";
 let temp = "";
+let isBinActive= false, isAddActive = false;
 
 
 if (localStorage.getItem('theme') !== null) {
@@ -133,42 +134,60 @@ function add_tile(activity, activity_label, text_label, bin, activity_id, subinf
     bin.classList.add('bin');
 
     bin.addEventListener('click', () => {
+        if (document.querySelector('.modal-dialog')) {
+            return;
+        }
+    
         const bin_index = bins.indexOf(bin);
+        const modal_overlay = document.createElement('div');
         const modal_window = document.createElement('div');
-
+        
+        modal_overlay.classList.add('modal-overlay');
+        modal_overlay.style.position = 'fixed';
+        modal_overlay.style.top = '0';
+        modal_overlay.style.left = '0';
+        modal_overlay.style.width = '100%';
+        modal_overlay.style.height = '100%';
+        modal_overlay.style.background = 'rgba(0, 0, 0, 0.4)';
+        modal_overlay.style.zIndex = '1040';
+    
         modal_window.classList.add('modal-dialog', 'modal-dialog-centered');
+        modal_window.style.position = 'fixed';
+        modal_window.style.top = '50%';
+        modal_window.style.left = '50%';
+        modal_window.style.transform = 'translate(-50%, -50%)';
         modal_window.style.zIndex = '1050';
-        modal_window.style.position = 'absolute';
-        modal_window.style.top = '0px';
-        modal_window.style.left = '0px';
-        modal_window.style.width = '100%';
-        modal_window.style.height = '100%';
-        modal_window.style.background = 'rgba(0, 0, 0, 0.4)';
+        modal_window.style.borderRadius = '3%';
         modal_window.innerHTML = `
-            <div class="modal-dialog modal-dialog-centered" style="border-radius: 10px;">
-                <div class="modal-content" data-backdrop="static" style="box-sizing: border-box;">
-                    <div class="modal-header">
-                        <h5 class="modal-title" style="margin: 1vw;">Удалить активность?</h5>
-                    </div>
-                    <div class="modal-body" style="padding: 1vw;margin-bottom: 1vw;">
-                        Вы уверены, что хотите удалить активность: "${text_label}"?
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" style="margin-bottom: 1vw;margin-left: 1vw;margin-right: 1vw;">Отмена</button>
-                        <button type="button" class="btn btn-danger" style="margin-bottom: 1vw;margin-left: 1vw;margin-right: 1vw;">Удалить</button>
-                    </div>
+            <div class="modal-content" data-backdrop="static" style="box-sizing: border-box;">
+                <div class="modal-header">
+                    <h5 class="modal-title" style="margin: 1vw;">Удалить активность?</h5>
+                </div>
+                <div class="modal-body" style="padding: 1vw;margin-bottom: 1vw;">
+                    Вы уверены, что хотите удалить активность: "${text_label}"?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" style="margin-bottom: 1vw;margin-left: 1vw;margin-right: 1vw;">Отмена</button>
+                    <button type="button" class="btn btn-danger" style="margin-bottom: 1vw;margin-left: 1vw;margin-right: 1vw;">Удалить</button>
                 </div>
             </div>
         `;
-        document.body.appendChild(modal_window);
-
+    
+        modal_overlay.appendChild(modal_window);
+        document.body.appendChild(modal_overlay);
+        document.body.style.overflow = 'hidden';
+    
         const cancel_button = modal_window.querySelector('.btn-secondary');
         const submit_button = modal_window.querySelector('.btn-danger');
-
-        cancel_button.addEventListener('click', () => {
-            modal_window.remove();
-        });
-
+    
+        const closeModal = () => {
+            modal_overlay.remove();
+            document.body.style.overflow = '';
+            document.removeEventListener('click', outsideClickListener);
+        };
+    
+        cancel_button.addEventListener('click', closeModal);
+    
         submit_button.addEventListener('click', (e) => {
             e.preventDefault();
             fetch('', {
@@ -195,7 +214,7 @@ function add_tile(activity, activity_label, text_label, bin, activity_id, subinf
                         label.style = "display: inline-flex";
                         label.textContent = "Нет данных о выбранном виде активности ученика";
                     }
-                    modal_window.remove();
+                    closeModal();
                 } else {
                     console.error('Error deleting activity:', data.error);
                 }
@@ -204,13 +223,17 @@ function add_tile(activity, activity_label, text_label, bin, activity_id, subinf
                 console.error('Error: ', error);
             });
         });
-        
-        document.addEventListener('click', (e) => {
+    
+        const outsideClickListener = (e) => {
             if (!modal_window.contains(e.target) && !bin.contains(e.target)) {
-                modal_window.remove();
+                closeModal();
             }
-        });
+        };
+    
+        document.addEventListener('click', outsideClickListener);
     });
+    
+    
 }
 
 function add_buttons(activity_data, subject, subinfo) {
@@ -232,16 +255,31 @@ function add_buttons(activity_data, subject, subinfo) {
         tiles.push(activity);
     }
 }
+
 add_activity_btn.addEventListener('click', () => {
+    if (document.querySelector('.modal-dialog')) {
+        return;
+    }
+
+    const modal_overlay = document.createElement('div');
     const modal_window = document.createElement('div');
+
+    modal_overlay.classList.add('modal-overlay');
+    modal_overlay.style.position = 'fixed';
+    modal_overlay.style.top = '0';
+    modal_overlay.style.left = '0';
+    modal_overlay.style.width = '100%';
+    modal_overlay.style.height = '100%';
+    modal_overlay.style.background = 'rgba(0, 0, 0, 0.4)';
+    modal_overlay.style.zIndex = '1040';
+
     modal_window.classList.add('modal-dialog', 'modal-dialog-centered');
+    modal_window.style.position = 'fixed';
+    modal_window.style.top = '50%';
+    modal_window.style.left = '50%';
+    modal_window.style.transform = 'translate(-50%, -50%)';
     modal_window.style.zIndex = '1050';
-    modal_window.style.position = 'absolute';
-    modal_window.style.top = '0px';
-    modal_window.style.left = '0px';
-    modal_window.style.width = '100%';
-    modal_window.style.height = '100%';
-    modal_window.style.background = 'rgba(0, 0, 0, 0.4)';
+    modal_window.style.borderRadius = '3%';
     modal_window.innerHTML = `
         <div class="modal-dialog modal-dialog-centered" style="border-radius: 10px; width: 40vw">
             <div class="modal-content" data-backdrop="static" style="box-sizing: border-box;">
@@ -367,8 +405,19 @@ add_activity_btn.addEventListener('click', () => {
     `;
 
     document.body.appendChild(modal_window);
+    document.body.appendChild(modal_overlay);
+
+    document.body.style.overflow = 'hidden';
+
     const cancel_button = modal_window.querySelector('.btn-secondary');
     const submit_button = modal_window.querySelector('.add-activity-descr');
+
+    const closeModal = () => {
+        modal_window.remove();
+        modal_overlay.remove();
+        document.body.style.overflow = '';
+        document.removeEventListener('click', outsideClickListener);
+    };
 
     let isInput = false;
     document.querySelector('.activity-select').addEventListener("change", function(){
@@ -382,9 +431,7 @@ add_activity_btn.addEventListener('click', () => {
         }
     })
 
-    cancel_button.addEventListener('click', () => {
-        modal_window.remove();
-    });
+    cancel_button.addEventListener('click', closeModal);
 
     submit_button.addEventListener('click', (e) => {
         e.preventDefault();
@@ -484,7 +531,7 @@ add_activity_btn.addEventListener('click', () => {
                 
                 label.style = "display: none";
                 error_label.style = "display: none";
-                modal_window.remove();
+                closeModal();
             } else {
                 switch (data.message?.schema_text[0]) {
                     case "Invalid value.":
@@ -498,9 +545,10 @@ add_activity_btn.addEventListener('click', () => {
             console.error('Error:', error);
         });
     });
+
     document.addEventListener('click', (e) => {
         if (!modal_window.contains(e.target) && !add_activity_btn.contains(e.target)) {
-            modal_window.remove();
+            closeModal()
         }
     });
 })

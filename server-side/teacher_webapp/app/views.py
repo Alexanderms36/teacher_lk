@@ -16,7 +16,7 @@ from .serializers import (
     AfterschoolsSerializer
 )
 import os
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, redirect
 from django.core.files.base import ContentFile
 from django.core.files.storage import default_storage
 from .schema import ImageSchema, TextSchema
@@ -24,6 +24,10 @@ from marshmallow import ValidationError
 import random
 from .activity_handler import handle
 
+
+class MainPageView(APIView):
+    def get(self, request):
+        return redirect('login')
 
 class UserLoginView(APIView):
     renderer_classes = [JSONRenderer, TemplateHTMLRenderer]
