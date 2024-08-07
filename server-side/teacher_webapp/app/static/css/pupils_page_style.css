@@ -76,10 +76,15 @@ body {
 }
 #class-label {
     position: absolute;
-    left: 12vw;
+    margin-bottom: 0.5vw;
+    justify-content: center;
+    align-items: center;
+    display: inline;
+    margin-left: 9vw;
     top: 50%;
-    transform: translateY(-59%);
+    transform: translate(0%, -59%);
     font-size: 3vw;
+    font-weight: 300;
 }
 .students-list-wrapper h1 {
     margin-top: 2vw;

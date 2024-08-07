@@ -119,13 +119,14 @@ body {
     margin: 1vw;
     display: flex;
     flex-direction: column;
-    height: 18vw;
-    width: 28vw;
     position: relative;
     color: var(--text-color);
     background-color: var(--tiles-bg-color);
     border-radius: 3%;
     overflow: hidden;
+    width: 28vw;
+    min-height: 20vw;
+    height: auto;
 }
 .activity-tile .activity-pic {
     width: 100%;
@@ -174,6 +175,8 @@ body {
     width: 9vw;
     text-align: left;
     overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }
 .place-label {
     position: absolute;
@@ -188,9 +191,12 @@ body {
     position: absolute;
     top: 66%;
     left: 5%;
+    right: 5%;
     text-align: left;
-    margin-top: 1vw;
+    margin-top: 3vw;
     margin-bottom: 3vw;
+    overflow: hidden;
+    word-wrap: break-word;
 }
 .bin-wrapper {
     position: absolute;

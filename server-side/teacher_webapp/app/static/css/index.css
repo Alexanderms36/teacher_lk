@@ -143,6 +143,13 @@ input[type="password"]:focus {
     font-weight: 100;
     font-size: 1.1vw;
 }
+.eye-toggle {
+    position: absolute;
+    right: 0.7vw;
+    top: 64%;
+    transform: translateY(-50%);
+    cursor: pointer;
+}
 @media screen and (max-width: 480px) {
     main {
         justify-content: center;

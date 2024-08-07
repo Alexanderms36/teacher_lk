@@ -20,6 +20,7 @@ fetch('')
   .then(data => {
     const activity_data = data.data;
     activity_type = data.activity;
+    
     switch (activity_type) {
         case 'olympiads':
             chosen_activity_label.textContent = "Олимпиады";
@@ -44,6 +45,7 @@ fetch('')
         const subjects = [];
         const subinfo = [];
         let str = "";
+
         switch (data.activity) {
             case 'olympiads':
                 chosen_activity_label.textContent = "Олимпиады";
@@ -82,9 +84,7 @@ fetch('')
         }
     } else {
         label.textContent = "Нет данных о выбранном виде активности ученика";
-    }
-
-    
+    } 
   })
   .catch(error => {
     console.error(error);
@@ -102,7 +102,6 @@ function add_tile(activity, activity_label, text_label, bin, activity_id, subinf
     const info_span = document.createElement('span')
     
     activities_wrapper.appendChild(activity);
-
     activity.classList.add('activity-tile');
     activity.appendChild(activity_label);
     activity.appendChild(bin_wrapper)
@@ -111,7 +110,6 @@ function add_tile(activity, activity_label, text_label, bin, activity_id, subinf
     bin_wrapper.appendChild(bin);
     activity.appendChild(activity_wrapper);
     
-
     activity_wrapper.appendChild(img_wrap);
     activity_wrapper.classList.add('activity-pic');
     activity.appendChild(allinfolabel);
@@ -128,8 +126,8 @@ function add_tile(activity, activity_label, text_label, bin, activity_id, subinf
     activity_name_span.textContent = text_label;
     activity_subinfo_span.textContent = subinfo;
     if (info)
-        info_span.textContent = `Информация: ${info}`;
-    
+        (info.length > 86) ? info_span.textContent = `Информация: ${info.slice(0, 86)}...` : info_span.textContent = `Информация: ${info}`;
+
     bin.src = bin_path;
     bin.classList.add('bin');
 
@@ -158,6 +156,7 @@ function add_tile(activity, activity_label, text_label, bin, activity_id, subinf
         modal_window.style.transform = 'translate(-50%, -50%)';
         modal_window.style.zIndex = '1050';
         modal_window.style.borderRadius = '3%';
+
         modal_window.innerHTML = `
             <div class="modal-content" data-backdrop="static" style="box-sizing: border-box;">
                 <div class="modal-header">
@@ -209,11 +208,14 @@ function add_tile(activity, activity_label, text_label, bin, activity_id, subinf
                     bins.splice(bin_index, 1);
                     tiles.splice(bin_index, 1);
                     activity_labels.splice(bin_index, 1);
+
                     activity.remove();
+
                     if (tiles.length == 0) {
                         label.style = "display: inline-flex";
                         label.textContent = "Нет данных о выбранном виде активности ученика";
                     }
+
                     closeModal();
                 } else {
                     console.error('Error deleting activity:', data.error);
@@ -232,8 +234,6 @@ function add_tile(activity, activity_label, text_label, bin, activity_id, subinf
     
         document.addEventListener('click', outsideClickListener);
     });
-    
-    
 }
 
 function add_buttons(activity_data, subject, subinfo) {
@@ -241,6 +241,7 @@ function add_buttons(activity_data, subject, subinfo) {
         const activity = document.createElement('div');
         const activity_label = document.createElement('div');
         const bin = document.createElement('img');
+
         add_tile(
             activity,
             activity_label,
@@ -251,6 +252,7 @@ function add_buttons(activity_data, subject, subinfo) {
             activity_data[i].info,
             activity_data[i].image
             );
+
         bins.push(bin);
         tiles.push(activity);
     }
@@ -280,6 +282,7 @@ add_activity_btn.addEventListener('click', () => {
     modal_window.style.transform = 'translate(-50%, -50%)';
     modal_window.style.zIndex = '1050';
     modal_window.style.borderRadius = '3%';
+
     modal_window.innerHTML = `
         <div class="modal-dialog modal-dialog-centered" style="border-radius: 10px; width: 40vw">
             <div class="modal-content" data-backdrop="static" style="box-sizing: border-box;">
@@ -331,6 +334,7 @@ add_activity_btn.addEventListener('click', () => {
             <option value="another-choice">Свой вариант</option>
         </select>
     `;
+
     const subinfo_wrapper1 = document.createElement('div');
     const paragraph_subinfo_wrapper = document.createElement('div');
     const own_input = document.createElement('div')
@@ -342,7 +346,6 @@ add_activity_btn.addEventListener('click', () => {
     subinfo_wrapper1.classList.add('activity-input-wrapper');
     input_group.appendChild(paragraph_subinfo_wrapper);
     input_group.appendChild(subinfo_wrapper1);
-
 
     switch (activity_type) {
         case 'olympiads':
@@ -420,6 +423,7 @@ add_activity_btn.addEventListener('click', () => {
     };
 
     let isInput = false;
+
     document.querySelector('.activity-select').addEventListener("change", function(){
         const customInput = document.querySelector('.activity-name');
         if (this.value === 'another-choice') {
@@ -483,6 +487,7 @@ add_activity_btn.addEventListener('click', () => {
                 }
             })
         })
+
         .then(response => response.json())
         .then(data => {
             if (data.success) {
@@ -497,7 +502,6 @@ add_activity_btn.addEventListener('click', () => {
                 switch (activity_type) {
                     case 'olympiads':
                         subinfo != "" ? subinfo_str = `Место: ${subinfo}` : subinfo_str = ``;
-                        
                         break;
                 
                     case 'tutors':
@@ -531,6 +535,7 @@ add_activity_btn.addEventListener('click', () => {
                 
                 label.style = "display: none";
                 error_label.style = "display: none";
+
                 closeModal();
             } else {
                 switch (data.message?.schema_text[0]) {

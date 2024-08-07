@@ -45,3 +45,11 @@ function getCookie(name) {
     }
     return cookieValue;
 }
+
+document.getElementById('toggle-password').addEventListener('click', function() {
+    const passwordField = document.getElementById('password');
+    const passwordFieldType = passwordField.getAttribute('type');
+    const newPasswordFieldType = passwordFieldType === 'password' ? 'text' : 'password';
+    passwordField.setAttribute('type', newPasswordFieldType);
+    this.querySelector('.material-symbols-outlined').textContent = newPasswordFieldType === 'password' ? 'visibility' : 'visibility_off';
+});

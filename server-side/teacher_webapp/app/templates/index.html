@@ -25,30 +25,34 @@
   </header>
   <body>
     <main>
-        
-        <div id="breadcrumb-container">
-            <nav aria-label="breadcrumb">
-                <ol class="breadcrumb" style="margin-bottom: 1.4vh;">
-                  <li class="breadcrumb-item"><a href="#">Главная</a></li>
-                  <li id="active" class="breadcrumb-item active" aria-current="page">Личный кабинет учителя</li>
-                </ol>
-              </nav>
-        </div>
-        <div id="login-image-container">
-            <img id="login-image" src="{% static 'images/login_pic.svg' %}" alt="Image">
-        </div>
-          <div id="login-container">
-            <h2 id="teachers-cab">Кабинет Учителя</h2>
-              <div id="login-input-places-container">
-                  <a>Логин</a>
-                  <input name="username" id="username" type="text" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
-                  <a>Пароль</a>
+      <div id="breadcrumb-container">
+          <nav aria-label="breadcrumb">
+              <ol class="breadcrumb" style="margin-bottom: 1.4vh;">
+                <li class="breadcrumb-item"><a href="#">Главная</a></li>
+                <li id="active" class="breadcrumb-item active" aria-current="page">Личный кабинет учителя</li>
+              </ol>
+          </nav>
+      </div>
+      <div id="login-image-container">
+          <img id="login-image" src="{% static 'images/login_pic.svg' %}" alt="Image">
+      </div>
+      <div id="login-container">
+          <h2 id="teachers-cab">Кабинет Учителя</h2>
+          <div id="login-input-places-container">
+              <a>Логин</a>
+              <input name="username" id="username" type="text" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+              <a>Пароль</a>
+              <div class="position-relative">
                   <input name="password" id="password" type="password" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+                  <span id="toggle-password" class="eye-toggle">
+                      <span class="material-symbols-outlined">visibility</span>
+                  </span>
               </div>
-              <button type="submit" class="btn btn-outline-info" id="login_button">Войти</button>
-              <p class="error-message"></p>
-          </div> 
-    </main>
+          </div>
+          <button type="submit" class="btn btn-outline-info" id="login_button">Войти</button>
+          <p class="error-message"></p>
+      </div>
+  </main>
 	<script src="{% static 'js/index.js' %}"></script>
   </body>
 </html>
