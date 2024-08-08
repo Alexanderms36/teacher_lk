@@ -7,7 +7,11 @@ class User(AbstractUser):
     image = models.ImageField(upload_to='profile_images', blank=True)
 
     def save(self, *args, **kwargs):
-        if self.pk is None or 'password' in self.get_dirty_fields():
+        if self.pk is not None:
+            original = User.objects.get(pk=self.pk)
+            if self.password != original.password:
+                self.set_password(self.password)
+        else:
             self.set_password(self.password)
         super().save(*args, **kwargs)
 

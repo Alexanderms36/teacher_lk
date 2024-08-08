@@ -37,7 +37,6 @@ body {
 #edu-center-container {
     position: absolute;
     bottom: 1vw;
-    
 }
 #edu-center-text {
     margin-left: 12vw;
@@ -63,7 +62,6 @@ body {
     color: var(--text-color);
     font-size: 1.3vw;
 }
-
 #active {
     color: var(--text-color);
 }
@@ -194,22 +192,26 @@ input[type="password"]:focus {
     #login-container {
         margin-left: 7vw;
         background-color: rgba(247, 247, 247, 0.5);
-        
     }
     #login-image {
         max-width: 70%;
         max-height: 60%;
         margin-right: 5vw;
-        
-        
     }
-
     #login-input-places-container {
         font-size: 3vw;
     }
     #phone-pic {
-        display: none;
+        vertical-align: -1vh;
+        
+    }
+    #edu-center-text {
+        font-size: 3vw;
+        margin-left: 4vw;
+    }
+    #breadcrumb-container{
+        margin-left: 7vw;
+        padding-top: 7vh;
+        font-size: 2vw;
     }
 }
-
-
