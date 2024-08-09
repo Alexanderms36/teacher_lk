@@ -234,12 +234,26 @@ input:hover {
     color: whitesmoke;
 }
 @media screen and (max-width: 1240px) {
+    main {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: auto;
+    }
     #classes-container {
-        margin-left: 7vw;
+        margin-left: 0vw;
+        margin-right: 0vw;
     }
     .upload-button-label {
         min-width: 100px;
         max-width: 123px;
+    }
+    #teacher-img-container {
+        margin-left: 0;
+    }
+    #container-header {
+        padding-bottom: 9vw;
     }
 }
 @media screen and (max-width: 1000px) {

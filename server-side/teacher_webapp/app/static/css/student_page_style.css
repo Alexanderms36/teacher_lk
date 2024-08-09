@@ -177,11 +177,6 @@ body {
         align-items: center;
         justify-content: center;
     }
-    main {
-        width: auto;
-        align-items: center;
-        justify-content: center;
-    }
     .exit-button {
         padding-left: 7vw;
         padding-right: 7vw;
@@ -191,13 +186,13 @@ body {
         font-size: 2.5vw;
     }
     #return-icon {
-        font-size: 7vw;
-        margin-left: 7vw;
-        transform: translate(0%, 30%);
+        font-size: 6vw;
+        margin-left: 2vw;
+        transform: translateY(30%);
     }
     #class-label {
-        margin-left: 16vw;
-        font-size: 3.3vw;
+        margin-left: 9.7vw;
+        font-size: 4vw;
     }
     .profile-wrapper {
         width: 40vw;

@@ -9,6 +9,7 @@
     --add-activity-button-hover: rgb(220, 220, 220);
     --color-shadow: rgba(13, 225, 213, 0.25);
     --tiles-bg-color: rgb(255, 255, 255);
+    --hover-exit-button: rgb(248, 248, 248);
 }
 :root[data-theme='dark'] {
     --bg-color: rgb(74, 74, 74);
@@ -21,6 +22,7 @@
     --add-activity-button-hover: rgb(220, 220, 220);
     --color-shadow: rgba(61, 136, 131, 0.25);
     --tiles-bg-color: rgb(97, 97, 97);
+    --hover-exit-button: rgb(0, 0, 0);
 }
 
 body {
@@ -81,7 +83,7 @@ body {
     color: var(--text-color);
 }
 .exit-button:hover {
-    color: var(--hover-button-color);
+    color: var(--hover-exit-button);
 }
 #class-label {
     position: absolute;
@@ -223,7 +225,6 @@ body {
     width: 33vw;
     animation: pop-down 0.3s ease-in-out;
 }
-
 @keyframes pop-down {
     0% {
       transform: translateY(-20px);
@@ -234,7 +235,6 @@ body {
       opacity: 1;
     }
   }
-
 .add-activity-descr {
     color: rgb(255, 239, 239);
     background-color: rgb(17, 179, 170);
@@ -263,15 +263,23 @@ body {
         font-size: 2.5vw;
     }
     #return-icon {
-        font-size: 7vw;
-        margin-left: 7vw;
-        transform: translate(0%, 30%);
+        font-size: 6vw;
+        margin-left: 2vw;
+        transform: translateY(30%);
     }
     #class-label {
-        margin-left: 18vw;
-        font-size: 5vw;
+        margin-left: 9.7vw;
+        font-size: 4vw;
     }
     .bin-wrapper {
-        top: -2%;
+        top: -1%;
+    }
+    .add-button-wrapper {
+        margin-right: 6vw;
+        font-size: 2vw;
+    }
+    .activity-tile {
+        width: 30vw;
+        min-height: 24vw;
     }
 }
