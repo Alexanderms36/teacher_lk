@@ -141,21 +141,7 @@ function add_tile(activity, activity_label, text_label, bin, activity_id, subinf
         const modal_window = document.createElement('div');
         
         modal_overlay.classList.add('modal-overlay');
-        modal_overlay.style.position = 'fixed';
-        modal_overlay.style.top = '0';
-        modal_overlay.style.left = '0';
-        modal_overlay.style.width = '100%';
-        modal_overlay.style.height = '100%';
-        modal_overlay.style.background = 'rgba(0, 0, 0, 0.4)';
-        modal_overlay.style.zIndex = '1040';
-    
         modal_window.classList.add('modal-dialog', 'modal-dialog-centered');
-        modal_window.style.position = 'fixed';
-        modal_window.style.top = '50%';
-        modal_window.style.left = '50%';
-        modal_window.style.transform = 'translate(-50%, -50%)';
-        modal_window.style.zIndex = '1050';
-        modal_window.style.borderRadius = '3%';
 
         modal_window.innerHTML = `
             <div class="modal-content" data-backdrop="static" style="box-sizing: border-box;">
@@ -208,7 +194,6 @@ function add_tile(activity, activity_label, text_label, bin, activity_id, subinf
                     bins.splice(bin_index, 1);
                     tiles.splice(bin_index, 1);
                     activity_labels.splice(bin_index, 1);
-
                     activity.remove();
 
                     if (tiles.length == 0) {
@@ -267,24 +252,10 @@ add_activity_btn.addEventListener('click', () => {
     const modal_window = document.createElement('div');
 
     modal_overlay.classList.add('modal-overlay');
-    modal_overlay.style.position = 'fixed';
-    modal_overlay.style.top = '0';
-    modal_overlay.style.left = '0';
-    modal_overlay.style.width = '100%';
-    modal_overlay.style.height = '100%';
-    modal_overlay.style.background = 'rgba(0, 0, 0, 0.4)';
-    modal_overlay.style.zIndex = '1040';
-
     modal_window.classList.add('modal-dialog', 'modal-dialog-centered');
-    modal_window.style.position = 'fixed';
-    modal_window.style.top = '50%';
-    modal_window.style.left = '50%';
-    modal_window.style.transform = 'translate(-50%, -50%)';
-    modal_window.style.zIndex = '1050';
-    modal_window.style.borderRadius = '3%';
 
     modal_window.innerHTML = `
-        <div class="modal-dialog modal-dialog-centered" style="border-radius: 10px; width: 40vw">
+        <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content" data-backdrop="static" style="box-sizing: border-box;">
                 <div class="modal-header">
                     <h5 class="modal-title" style="margin: 1vw;">Добавьте активность</h5>
@@ -409,7 +380,6 @@ add_activity_btn.addEventListener('click', () => {
 
     document.body.appendChild(modal_window);
     document.body.appendChild(modal_overlay);
-
     document.body.style.overflow = 'hidden';
 
     const cancel_button = modal_window.querySelector('.btn-secondary');
@@ -436,7 +406,6 @@ add_activity_btn.addEventListener('click', () => {
     })
 
     cancel_button.addEventListener('click', closeModal);
-
     submit_button.addEventListener('click', (e) => {
         e.preventDefault();
         
@@ -464,6 +433,7 @@ add_activity_btn.addEventListener('click', () => {
                     error_label.style = "display: flex";
                     error_label.textContent = "Пожалуйста, введите фамилию и имя репетитора";
                 }
+
                 subinfo = {
                     'name': tutor_name.value,
                     'surname': tutor_surname.value,
@@ -487,7 +457,6 @@ add_activity_btn.addEventListener('click', () => {
                 }
             })
         })
-
         .then(response => response.json())
         .then(data => {
             if (data.success) {
@@ -495,6 +464,7 @@ add_activity_btn.addEventListener('click', () => {
                 const activity_label = document.createElement('div');
                 const bin = document.createElement('img');
                 let subinfo_str = "";
+
                 bins.push(bin);
                 tiles.push(activity);
                 activity_labels.push(activity_name.value);
@@ -535,7 +505,6 @@ add_activity_btn.addEventListener('click', () => {
                 
                 label.style = "display: none";
                 error_label.style = "display: none";
-
                 closeModal();
             } else {
                 switch (data.message?.schema_text[0]) {

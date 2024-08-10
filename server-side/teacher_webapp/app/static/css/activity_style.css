@@ -3,8 +3,7 @@
     --hover-return-button-color: rgb(16, 225, 216);
     --text-color: rgb(33, 37, 42);
     --color: rgb(13, 225, 213);
-    --hover-button-color: rgb(220, 220, 220);
-    --profile-wrapper-bg-color: rgb(173, 173, 173);
+    --border-color: rgb(220, 220, 220);
     --add-activity-button: rgb(90, 90, 90);
     --add-activity-button-hover: rgb(220, 220, 220);
     --color-shadow: rgba(13, 225, 213, 0.25);
@@ -16,15 +15,13 @@
     --hover-return-button-color: rgb(70, 149, 149);
     --text-color: rgb(231, 231, 231);
     --color: rgb(61, 136, 131);
-    --hover-button-color: rgb(0, 0, 0);
-    --profile-wrapper-bg-color: rgb(136, 136, 136);
+    --border-color: rgb(25, 25, 25);
     --add-activity-button: rgb(140, 213, 210);
     --add-activity-button-hover: rgb(220, 220, 220);
     --color-shadow: rgba(61, 136, 131, 0.25);
     --tiles-bg-color: rgb(97, 97, 97);
     --hover-exit-button: rgb(0, 0, 0);
 }
-
 body {
     background-color: var(--bg-color);
     margin-bottom: 4vh;
@@ -242,6 +239,46 @@ body {
 .add-activity-descr:hover {
     color: rgb(255, 255, 255);
     background-color: rgb(14, 143, 136);
+}
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4);
+    z-index: 1040;
+}
+.modal-dialog{
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1050;
+    border-radius: 3%;
+    border-radius: 10px;
+    width: 40vw;
+    color: var(--text-color);
+    background-color: var(--tiles-bg-color);
+}
+.modal-dialog span {
+    background-color: var(--tiles-bg-color);
+    color: var(--text-color);
+    border-color: var(--border-color);
+}
+.modal-dialog input {
+    background-color: var(--tiles-bg-color);
+    color: var(--text-color);
+    border-color: var(--border-color);
+}
+.modal-dialog input:focus {
+    background-color: var(--tiles-bg-color);
+    color: var(--text-color);
+}
+.modal-dialog select {
+    background-color: var(--tiles-bg-color);
+    color: var(--text-color);
+    border-color: var(--border-color);
 }
 @media screen and (max-width: 1024px) {
     body {

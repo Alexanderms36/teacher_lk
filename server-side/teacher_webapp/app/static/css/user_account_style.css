@@ -2,8 +2,9 @@
     --bg-color: rgb(238, 237, 237);
     --color: rgba(0, 189, 178, 0.33);
     --text-color: rgb(33, 37, 42);
-    --hover-button-color: rgb(16, 225, 216);
+    --hover-button-color: rgb(149, 219, 216);
     --switcher-slider-color: rgb(203, 201, 201);
+    --hover-exit-button: rgb(248, 248, 248);
 }
 :root[data-theme='dark'] {
     --bg-color: rgb(74, 74, 74);
@@ -11,6 +12,7 @@
     --text-color: rgb(231, 231, 231);
     --hover-button-color: rgb(70, 149, 149);
     --switcher-slider-color: rgb(174, 174, 174);
+    --hover-exit-button: rgb(0, 0, 0);
 }
 
 body {
@@ -54,7 +56,7 @@ header {
     border-radius: 10% / 40%;
 }
 #exit-button:hover {
-    color: whitesmoke;
+    color: var(--hover-exit-button);
 }
 .theme-switch {
     position: relative;
@@ -231,7 +233,8 @@ input:hover {
     justify-content: center;
 }
 #class-button:hover {
-    color: whitesmoke;
+    color: var(--hover-exit-button);
+    border-color: var(--hover-button-color);
 }
 @media screen and (max-width: 1240px) {
     main {
