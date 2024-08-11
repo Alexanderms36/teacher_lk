@@ -258,6 +258,10 @@ input:hover {
     #container-header {
         padding-bottom: 9vw;
     }
+    .upload-button-label {
+        top: 36%;
+        left: 10.3vw;
+    }
 }
 @media screen and (max-width: 1000px) {
     body {

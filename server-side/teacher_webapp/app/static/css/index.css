@@ -105,6 +105,7 @@ input[type="password"]:focus {
 
 #login_button:hover {
     background-color: rgba(255, 255, 255, 0.7);
+    color: rgb(12, 12, 12);
 }
 #login_button {
     display: flex;
@@ -149,34 +150,6 @@ input[type="password"]:focus {
     transform: translateY(-50%);
     cursor: pointer;
 }
-@media screen and (max-width: 480px) {
-    main {
-        justify-content: center;
-        align-items: center;
-        display: flex;
-    }
-    #edu-center-text {
-        margin-left: 5vw;
-        font-size: 6vw;
-    }
-    #phone-num {
-        margin-left: 20vw;
-        font-size: 6vw;
-    }
-    #login-image {
-        margin-right: 0vw;
-        display: none;
-    }
-    #login-container {
-        margin-top: 70vh;
-    }
-    #breadcrumb-container{
-        margin-left: 0vw;
-        padding-top: 7vh;
-    }
-
-
-}
 @media screen and (max-width: 1246px){
     #login-image-container {
         display: block;
@@ -203,7 +176,6 @@ input[type="password"]:focus {
     }
     #phone-pic {
         vertical-align: -1vh;
-        
     }
     #edu-center-text {
         font-size: 3vw;
@@ -213,5 +185,44 @@ input[type="password"]:focus {
         margin-left: 7vw;
         padding-top: 7vh;
         font-size: 2vw;
+    }
+}
+@media screen and (max-width: 480px) {
+    main {
+        justify-content: center;
+        align-items: center;
+        display: flex;
+    }
+    #edu-center-text {
+        margin-left: 5vw;
+        font-size: 6vw;
+        display: flex;
+    }
+    #phone-num {
+        margin-left: 2vw;
+        font-size: 6vw;
+    }
+    #login-image {
+        margin-right: 0vw;
+        display: none;
+    }
+    #login-container {
+        margin-top: 70vh;
+    }
+    #login-container a{
+        font-size: 4.3vw;
+    }
+    #breadcrumb-container{
+        margin-left: 7vw;
+        padding-top: 4vh;
+        font-size: 5vw;
+        margin-bottom: 2vw;
+    }
+    #phone-num-container {
+        margin-left: 4.3vw;
+    }
+    #phone-pic {
+        vertical-align: -0.5vh;
+        font-size: 7vw;
     }
 }

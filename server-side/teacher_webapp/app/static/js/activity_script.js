@@ -51,7 +51,7 @@ fetch('')
                 chosen_activity_label.textContent = "Олимпиады";
                 add_activity_btn.textContent = "Добавить олимпиаду";
                 for (let i = 0; i < activity_data.length; i++) {
-                    activity_data[i].place != "" ? str = `Место: ${activity_data[i].place}` : str = ``
+                    activity_data[i].place != "" ? str = `Место: ${activity_data[i].place}` : str = ``;
                     subinfo.push(str);
                     subjects.push(activity_data[i].name);
                 }
