@@ -5,7 +5,6 @@ submit_button.addEventListener('click', async function(event) {
     event.preventDefault();
     const username = document.getElementById('username').value;
     const password = document.getElementById('password').value;
-
     const response = await fetch('', {
         method: 'POST',
         headers: {
@@ -17,6 +16,7 @@ submit_button.addEventListener('click', async function(event) {
             'password': password
         })
     });
+    
     if (response.status === 401) {
         error_label.textContent = "Неправильный логин или пароль";
     } else if (response.status === 200) {

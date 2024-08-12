@@ -15,7 +15,6 @@ from .serializers import (
     TutorsSerializer,
     AfterschoolsSerializer
 )
-import os
 from django.shortcuts import get_object_or_404, redirect
 from django.core.files.base import ContentFile
 from django.core.files.storage import default_storage
@@ -153,22 +152,21 @@ class ActivitiesPageView(APIView):
 
     def get(self, request, chosen_class, chosen_student, chosen_activity):
         num = random.randrange(1, 4)
-        pic_path = f"http://localhost:8001/static/images/activity_backgrounds/{num}.jpg"
         match chosen_activity:
             case 'olympiads':
                 olympiads = Olympiads.objects.filter(student_id=chosen_student)
                 serializer = OlympiadsSerializer(olympiads, many=True)
-                return Response({'activity': chosen_activity, 'data': serializer.data, 'pic': pic_path})
+                return Response({'activity': chosen_activity, 'data': serializer.data})
             
             case 'tutors':
                 tutors = Tutors.objects.filter(student_id=chosen_student)
                 serializer = TutorsSerializer(tutors, many=True)
-                return Response({'activity': chosen_activity, 'data': serializer.data, 'pic': pic_path})
+                return Response({'activity': chosen_activity, 'data': serializer.data})
             
             case 'afterschools':
                 afterschools = Afterschools.objects.filter(student_id=chosen_student)
                 serializer = AfterschoolsSerializer(afterschools, many=True)
-                return Response({'activity': chosen_activity, 'data': serializer.data, 'pic': pic_path})
+                return Response({'activity': chosen_activity, 'data': serializer.data})
 
             case _:
                 return Response(status=status.HTTP_400_BAD_REQUEST)
@@ -188,7 +186,6 @@ class ActivitiesPageView(APIView):
         elif 'added_activity' in request.data:
             try:
                 added_activity = request.data.get('added_activity')
-
                 data = added_activity['name']
                 TextSchema().load({'schema_text': data})
                 activity_pic = handle(data)
@@ -202,6 +199,7 @@ class ActivitiesPageView(APIView):
                             'student': chosen_student,
                             'image': f'/media/activity_bg_pic/{activity_pic}'
                             })
+                        
                         if serializer.is_valid():
                             serializer.save()
                             return Response(
@@ -274,16 +272,19 @@ class ActivitiesPageView(APIView):
                     case 'olympiads':
                         olympiad = get_object_or_404(Olympiads, id=deleted['deleted_activity_id'])
                         olympiad.delete()
+
                         return Response({'message': f"Deleted: {olympiad.id}", 'success': True}, status=status.HTTP_201_CREATED)
                         
                     case 'tutors':
                         tutor = get_object_or_404(Tutors, id=deleted['deleted_activity_id'])
                         tutor.delete()
+
                         return Response({'message': f"Deleted: {tutor.id}", 'success': True}, status=status.HTTP_201_CREATED)
                     
                     case 'afterschools':
                         afterschool = get_object_or_404(Afterschools, id=deleted['deleted_activity_id'])
                         afterschool.delete()
+
                         return Response({'message': f"Deleted: {afterschool.id}", 'success': True}, status=status.HTTP_201_CREATED)
                     
                     case _:

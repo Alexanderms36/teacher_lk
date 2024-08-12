@@ -99,13 +99,13 @@ function add_tile(activity, activity_label, text_label, bin, activity_id, subinf
     const place_wrapper = document.createElement('div');
     const activity_subinfo_span = document.createElement('span');
     const info_wrapper = document.createElement('div');
-    const info_span = document.createElement('span')
+    const info_span = document.createElement('span');
     
     activities_wrapper.appendChild(activity);
     activity.classList.add('activity-tile');
     activity.appendChild(activity_label);
-    activity.appendChild(bin_wrapper)
-    bin_wrapper.classList.add('bin-wrapper')
+    activity.appendChild(bin_wrapper);
+    bin_wrapper.classList.add('bin-wrapper');
     activity_label.classList.add('tile-label');
     bin_wrapper.appendChild(bin);
     activity.appendChild(activity_wrapper);
@@ -200,7 +200,6 @@ function add_tile(activity, activity_label, text_label, bin, activity_id, subinf
                         label.style = "display: inline-flex";
                         label.textContent = "Нет данных о выбранном виде активности ученика";
                     }
-
                     closeModal();
                 } else {
                     console.error('Error deleting activity:', data.error);
@@ -216,7 +215,6 @@ function add_tile(activity, activity_label, text_label, bin, activity_id, subinf
                 closeModal();
             }
         };
-    
         document.addEventListener('click', outsideClickListener);
     });
 }
@@ -262,9 +260,7 @@ add_activity_btn.addEventListener('click', () => {
                 </div>
                 <div class="modal-body" style="margin: 1.3vw;">
                     <div class="input-group" style="flex-direction: column;align-items: center;">
-                        <div>
-                            <h6 class="error-message"><h6>
-                        </div>
+                        <div><h6 class="error-message"><h6></div>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -308,12 +304,12 @@ add_activity_btn.addEventListener('click', () => {
 
     const subinfo_wrapper1 = document.createElement('div');
     const paragraph_subinfo_wrapper = document.createElement('div');
-    const own_input = document.createElement('div')
+    const own_input = document.createElement('div');
 
     input_group.appendChild(own_input);
     own_input.innerHTML = `
             <input type="text" class="form-control activity-name"></input>
-    `
+    `;
     subinfo_wrapper1.classList.add('activity-input-wrapper');
     input_group.appendChild(paragraph_subinfo_wrapper);
     input_group.appendChild(subinfo_wrapper1);
@@ -485,7 +481,7 @@ add_activity_btn.addEventListener('click', () => {
                             throw new Error(`status: ${response.status}`);
                         }
                         const data = await response.json();
-                        return data.data.pop()
+                        return data.data.pop();
                     } catch (error) {
                         console.error(error);
                     }
@@ -522,7 +518,7 @@ add_activity_btn.addEventListener('click', () => {
 
     document.addEventListener('click', (e) => {
         if (!modal_window.contains(e.target) && !add_activity_btn.contains(e.target)) {
-            closeModal()
+            closeModal();
         }
     });
 })

@@ -251,6 +251,8 @@ input:hover {
     .upload-button-label {
         min-width: 100px;
         max-width: 123px;
+        top: 36%;
+        left: 10.3vw;
     }
     #teacher-img-container {
         margin-left: 0;
@@ -258,25 +260,13 @@ input:hover {
     #container-header {
         padding-bottom: 9vw;
     }
-    .upload-button-label {
-        top: 36%;
-        left: 10.3vw;
-    }
 }
-@media screen and (max-width: 1000px) {
+@media screen and (max-width: 480px) {
     body {
         width: auto;
         align-items: center;
         justify-content: center;
     }
-    main {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        width: 100%;
-        height: auto;
-      }
     #teacher-img-container {
         margin-top: 3vw;
         margin-left: 30%;
@@ -285,30 +275,12 @@ input:hover {
         height: auto;
     }
     .upload-button-label {
-        padding: 0;
-        position: absolute;
-        top: 36%;
-        left: 30%;
-        font-size: 4vw;
-        padding-bottom: 7vw;
-        border-radius: 3px;
-        width: 9vw;
-        height: 2.5vw;
-        justify-content: center;
-        align-items: center;
-        text-align: center;
+        min-width: 60vw;
+        min-height: 9vw;
+        font-size: 4.3vw;
     }
     #container-header {
         padding-bottom: 16vw;
-    }
-    #classes-container {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        margin-left: auto;
-        margin-right: auto;
-        text-align: center;
     }
     #class-button {
         padding: 10vw;
@@ -320,13 +292,20 @@ input:hover {
         border-radius: 2vw;
     }
     #exit-button {
-        padding: 3vw;
-        padding-left: 9vw;
-        padding-right: 9vw;
+        padding: 2vw;
+        padding-left: 16vw;
+        padding-right: 16vw;
         display: flex;
-        align-items: center;
         justify-content: center;
-        font-size: 4vw;
+    }
+    #exit-button-container {
+        margin-right: 7vw;
+        transform: translate(0%, -50%);
+    }
+    .theme-switch-wrapper {
+        margin-right: 0vw;
+        margin-left: 12vw;
+        left: 0;
     }
 }
 @media screen and (min-width: 2092px) {

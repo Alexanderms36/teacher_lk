@@ -169,9 +169,6 @@ body {
         white-space: pre-wrap;
         text-align: center;
     }
-    .student-button {
-        text-indent: 1.4vw;
-    }
     .circle {
         padding: 2vw;
         transform: translate(37%, 1.6%);
@@ -191,19 +188,36 @@ body {
         font-size: 4vw;
     }
     .student-button {
-        border: none;
-        word-wrap: break-word;
-        margin-top: 0.33vw;
-        background-color: var(--input-bg-color);
-        line-height: 2vw;
-        transition: background-color 0.4s ease;
         width: 73vw;
         font-size: 2vw;
         text-indent: 2vw;
-        text-align: start;
-        white-space: pre-wrap;
-        height: auto;
-        color: var(--text-color);
+    }
+}
+@media screen and (max-width: 480px) {
+    #container-header {
+        padding-bottom: 16vw;
+    }
+    #exit-button {
+        padding: 2vw;
+        padding-left: 16vw;
+        padding-right: 16vw;
+        display: flex;
+        justify-content: center;
+    }
+    #exit-button-container {
+        margin-right: 7vw;
+        transform: translate(0%, -50%);
+    }
+    .circle {
+        padding: 6vw;
+        transform: translate(37%, 1.6%);
+        font-size: 6vw;
+    }
+    .student-button {
+        width: 79vw;
+        height: 12vw;
+        font-size: 6vw;
+        text-indent: 5vw;
     }
 }
 @media screen and (min-width: 2092px) {
