@@ -149,12 +149,7 @@ input[type="password"]:focus {
 }
 @media screen and (max-width: 1246px){
     #login-image-container {
-        display: block;
-        position: absolute;
         right: 3vw;
-        bottom: 0;
-        justify-content: flex-end;
-        align-items: flex-end;
         size: 3vw;
         display: flex;
         flex-direction: row;

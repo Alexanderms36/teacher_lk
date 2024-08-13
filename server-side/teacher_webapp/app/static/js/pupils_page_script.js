@@ -1,5 +1,4 @@
 const class_label = document.getElementById('class-label')
-const return_btn = document.getElementById('return-icon')
 const wrapper_for_students = document.getElementsByClassName('students-list-wrapper')[0];
 const label = document.querySelector('.students-list-wrapper h1');
 
@@ -35,7 +34,6 @@ function addStudentsButtons(students) {
         student_button.name = `chosen_student`;
         student_button.value = students[i].id;
     }
-
   } else {
     label.style = "display: block"
     label.textContent = "В данный класс ученики ещё не добавлены.";

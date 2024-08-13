@@ -1,14 +1,12 @@
 const activities_wrapper = document.querySelector('.activities-wrapper');
 const label = document.querySelector('.activities-wrapper h1');
 const add_activity_btn = document.querySelector('.add-button');
+const chosen_activity_label = document.getElementById('class-label');
 const bins = [];
 const tiles = [];
 const activity_labels = [];
 const bin_path = "/static/images/recycle_bin_white.png";
-const chosen_activity_label = document.getElementById('class-label');
 let activity_type = "";
-let temp = "";
-let isBinActive= false, isAddActive = false;
 
 
 if (localStorage.getItem('theme') !== null) {
@@ -132,10 +130,7 @@ function add_tile(activity, activity_label, text_label, bin, activity_id, subinf
     bin.classList.add('bin');
 
     bin.addEventListener('click', () => {
-        if (document.querySelector('.modal-dialog')) {
-            return;
-        }
-    
+        if (document.querySelector('.modal-dialog')) return;
         const bin_index = bins.indexOf(bin);
         const modal_overlay = document.createElement('div');
         const modal_window = document.createElement('div');
@@ -172,7 +167,6 @@ function add_tile(activity, activity_label, text_label, bin, activity_id, subinf
         };
     
         cancel_button.addEventListener('click', closeModal);
-    
         submit_button.addEventListener('click', (e) => {
             e.preventDefault();
             fetch('', {
@@ -195,7 +189,6 @@ function add_tile(activity, activity_label, text_label, bin, activity_id, subinf
                     tiles.splice(bin_index, 1);
                     activity_labels.splice(bin_index, 1);
                     activity.remove();
-
                     if (tiles.length == 0) {
                         label.style = "display: inline-flex";
                         label.textContent = "Нет данных о выбранном виде активности ученика";
@@ -209,7 +202,6 @@ function add_tile(activity, activity_label, text_label, bin, activity_id, subinf
                 console.error('Error: ', error);
             });
         });
-    
         const outsideClickListener = (e) => {
             if (!modal_window.contains(e.target) && !bin.contains(e.target)) {
                 closeModal();
@@ -224,7 +216,8 @@ function add_buttons(activity_data, subject, subinfo) {
         const activity = document.createElement('div');
         const activity_label = document.createElement('div');
         const bin = document.createElement('img');
-
+        bins.push(bin);
+        tiles.push(activity);
         add_tile(
             activity,
             activity_label,
@@ -235,17 +228,11 @@ function add_buttons(activity_data, subject, subinfo) {
             activity_data[i].info,
             activity_data[i].image
             );
-
-        bins.push(bin);
-        tiles.push(activity);
     }
 }
 
 add_activity_btn.addEventListener('click', () => {
-    if (document.querySelector('.modal-dialog')) {
-        return;
-    }
-
+    if (document.querySelector('.modal-dialog')) return;
     const modal_overlay = document.createElement('div');
     const modal_window = document.createElement('div');
 
@@ -330,7 +317,6 @@ add_activity_btn.addEventListener('click', () => {
 
             subinfo_wrapper2.classList.add('activity-input-wrapper');
             subinfo_wrapper3.classList.add('activity-input-wrapper');
-
             input_group.appendChild(subinfo_wrapper2);
             input_group.appendChild(subinfo_wrapper3);
         
@@ -358,7 +344,6 @@ add_activity_btn.addEventListener('click', () => {
                 </div>
                 <input type="text" class="form-control activity-tutor-patronymic">
             `;
-
             break;
     }
 
@@ -380,14 +365,12 @@ add_activity_btn.addEventListener('click', () => {
 
     const cancel_button = modal_window.querySelector('.btn-secondary');
     const submit_button = modal_window.querySelector('.add-activity-descr');
-
     const closeModal = () => {
         modal_window.remove();
         modal_overlay.remove();
         document.body.style.overflow = '';
         document.removeEventListener('click', outsideClickListener);
     };
-
     let isInput = false;
 
     document.querySelector('.activity-select').addEventListener("change", function(){
@@ -404,9 +387,7 @@ add_activity_btn.addEventListener('click', () => {
     cancel_button.addEventListener('click', closeModal);
     submit_button.addEventListener('click', (e) => {
         e.preventDefault();
-        
         let selected_name = '';
-            
         isInput ? selected_name = '.activity-name' : selected_name = '.form-select';
 
         const activity_name = modal_window.querySelector(selected_name);
@@ -515,7 +496,7 @@ add_activity_btn.addEventListener('click', () => {
             console.error('Error:', error);
         });
     });
-
+    
     document.addEventListener('click', (e) => {
         if (!modal_window.contains(e.target) && !add_activity_btn.contains(e.target)) {
             closeModal();

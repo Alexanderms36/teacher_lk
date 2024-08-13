@@ -1,9 +1,7 @@
-const student_image = document.getElementById('student-image');
 const student_name = document.querySelectorAll('.profile-wrapper a')[0];
 const health_group = document.querySelectorAll('.profile-wrapper a')[1];
 const activities_wrapper = document.querySelectorAll('.activities-wrapper')[0];
-const button_labels = ["КРУЖКИ", "РЕПЕТИТОРЫ", 
-                        "ОЛИМПИАДЫ"];
+const button_labels = ["КРУЖКИ", "РЕПЕТИТОРЫ", "ОЛИМПИАДЫ"];
 const button_names = ["afterschools", "tutors", "olympiads"]
 
 fetch('')
