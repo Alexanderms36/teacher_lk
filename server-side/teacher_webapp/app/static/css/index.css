@@ -175,7 +175,6 @@ input[type="password"]:focus {
     }
     #breadcrumb-container{
         margin-left: 7vw;
-        padding-top: 7vh;
         font-size: 2vw;
     }
 }
@@ -205,9 +204,8 @@ input[type="password"]:focus {
         font-size: 4.3vw;
     }
     #breadcrumb-container{
-        margin-left: 7vw;
         padding-top: 4vh;
-        font-size: 5vw;
+        font-size: 4vw;
         margin-bottom: 2vw;
     }
     #phone-num-container {

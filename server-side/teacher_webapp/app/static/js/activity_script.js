@@ -2,16 +2,12 @@ const activities_wrapper = document.querySelector('.activities-wrapper');
 const label = document.querySelector('.activities-wrapper h1');
 const add_activity_btn = document.querySelector('.add-button');
 const chosen_activity_label = document.getElementById('class-label');
-const bins = [];
-const tiles = [];
-const activity_labels = [];
+const bins = [], tiles = [], activity_labels = [];
 const bin_path = "/static/images/recycle_bin_white.png";
 let activity_type = "";
 
 
-if (localStorage.getItem('theme') !== null) {
-    document.documentElement.setAttribute('data-theme', 'dark');
-}
+if (localStorage.getItem('theme') !== null) document.documentElement.setAttribute('data-theme', 'dark');
 
 fetch('')
   .then(response => response.json())
@@ -80,9 +76,7 @@ fetch('')
                 chosen_activity_label.textContent = "Ошибка";
                 break;
         }
-    } else {
-        label.textContent = "Нет данных о выбранном виде активности ученика";
-    } 
+    } else label.textContent = "Нет данных о выбранном виде активности ученика";
   })
   .catch(error => {
     console.error(error);
@@ -496,7 +490,7 @@ add_activity_btn.addEventListener('click', () => {
             console.error('Error:', error);
         });
     });
-    
+
     document.addEventListener('click', (e) => {
         if (!modal_window.contains(e.target) && !add_activity_btn.contains(e.target)) {
             closeModal();

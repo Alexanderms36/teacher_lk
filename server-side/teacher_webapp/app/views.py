@@ -6,7 +6,10 @@ from rest_framework.response import Response
 from rest_framework.reverse import reverse
 from rest_framework.authtoken.models import Token
 from rest_framework.permissions import IsAuthenticated
-from rest_framework.renderers import TemplateHTMLRenderer, JSONRenderer
+from rest_framework.renderers import (
+    TemplateHTMLRenderer,
+    JSONRenderer
+    )
 from .serializers import (
     UserSerializer, 
     StudentSerializer, 
@@ -18,9 +21,11 @@ from .serializers import (
 from django.shortcuts import get_object_or_404, redirect
 from django.core.files.base import ContentFile
 from django.core.files.storage import default_storage
-from .schema import ImageSchema, TextSchema
+from .schema import (
+    ImageSchema,
+    TextSchema
+)
 from marshmallow import ValidationError
-import random
 from .activity_handler import handle
 
 
@@ -39,6 +44,7 @@ class UserLoginView(APIView):
         username = request.data.get('username')
         password = request.data.get('password')
         user = authenticate(request, username=username, password=password)
+        
         if user is not None:
             login(request, user)
             token, _ = Token.objects.get_or_create(user=user)
@@ -143,7 +149,7 @@ class StudentPageView(APIView):
             chosen_activity = request.data.get('chosen_activity')
             return Response({'detail': 'redirected successfully'},
                             status=status.HTTP_302_FOUND,
-                            headers={'Location': reverse('activities', args=[chosen_class, chosen_student, chosen_activity])}) 
+                            headers={'Location': reverse('activities', args=[chosen_class, chosen_student, chosen_activity])})
             
 class ActivitiesPageView(APIView):
     permission_classes = [IsAuthenticated]
@@ -151,7 +157,6 @@ class ActivitiesPageView(APIView):
     template_name = 'activity.html'
 
     def get(self, request, chosen_class, chosen_student, chosen_activity):
-        num = random.randrange(1, 4)
         match chosen_activity:
             case 'olympiads':
                 olympiads = Olympiads.objects.filter(student_id=chosen_student)
