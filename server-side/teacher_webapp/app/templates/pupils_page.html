@@ -23,7 +23,7 @@
         Загрузка...
       </h1>
       <div class="exit-button-container">
-        <button class="btn btn-outline-secondary btn-lg center-button send-report-button">Отправить отчёт</button>
+        <button type="submit" name="send-report" class="btn btn-outline-secondary btn-lg center-button send-report-button">Отправить отчёт</button>
         <form method="post">
           {% csrf_token %}
           <button type="submit" name="logout" class="btn btn-outline-secondary btn-lg center-button exit-button">Выход</button>

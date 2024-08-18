@@ -44,7 +44,7 @@ class UserLoginView(APIView):
         username = request.data.get('username')
         password = request.data.get('password')
         user = authenticate(request, username=username, password=password)
-        
+
         if user is not None:
             login(request, user)
             token, _ = Token.objects.get_or_create(user=user)
@@ -104,6 +104,9 @@ class PupilsView(APIView):
         user = request.user
         classes = user.classes_set.filter(id=chosen_class)
         serializer = ClassesSerializer(classes, many=True)
+
+
+        
         return Response({'data': serializer.data})
     
     def post(self, request, chosen_class):
@@ -116,6 +119,10 @@ class PupilsView(APIView):
             return Response({'detail': 'redirected successfully'},
                                 status=status.HTTP_302_FOUND,
                                 headers={'Location': reverse('user_account')})
+        elif 'wha' in request.data:
+            print(request.data)
+            return Response({'detail': 'redirected successfully'},
+                    status=status.HTTP_200_OK)
         else:
             chosen_student = request.data.get('chosen_student')
             if chosen_student:
