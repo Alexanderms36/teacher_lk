@@ -5,7 +5,12 @@ from .models import User, Classes, Student, Olympiads, Tutors, Afterschools
 class StudentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Student
-        fields = ['id', 'name', 'surname', 'patronymic', 'classes_id', "health_group"]
+        fields = ['id', 'name', 'surname', 'patronymic', 'classes_id', 'health_group'#, 'olympiads'
+                  ]
+
+    # def get_olympiads_id(self, obj):
+    #     olympiads = Olympiads.objects.filter(students_id=obj)
+    #     return [olympiad.id for olympiad in olympiads]
 
 class ClassesSerializer(serializers.ModelSerializer):
     students = StudentSerializer(many=True, read_only=True, source='student_set')

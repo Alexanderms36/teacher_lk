@@ -2,7 +2,7 @@ const class_label = document.getElementById('class-label')
 const wrapper_for_students = document.getElementsByClassName('students-list-wrapper')[0];
 const label = document.querySelector('.students-list-wrapper h1');
 const send_report_button = document.querySelector('.send-report-button');
-
+const students_list = [];
 
 fetch('')
   .then(response => response.json())
@@ -35,6 +35,8 @@ function addStudentsButtons(students) {
         student_button.textContent = `${students[i].surname} ${students[i].name} ${students[i].patronymic}`;
         student_button.name = `chosen_student`;
         student_button.value = students[i].id;
+
+        students_list.push(students[i]);
     }
   } else {
     label.style = "display: block"
@@ -59,10 +61,10 @@ send_report_button.addEventListener('click', () => {
         <div class="modal-header">
             <h5 class="modal-title" style="margin: 1vw;">Отправьте отчёт</h5>
         </div>
-        <div>
-            <h6 class="modal-title" style="margin: 1vw;">Выберите нужные пункты</h6>
+        <div style="margin: 1vw; margin-top: 0vw; margin-bottom: 0vw;>
+            <h6 class="modal-title">Выберите нужные пункты</h6>
         </div>
-        <div class="modal-body" style="padding: 1vw;margin-bottom: 1vw;">
+        <div class="modal-body">
             <div>
               <span>Олимпиады</span>
               <input type="checkbox" checked>
@@ -71,9 +73,26 @@ send_report_button.addEventListener('click', () => {
               <span>Репетиторы</span>
               <input type="checkbox" checked>
             </div>
-            <div>
+            <div style="margin-bottom: 1vw;">
               <span>Кружки</span>
               <input type="checkbox" checked>
+            </div>
+            <div class="input-group" style="align-items: center;margin-bottom:1vw">
+              <div class="input-group-prepend">
+                <span class="input-group-text">Отправить</span>
+              </div>
+              <select class="form-select activity-select">
+                <option selected value="">Всех</option>
+              </select>
+            </div>
+
+            <div class="input-group" style="align-items: center;margin-bottom:1vw">
+              <div class="input-group-prepend">
+                <span class="input-group-text">which act to choose</span>
+              </div>
+              <select class="form-select activity-select">
+                <option selected value="">all</option>
+              </select>
             </div>
         </div>
         <div class="modal-footer">
@@ -82,6 +101,14 @@ send_report_button.addEventListener('click', () => {
         </div>
     </div>
   `;
+  const select_window = modal_window.querySelector('.form-select');
+  for (let i = 0; i < students_list.length; i++) {
+    select_window.innerHTML += `
+        <option value="">${students_list[i].surname} ${students_list[i].name} ${students_list[i].patronymic}</option>
+    `;
+  }
+
+  
 
   modal_overlay.appendChild(modal_window);
   document.body.appendChild(modal_overlay);
@@ -106,7 +133,7 @@ send_report_button.addEventListener('click', () => {
             'X-CSRFToken': getCookie('csrftoken')
         },
         body: JSON.stringify({
-          wha: {
+          document_config: {
             name: '1',
             subinfo: '2',
             info: '3',
@@ -115,6 +142,19 @@ send_report_button.addEventListener('click', () => {
         })
     })
     .then(response => response.json())
+    .then(data => {
+      if (data.success) {
+          closeModal();
+      } else {
+          switch (data.message?.schema_text[0]) {
+              case "Invalid value.":
+                  error_label.style = "display: flex";
+                  error_label.textContent = "Пожалуйста, введите корректные названия";
+                  break;
+          }
+      }
+    })
+
     .catch(error => {
         console.error('Error:', error);
     });
