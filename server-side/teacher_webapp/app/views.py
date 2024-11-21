@@ -5,7 +5,8 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
 from rest_framework.authtoken.models import Token
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, AllowAny
+from rest_framework.authentication import TokenAuthentication
 from rest_framework.renderers import (
     TemplateHTMLRenderer,
     JSONRenderer
@@ -34,6 +35,7 @@ class MainPageView(APIView):
         return redirect('login')
 
 class UserLoginView(APIView):
+    permission_classes = [AllowAny]
     renderer_classes = [JSONRenderer, TemplateHTMLRenderer]
     template_name = 'index.html'
 
@@ -44,7 +46,7 @@ class UserLoginView(APIView):
         username = request.data.get('username')
         password = request.data.get('password')
         user = authenticate(request, username=username, password=password)
-
+        print(type(user))
         if user is not None:
             login(request, user)
             token, _ = Token.objects.get_or_create(user=user)
@@ -93,7 +95,7 @@ class UserAccountView(APIView):
                                     status=status.HTTP_302_FOUND,
                                     headers={'Location': reverse('pupils', args=[chosen_class])})
             else:
-                return Response({'detail': 'something went wrong'})
+                return Response({'detail': 'something went wrong'}, status=status.HTTP_400_BAD_REQUEST)
         
 class PupilsView(APIView):
     permission_classes = [IsAuthenticated]
