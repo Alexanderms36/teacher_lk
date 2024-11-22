@@ -46,7 +46,7 @@ class UserLoginView(APIView):
         username = request.data.get('username')
         password = request.data.get('password')
         user = authenticate(request, username=username, password=password)
-        print(type(user))
+
         if user is not None:
             login(request, user)
             token, _ = Token.objects.get_or_create(user=user)
@@ -106,7 +106,6 @@ class PupilsView(APIView):
         user = request.user
         classes = user.classes_set.filter(id=chosen_class)
         serializer = ClassesSerializer(classes, many=True)
-
     
         return Response({'data': serializer.data})
     
@@ -121,7 +120,6 @@ class PupilsView(APIView):
                                 status=status.HTTP_302_FOUND,
                                 headers={'Location': reverse('user_account')})
         elif 'document_config' in request.data:
-            print(request.data)
             return Response({'detail': 'document created successfully',
                              'success': True},
                     status=status.HTTP_200_OK)
@@ -132,7 +130,7 @@ class PupilsView(APIView):
                                 status=status.HTTP_302_FOUND,
                                 headers={'Location': reverse('student_page', args=[chosen_class, chosen_student])}) 
             else:
-                return Response({'detail': 'something went wrong'})
+                return Response({'detail': 'something went wrong'}, status=status.HTTP_400_BAD_REQUEST)
 
 class StudentPageView(APIView):
     permission_classes = [IsAuthenticated]
