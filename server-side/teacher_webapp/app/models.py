@@ -6,15 +6,6 @@ class User(AbstractUser):
     patronymic = models.CharField(max_length=160, blank=True)
     image = models.ImageField(upload_to='profile_images', blank=True)
 
-    def save(self, *args, **kwargs):
-        if self.pk is not None:
-            original = User.objects.get(pk=self.pk)
-            if self.password != original.password:
-                self.set_password(self.password)
-        else:
-            self.set_password(self.password)
-        super().save(*args, **kwargs)
-
 class Classes(models.Model):
     name = models.CharField(max_length=255)
     main_teacher = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
