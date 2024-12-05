@@ -1,6 +1,6 @@
 :root {
     --bg-color: rgb(220, 220, 220);
-    --hover-return-button-color: rgb(16, 225, 216);
+    --hover-return-button-color: rgb(239, 30, 39);
     --text-color: rgb(33, 37, 42);
     --color: rgb(13, 225, 213);
     --border-color: rgb(220, 220, 220);
@@ -12,7 +12,7 @@
 }
 :root[data-theme='dark'] {
     --bg-color: rgb(74, 74, 74);
-    --hover-return-button-color: rgb(70, 149, 149);
+    --hover-return-button-color: rgb(239, 30, 39);
     --text-color: rgb(231, 231, 231);
     --color: rgb(61, 136, 131);
     --border-color: rgb(25, 25, 25);
@@ -35,7 +35,7 @@ body {
     color: var(--text-color);
 }
 #return-icon {
-    font-size: 3vw;
+    height: 4vw;
     cursor: pointer;
     padding: 0.33vw;
     top: 50%;
@@ -45,6 +45,7 @@ body {
 }
 #return-icon:hover {
     border-radius: 50%;
+    filter: invert(100%);
     border-color: whitesmoke;
     color: var(--bg-color);
     background-color: var(--hover-return-button-color);
@@ -290,7 +291,7 @@ body {
         font-size: 2.5vw;
     }
     #return-icon {
-        font-size: 6vw;
+        height: 5vw;
         margin-left: 2vw;
         transform: translateY(30%);
     }

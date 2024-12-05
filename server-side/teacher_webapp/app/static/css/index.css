@@ -50,8 +50,8 @@ body {
     color: var(--text-color);
 }
 #phone-pic {
-    vertical-align: -2vh;
-    font-size: 3vw;
+    vertical-align: -0.8vh;
+    height: 2vw;
 }
 #breadcrumb-container{
     margin-left: 13vw;
@@ -144,9 +144,13 @@ input[type="password"]:focus {
     position: absolute;
     right: 0.7vw;
     top: 64%;
-    transform: translateY(-50%);
+    transform: translateY(-65%);
     cursor: pointer;
 }
+.material-symbols-outlined {
+    height: 1.6vw;
+}
+
 @media screen and (max-width: 1246px){
     #login-image-container {
         right: 3vw;
@@ -177,7 +181,11 @@ input[type="password"]:focus {
         margin-left: 7vw;
         font-size: 2vw;
     }
+    .material-symbols-outlined {
+        height: 4vw;
+    }
 }
+
 @media screen and (max-width: 480px) {
     main {
         justify-content: center;
@@ -213,6 +221,6 @@ input[type="password"]:focus {
     }
     #phone-pic {
         vertical-align: -0.5vh;
-        font-size: 7vw;
+        font-size: 10vw;
     }
 }
