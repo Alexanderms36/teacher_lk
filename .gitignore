@@ -10,3 +10,4 @@ server-side/teacher_webapp/app/__pycache__
 server-side/teacher_webapp/teacher_webapp/__pycache__
 server-side/teacher_webapp/app/static/admin/
 server-side/teacher_webapp/app/static/rest_framework/
+server-side/teacher_webapp/app/static/bootstrap/
