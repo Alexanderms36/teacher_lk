@@ -120,6 +120,8 @@ class PupilsView(APIView):
                                 status=status.HTTP_302_FOUND,
                                 headers={'Location': reverse('user_account')})
         elif 'document_config' in request.data:
+            doc_conf = request.data.get('document_config')
+            acts = doc_conf['persons']
             return Response({'detail': 'document created successfully',
                              'success': True},
                     status=status.HTTP_200_OK)

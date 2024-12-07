@@ -68,22 +68,22 @@ send_report_button.addEventListener('click', () => {
                 <span class="input-group-text">Кого отправить</span>
               </div>
               <select class="form-select activity-select">
-                <option selected value="">Всех</option>
+                <option selected value="all">Всех</option>
               </select>
             </div>
           <div style="margin-bottom: 0.75rem;">
               <label style="display: flex; align-items: center; gap: 0.5rem; font-size: 1rem; color: #495057;">
-                  <input type="checkbox" checked style="width: 16px; height: 16px; cursor: pointer;"> Олимпиады
+                  <input type="checkbox" checked style="width: 16px; height: 16px; cursor: pointer;">Олимпиады
               </label>
           </div>
           <div style="margin-bottom: 0.75rem;">
               <label style="display: flex; align-items: center; gap: 0.5rem; font-size: 1rem; color: #495057;">
-                  <input type="checkbox" checked style="width: 16px; height: 16px; cursor: pointer;"> Репетиторы
+                  <input type="checkbox" checked style="width: 16px; height: 16px; cursor: pointer;">Репетиторы
               </label>
           </div>
           <div>
               <label style="display: flex; align-items: center; gap: 0.5rem; font-size: 1rem; color: #495057;">
-                  <input type="checkbox" checked style="width: 16px; height: 16px; cursor: pointer;"> Кружки
+                  <input type="checkbox" checked style="width: 16px; height: 16px; cursor: pointer;">Кружки
               </label>
           </div>
       </div>
@@ -96,7 +96,7 @@ send_report_button.addEventListener('click', () => {
   const select_window = modal_window.querySelector('.form-select');
   for (let i = 0; i < students_list.length; i++) {
     select_window.innerHTML += `
-        <option value="">${students_list[i].surname} ${students_list[i].name} ${students_list[i].patronymic}</option>
+        <option value="${students_list[i].id}">${students_list[i].surname} ${students_list[i].name} ${students_list[i].patronymic}</option>
     `;
   }
 
@@ -116,6 +116,34 @@ send_report_button.addEventListener('click', () => {
   cancel_button.addEventListener('click', closeModal);
   submit_button.addEventListener('click', (e) => {
     e.preventDefault();
+    const selectElement = document.querySelector('.activity-select');
+    // для "Всех" значение = all, для выбранного - studentId
+    const selectedValue = selectElement.value;
+    const selectedActivities = [];
+    const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+
+    checkboxes.forEach((checkbox, index) => {
+      const labelText = checkbox.parentElement.textContent.trim();
+      if (checkbox.checked) {
+        switch (labelText) {
+          case "Олимпиады":
+            selectedActivities.push("olympiads");
+            break;
+
+          case "Репетиторы":
+            selectedActivities.push("tutors");
+            break;
+
+          case "Кружки":
+            selectedActivities.push("afterschools");
+            break;
+            
+          default:
+            break;
+        }
+      }
+    });
+    if (selectedActivities.length == 0) throw new Error('No activities selected');
     fetch('', {
         method: 'POST',
         headers: {
@@ -124,17 +152,14 @@ send_report_button.addEventListener('click', () => {
         },
         body: JSON.stringify({
           document_config: {
-            name: '1',
-            subinfo: '2',
-            info: '3',
-            type: '4' 
-        }
+            persons: selectedValue,
+            activities: selectedActivities
+          }
         })
     })
     .then(response => response.json())
     .then(data => {
       if (data.success) {
-          console.log("!!")
           closeModal();
       } else {
           switch (data.message?.schema_text[0]) {
