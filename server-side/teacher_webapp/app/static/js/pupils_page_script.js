@@ -9,7 +9,6 @@ fetch('')
   .then(data => {
     const user_data = data.data[0];
     class_label.innerHTML = `Учащиеся ${user_data.name} класса`;
-    console.log(data);
     addStudentsButtons(user_data.students);
   })
   .catch(error => {
@@ -49,7 +48,6 @@ if (localStorage.getItem('theme') !== null) {
 }
 
 send_report_button.addEventListener('click', () => {
-  console.log('clicked!');
   const modal_overlay = document.createElement('div');
   const modal_window = document.createElement('div');
 
@@ -57,49 +55,43 @@ send_report_button.addEventListener('click', () => {
   modal_window.classList.add('modal-dialog', 'modal-dialog-centered');
 
   modal_window.innerHTML = `
-    <div class="modal-content" data-backdrop="static" style="box-sizing: border-box;">
-        <div class="modal-header">
-            <h5 class="modal-title" style="margin: 1vw;">Отправьте отчёт</h5>
-        </div>
-        <div style="margin: 1vw; margin-top: 0vw; margin-bottom: 0vw;>
-            <h6 class="modal-title">Выберите нужные пункты</h6>
-        </div>
-        <div class="modal-body">
-            <div>
-              <span>Олимпиады</span>
-              <input type="checkbox" checked>
-            </div>
-            <div>
-              <span>Репетиторы</span>
-              <input type="checkbox" checked>
-            </div>
-            <div style="margin-bottom: 1vw;">
-              <span>Кружки</span>
-              <input type="checkbox" checked>
-            </div>
-            <div class="input-group" style="align-items: center;margin-bottom:1vw">
+  <div class="modal-content" data-backdrop="static" style="box-sizing: border-box; border-radius: 10px; overflow: hidden; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);">
+      <div class="modal-header" style="background-color: #f8f9fa; padding: 1rem; border-bottom: 1px solid #dee2e6;">
+          <h5 class="modal-title" style="margin: 0; font-size: 1.25rem; font-weight: bold; color: #343a40;">Отправьте отчёт</h5>
+      </div>
+      <div style="padding: 1rem; border-bottom: 1px solid #dee2e6;">
+          <h6 class="modal-title" style="margin: 0; font-size: 1rem; color: #495057;">Выберите нужные пункты</h6>
+      </div>
+      <div class="modal-body" style="padding: 1rem;">
+          <div class="input-group" style="align-items: center;margin-bottom:1vw">
               <div class="input-group-prepend">
-                <span class="input-group-text">Отправить</span>
+                <span class="input-group-text">Кого отправить</span>
               </div>
               <select class="form-select activity-select">
                 <option selected value="">Всех</option>
               </select>
             </div>
-
-            <div class="input-group" style="align-items: center;margin-bottom:1vw">
-              <div class="input-group-prepend">
-                <span class="input-group-text">which act to choose</span>
-              </div>
-              <select class="form-select activity-select">
-                <option selected value="">all</option>
-              </select>
-            </div>
-        </div>
-        <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" style="margin-bottom: 1vw;margin-left: 1vw;margin-right: 1vw;">Отмена</button>
-            <button type="button" class="btn btn-danger send-report" style="margin-bottom: 1vw;margin-left: 1vw;margin-right: 1vw;">Отправить</button>
-        </div>
-    </div>
+          <div style="margin-bottom: 0.75rem;">
+              <label style="display: flex; align-items: center; gap: 0.5rem; font-size: 1rem; color: #495057;">
+                  <input type="checkbox" checked style="width: 16px; height: 16px; cursor: pointer;"> Олимпиады
+              </label>
+          </div>
+          <div style="margin-bottom: 0.75rem;">
+              <label style="display: flex; align-items: center; gap: 0.5rem; font-size: 1rem; color: #495057;">
+                  <input type="checkbox" checked style="width: 16px; height: 16px; cursor: pointer;"> Репетиторы
+              </label>
+          </div>
+          <div>
+              <label style="display: flex; align-items: center; gap: 0.5rem; font-size: 1rem; color: #495057;">
+                  <input type="checkbox" checked style="width: 16px; height: 16px; cursor: pointer;"> Кружки
+              </label>
+          </div>
+      </div>
+      <div class="modal-footer" style="background-color: #f8f9fa; padding: 1rem; border-top: 1px solid #dee2e6; display: flex; justify-content: flex-end; gap: 1rem;">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" style="padding: 0.5rem 1rem; border-radius: 5px;">Отмена</button>
+          <button type="button" class="btn send-report" style="padding: 0.5rem 1rem; border-radius: 5px;">Отправить</button>
+      </div>
+  </div>
   `;
   const select_window = modal_window.querySelector('.form-select');
   for (let i = 0; i < students_list.length; i++) {
@@ -107,8 +99,6 @@ send_report_button.addEventListener('click', () => {
         <option value="">${students_list[i].surname} ${students_list[i].name} ${students_list[i].patronymic}</option>
     `;
   }
-
-  
 
   modal_overlay.appendChild(modal_window);
   document.body.appendChild(modal_overlay);
@@ -144,6 +134,7 @@ send_report_button.addEventListener('click', () => {
     .then(response => response.json())
     .then(data => {
       if (data.success) {
+          console.log("!!")
           closeModal();
       } else {
           switch (data.message?.schema_text[0]) {

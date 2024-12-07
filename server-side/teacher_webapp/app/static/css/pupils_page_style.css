@@ -104,6 +104,14 @@ body {
     padding: 1vw;
     margin-left: 2vw;
 }
+.send-report {
+    background-color: rgb(17, 179, 170);
+    color: rgb(255, 239, 239);
+}
+.send-report:hover {
+    background-color: rgb(14, 143, 136);
+    color: rgb(255, 255, 255);
+}
 #class-label {
     position: absolute;
     margin-bottom: 0.5vw;
