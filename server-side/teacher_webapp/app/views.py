@@ -1,5 +1,4 @@
 from django.contrib.auth import authenticate, login, logout
-from .models import Student, Olympiads, Tutors, Afterschools
 from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -10,7 +9,14 @@ from rest_framework.authentication import TokenAuthentication
 from rest_framework.renderers import (
     TemplateHTMLRenderer,
     JSONRenderer
-    )
+)
+from .models import (
+    Student, 
+    Olympiads, 
+    Tutors, 
+    Afterschools, 
+    Classes
+)
 from .serializers import (
     UserSerializer, 
     StudentSerializer, 
@@ -28,6 +34,7 @@ from .schema import (
 )
 from marshmallow import ValidationError
 from .activity_handler import handle
+from .doc_former import FormDocument
 
 
 class MainPageView(APIView):
@@ -121,7 +128,15 @@ class PupilsView(APIView):
                                 headers={'Location': reverse('user_account')})
         elif 'document_config' in request.data:
             doc_conf = request.data.get('document_config')
-            acts = doc_conf['persons']
+            # print(doc_conf['persons'])
+            # print(len(doc_conf['activities']))
+            # print(chosen_class)
+            former = FormDocument(chosen_class, doc_conf)
+            doc = former.create_document()
+            cl = Classes.objects.get(id=chosen_class)
+            # ser = ClassesSerializer(classes, many=True)
+            # print(cl.name)
+            print(former.selected_activities[0])
             return Response({'detail': 'document created successfully',
                              'success': True},
                     status=status.HTTP_200_OK)

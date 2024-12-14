@@ -3,11 +3,14 @@
 *.env
 *.db
 *.json
+*.docx
+
 server-side/teacher_webapp/media/
 server-side/teacher_webapp/app/profile_images/
 server-side/teacher_webapp/app/migrations/
-server-side/teacher_webapp/app/__pycache__
-server-side/teacher_webapp/teacher_webapp/__pycache__
+server-side/teacher_webapp/app/__pycache__/
+server-side/teacher_webapp/__pycache__
+server-side/teacher_webapp/teacher_webapp/__pycache__/
 server-side/teacher_webapp/app/static/admin/
 server-side/teacher_webapp/app/static/rest_framework/
 server-side/teacher_webapp/app/static/bootstrap/
