@@ -1,6 +1,11 @@
 from docx import Document
-from docx.shared import Inches
-from .models import Classes, Student
+from .models import (
+    Student, 
+    Olympiads, 
+    Tutors, 
+    Afterschools, 
+    Classes
+)
 from .serializers import (
     UserSerializer, 
     StudentSerializer, 
@@ -28,7 +33,38 @@ class FormDocument:
         return group, students
 
     def add_student_data_into_doc(self, document, student):
-        document.add_paragraph("h")
+        document.add_paragraph(f'{student.surname} {student.name} {student.patronymic}')
+
+        for activity in self.selected_activities:
+            match activity:
+                case 'olympiads':
+                    olympiads = Olympiads.objects.filter(student_id=student.id)
+                    if (len(olympiads) != 0): 
+                        p = document.add_paragraph()
+                        p.add_run('Олимпиады:').bold = True
+                        for o in olympiads:
+                            document.add_paragraph(f'Название: {o.name}')
+                            if (o.place): document.add_paragraph(f'Место: {o.place}')
+                            if (o.info): document.add_paragraph(f'Информация: {o.info}')
+
+                case 'tutors':
+                    tutors = Tutors.objects.filter(student_id=student.id)
+                    if (len(tutors) != 0): 
+                        p = document.add_paragraph()
+                        p.add_run('Репетиторы:').bold = True
+                        for t in tutors:
+                            document.add_paragraph(f'ФИО: {t.surname} {t.name} {t.patronymic}')
+                            if (t.subject): document.add_paragraph(f'Предмет: {t.subject}')
+                            if (t.info): document.add_paragraph(f'Информация: {t.info}')
+
+                case 'afterschools':
+                    afterschools = Afterschools.objects.filter(student_id=student.id)
+                    if (len(afterschools) != 0): 
+                        p = document.add_paragraph()
+                        p.add_run('Кружки:').bold = True
+                        for a in afterschools:
+                            document.add_paragraph(f'Название: {a.subject}')
+                            if (a.info): document.add_paragraph(f'Информация: {a.info}')
 
     def create_document(self):
 
@@ -43,14 +79,11 @@ class FormDocument:
         # p.add_run(' and some ')
         # p.add_run('italic.').italic = True
 
-
         for student in students:
             self.add_student_data_into_doc(document, student)
 
         document.add_heading('Heading, level 1', level=1)
         document.add_paragraph('Intense quote', style='Intense Quote')
-
-
 
         document.save('demo.docx')
         return document
