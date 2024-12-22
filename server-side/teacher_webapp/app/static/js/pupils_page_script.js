@@ -157,12 +157,31 @@ send_report_button.addEventListener('click', () => {
           }
         })
     })
-    .then(response => response.json())
-    .then(data => {
-      if (data.success) {
+    .then(response => {
+      const contentType = response.headers.get('Content-Type');
+      if (contentType && contentType.includes('application/json')) {
+          return response.json();
+      } else if (contentType && 
+        contentType.includes('application/vnd.openxmlformats-officedocument.wordprocessingml.document')) {
+          return response.blob();
+      } else {
+          throw new Error('Неизвестный формат ответа');
+      }
+    })
+    .then(dataOrBlob => {
+      if (dataOrBlob instanceof Blob) {
+          const url = window.URL.createObjectURL(dataOrBlob);
+          const a = document.createElement('a');
+          a.style.display = 'none';
+          a.href = url;
+          a.download = 'Отчёт.docx';
+          document.body.appendChild(a);
+          a.click();
+          window.URL.revokeObjectURL(url);
+      } else if (dataOrBlob.success) {
           closeModal();
       } else {
-          switch (data.message?.schema_text[0]) {
+          switch (dataOrBlob.message?.schema_text[0]) {
               case "Invalid value.":
                   error_label.style = "display: flex";
                   error_label.textContent = "Пожалуйста, введите корректные названия";
@@ -170,9 +189,8 @@ send_report_button.addEventListener('click', () => {
           }
       }
     })
-
     .catch(error => {
-        console.error('Error:', error);
+        console.error('Ошибка:', error);
     });
   });
 

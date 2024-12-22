@@ -1,3 +1,5 @@
+import os
+from django.conf import settings
 from docx import Document
 from .models import (
     Student, 
@@ -6,14 +8,6 @@ from .models import (
     Afterschools, 
     Classes
 )
-from .serializers import (
-    UserSerializer, 
-    StudentSerializer, 
-    ClassesSerializer, 
-    OlympiadsSerializer,
-    TutorsSerializer,
-    AfterschoolsSerializer
-)
 
 
 class FormDocument:
@@ -21,6 +15,7 @@ class FormDocument:
         self.chosen_class = chosen_class
         self.persons = doc_conf['persons']
         self.selected_activities = [activity for activity in doc_conf['activities']]
+        self.teacher_id = Classes.objects.get(id=self.chosen_class).main_teacher_id
 
     def get_from_db(self):
         group = Classes.objects.get(id=self.chosen_class)
@@ -28,7 +23,7 @@ class FormDocument:
         if (self.persons == 'all'):
             students = Student.objects.filter(classes_id=self.chosen_class)
         else:
-            students = students.objects.get(id=self.persons)
+            students = Student.objects.filter(id=self.persons)
 
         return group, students
 
@@ -74,17 +69,13 @@ class FormDocument:
         document.add_heading('Отчёт')
         document.add_paragraph(f'Класс: {group.name}')
 
-        # p = document.add_paragraph(f'Класс: {group.name}')
-        # p.add_run('bold').bold = True
-        # p.add_run(' and some ')
-        # p.add_run('italic.').italic = True
-
         for student in students:
             self.add_student_data_into_doc(document, student)
 
         document.add_heading('Heading, level 1', level=1)
         document.add_paragraph('Intense quote', style='Intense Quote')
 
-        document.save('demo.docx')
-        return document
+        output_path = os.path.join(settings.MEDIA_ROOT, f"docs\doc{self.teacher_id}.docx")
+        document.save(output_path)
+        return output_path
     

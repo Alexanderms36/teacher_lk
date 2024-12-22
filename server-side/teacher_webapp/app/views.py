@@ -1,4 +1,7 @@
+import os
 from django.contrib.auth import authenticate, login, logout
+from django.http import HttpResponse
+from django.conf import settings
 from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -128,18 +131,35 @@ class PupilsView(APIView):
                                 headers={'Location': reverse('user_account')})
         elif 'document_config' in request.data:
             doc_conf = request.data.get('document_config')
-            # print(doc_conf['persons'])
-            # print(len(doc_conf['activities']))
-            # print(chosen_class)
-            former = FormDocument(chosen_class, doc_conf)
-            doc = former.create_document()
-            cl = Classes.objects.get(id=chosen_class)
-            # ser = ClassesSerializer(classes, many=True)
-            # print(cl.name)
-            print(former.selected_activities[0])
-            return Response({'detail': 'document created successfully',
-                             'success': True},
-                    status=status.HTTP_200_OK)
+            FormDocument(chosen_class, doc_conf).create_document()
+            teacher_id = Classes.objects.get(id=chosen_class).main_teacher_id
+            document_path = os.path.join(settings.MEDIA_ROOT, f"docs\doc{teacher_id}.docx")
+
+            if (not os.path.exists(document_path)):
+                return Response(
+                    {
+                        'detail': 'Document not found',
+                        'success': False,
+                    }, 
+                    status=status.HTTP_404_NOT_FOUND
+                )
+
+            with open(document_path, 'rb') as file:
+                response = HttpResponse(
+                    file.read(), 
+                    content_type='application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+                    )
+                response['Content-Disposition'] = f'attachment; filename="Отчет.docx"'
+                return response
+            
+            return Response(
+                    {
+                        'detail': 'Document could not be sent',
+                        'success': False,
+                    }, 
+                    status=status.HTTP_404_NOT_FOUND
+                )
+
         else:
             chosen_student = request.data.get('chosen_student')
             if chosen_student:
