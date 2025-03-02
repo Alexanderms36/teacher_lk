@@ -5,3 +5,4 @@ python-decouple==3.8
 pillow==10.3.0
 gunicorn
 mysqlclient==2.2.6
+python-docx==1.1.2
